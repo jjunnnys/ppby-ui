@@ -1,0 +1,132 @@
+.wds-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    z-index: 1000;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.wds-modal-container[data-open='true'] {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.wds-modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 624px;
+    background-color: #fff;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1));
+}
+
+.wds-modal-container[data-open='true'] > .wds-modal-wrapper {
+    opacity: 1;
+    transform: translateY(0px);
+}
+
+.wds-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 85px;
+    margin: 0 32px;
+    border-bottom: 1px solid var(--grey300);
+}
+
+.wds-modal-header-title {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 25px;
+    color: var(--grey700);
+}
+
+.wds-modal-header-icon {
+    cursor: pointer;
+}
+
+.wds-modal-content {
+    min-height: 200px;
+}
+
+.wds-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    margin-top: auto;
+}
+
+/* .wds-modal-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.wds-ok {
+    color: #ffffff;
+}
+
+.wds-modal-button[data-type='primary'] {
+    background-color: var(--primary500);
+}
+
+.wds-modal-button[data-type='danger'] {
+    background-color: var(--grey700);
+}
+
+.wds-close {
+    background-color: var(--grey200);
+    color: var(--grey700);
+}
+
+.Modal__Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.Modal__Button[data-type='primary'] {
+    background-color: var(--primary500);
+}
+
+.Modal__Button[data-type='danger'] {
+    background-color: var(--grey700);
+}
+
+.Ok {
+    color: #ffffff;
+}
+
+.Close {
+    background-color: var(--grey200);
+    color: var(--grey700);
+} */
