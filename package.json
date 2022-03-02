@@ -1,6 +1,15 @@
 {
-  "name": "wds",
-  "version": "0.1.0",
+  "name": "@field-share/wds",
+  "author": "Field Share",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Field-Share/woojooins_desgin_system_front.git"
+  },
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "5.16.2",
@@ -51,6 +60,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "peerDependencies": {
+    "dayjs": "*",
+    "react": "*",
+    "react-dom": "*"
   },
   "packageManager": "yarn@3.2.0",
   "devDependencies": {
