@@ -36,10 +36,6 @@ input::placeholder {
     border-radius: 4px;
     box-shadow: none;
 }
-.wds-input-container[data-loading='false'] {
-    opacity: 0;
-    animation: show 0.5s forwards;
-}
 .wds-input-container > .wds-input {
     width: 100%;
     min-width: 100px;
@@ -51,7 +47,10 @@ input::placeholder {
     font-size: 15px;
     line-height: 19px;
     color: var(--grey700);
-    cursor: pointer;
+    opacity: 0;
+}
+.wds-input-container[data-loading='false'] > .wds-input {
+    animation: show 0.5s forwards;
 }
 .wds-input-container[data-border='true'] {
     background-color: #fff;

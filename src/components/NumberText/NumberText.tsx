@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import colors from '@field-share/colors';
 import { map } from '@field-share/utils';
 // STYLES
@@ -45,6 +45,10 @@ function NumberText({ number, fontSize, color = colors.grey[700], isLocaelString
         (value: string) => ({ transform: `translateY(-${Number(value) * fontSize}px)` }),
         [fontSize],
     );
+
+    useEffect(() => {
+        // console.log({ numberToString });
+    }, [numberToString]);
 
     return (
         <strong aria-label={`${number}`} className="wds-nt-container" style={textStyle}>

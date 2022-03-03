@@ -4,6 +4,7 @@ import colors from '@field-share/colors';
 // COMPONENTS
 import NumberText from '../components/NumberText';
 import Input from '../components/Input';
+import Test from '../components/NumberText/Test';
 
 export default {
     title: 'Design System/Atoms/NumberText',
@@ -35,13 +36,14 @@ export default {
 } as ComponentMeta<typeof NumberText>;
 
 const Template: ComponentStory<typeof NumberText> = (args) => {
-    const [number, setNumber] = useState<number>(isNaN(Number(args.number)) ? 0 : Number(args.number));
+    // const [number, setNumber] = useState<number>(isNaN(Number(args.number)) ? 0 : Number(args.number));
+    const [number, setNumber] = useState<number>(35000);
     const onClick = (type: 'up' | 'down') => () => {
         if (type === 'up') {
-            setNumber((prev) => prev + 1);
+            setNumber((prev) => prev + 10);
             return;
         }
-        setNumber((prev) => prev);
+        setNumber((prev) => prev - 10);
     };
 
     // useEffect(() => {
@@ -119,6 +121,7 @@ const Template: ComponentStory<typeof NumberText> = (args) => {
                     up
                 </button>
             </div>
+            <Test />
         </div>
     );
 };

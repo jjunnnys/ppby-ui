@@ -51,4 +51,5 @@
 
 .wds-nt-item > .wds-nt {
     text-align: center;
+    pointer-events: none;
 }
