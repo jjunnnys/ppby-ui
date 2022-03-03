@@ -1,13 +1,24 @@
 import React from 'react';
+import Global from '../src/shared/Global';
 
 export const decorators = [
     (Story) => (
         <>
-            <Story />
+            <Global />
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '2em',
+                }}
+            >
+                <Story />
+            </div>
             <div id="wds-modal"></div>
             <div id="wds-alert-modal"></div>
             <div id="wds-toast"></div>
-            <div id="wds-fixed-info"></div>
+            <div id="wds-pop-box"></div>
             <div id="wds-move-info"></div>
         </>
     ),

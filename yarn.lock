@@ -1905,13 +1905,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@field-share/utils@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@field-share/utils@npm:0.0.3::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.0.3%2F143a97450b0c130f9d24a38e34b39b3f7fb912d7cd568aec487f5a3deb489638"
+"@field-share/utils@npm:^0.0.8":
+  version: 0.0.8
+  resolution: "@field-share/utils@npm:0.0.8::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.0.8%2F005be866d5f3f2f8f1437c9833e9314977dc9636e6bcbcea65be53237d3dd297"
   peerDependencies:
     dayjs: "*"
     react: "*"
-  checksum: 8079168bc919d1f12b75bf4ad466162735acb98bbbaade51b64946cc5d90d3adbaee32ba81589ee33360ca8bc1f709fe0b5f6947fc83695e8a9734774defab71
+  checksum: 95afbf3b08a7472fb50117221890cdcc4fae252793013cbb937ec1d620ca7aafd22d700c7df226b4a30a9bf3d188e8a58c9abd37249efc6e234bd161c25c9802
   languageName: node
   linkType: hard
 
@@ -1920,7 +1920,7 @@ __metadata:
   resolution: "@field-share/wds@workspace:."
   dependencies:
     "@field-share/colors": ^0.0.8
-    "@field-share/utils": ^0.0.3
+    "@field-share/utils": ^0.0.8
     "@mdx-js/react": ^1.6.22
     "@storybook/addon-actions": ^6.4.19
     "@storybook/addon-docs": ^6.4.19
@@ -1940,6 +1940,7 @@ __metadata:
     "@types/node": 16.11.26
     "@types/react": 17.0.39
     "@types/react-dom": 17.0.11
+    are-passive-events-supported: ^1.1.1
     dayjs: ^1.10.8
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -5527,6 +5528,13 @@ __metadata:
   version: 1.2.0
   resolution: "aproba@npm:1.2.0"
   checksum: 0fca141966559d195072ed047658b6e6c4fe92428c385dd38e288eacfc55807e7b4989322f030faff32c0f46bb0bc10f1e0ac32ec22d25315a1e5bbc0ebb76dc
+  languageName: node
+  linkType: hard
+
+"are-passive-events-supported@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "are-passive-events-supported@npm:1.1.1"
+  checksum: 3295a7b3aeb026d26c1b256decdb5ded8bf26f6c02fd0b37c63c7dc9affd57b7474ee9b6230b5d5ac4f0fc624a19acdcfdd76c5155025d97cc7d8bb5dc83e61b
   languageName: node
   linkType: hard
 

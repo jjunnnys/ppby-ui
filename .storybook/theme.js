@@ -1,39 +1,39 @@
 // .storybook/YourTheme.js
 
-import { create } from "@storybook/theming";
+import { create } from '@storybook/theming';
 
 export default create({
-  base: "light",
+    base: 'light',
 
-  //   colorPrimary: "hotpink",
-  //   colorSecondary: "deepskyblue",
+    // colorPrimary: 'hotpink',
+    // colorSecondary: 'deepskyblue',
 
-  // UI
-  //   appBg: "#000",
-  //   appContentBg: "silver",
-  //   appBorderColor: "grey",
-  appBorderRadius: 4,
+    // UI
+    //   appBg: "#000",
+    //   appContentBg: "silver",
+    //   appBorderColor: "grey",
+    appBorderRadius: 4,
 
-  // Typography
-  fontBase: '"Spoqa Han Sans Neo", sans-serif',
-  fontCode: "monospace",
+    // Typography
+    // fontBase: '"Spoqa Han Sans Neo", sans-serif',
+    // fontCode: "monospace",
 
-  // Text colors
-  //   textColor: "#191f28",
-  //   textInverseColor: "rgba(255,255,255,0.9)",
+    // Text colors
+    //   textColor: "#191f28",
+    //   textInverseColor: "rgba(255,255,255,0.9)",
 
-  // Toolbar default and active colors
-  //   barTextColor: "silver",
-  //   barSelectedColor: "black",
-  //   barBg: "hotpink",
+    // Toolbar default and active colors
+    //   barTextColor: "silver",
+    //   barSelectedColor: "black",
+    //   barBg: "hotpink",
 
-  // Form colors
-  //   inputBg: "white",
-  //   inputBorder: "silver",
-  //   inputTextColor: "black",
-  inputBorderRadius: 4,
+    // Form colors
+    //   inputBg: "white",
+    //   inputBorder: "silver",
+    //   inputTextColor: "black",
+    inputBorderRadius: 4,
 
-  brandTitle: "WDS storybook",
-  brandUrl: "https://www.woojooins.com",
-  brandImage: "https://www.woojooins.com/static/images/logo.webp",
+    brandTitle: 'WDS storybook',
+    brandUrl: 'https://www.woojooins.com',
+    brandImage: 'https://www.woojooins.com/static/images/logo.webp',
 });

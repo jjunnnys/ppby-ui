@@ -1,0 +1,250 @@
+.wds-date-picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 284px;
+    padding: 16px;
+    background: var(--grey50);
+    border: 1px solid var(--grey150);
+    border-radius: 4px;
+}
+.wds-date-picker-container[data-date-type='day'] {
+    min-height: 280px;
+}
+.wds-date-picker-container[data-date-type='month'] {
+    min-height: 240px;
+}
+.wds-date-picker-container > .date-picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.wds-date-picker-container > .date-picker-header > button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: inherit;
+}
+.wds-date-picker-container > .date-picker-header > button > svg {
+    fill: var(--grey300);
+    transition: fill 0.2s;
+}
+.wds-date-picker-container > .date-picker-header > button:hover > svg {
+    fill: var(--grey400);
+}
+.wds-date-picker-container > .date-picker-header > button:active > svg {
+    fill: var(--grey500);
+}
+.wds-date-picker-container > .date-picker-header > .year-month-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+.wds-date-picker-container > .date-picker-header > .year-month-wrapper > span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 2px;
+    font-size: 14px;
+    color: var(--grey700);
+}
+#wds-date-picker-day {
+    width: 100%;
+    height: 100%;
+    margin-top: 6px;
+}
+#wds-date-picker-day thead > tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#wds-date-picker-day th {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+    letter-spacing: 0.03em;
+    color: var(--grey700);
+}
+#wds-date-picker-day tbody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#wds-date-picker-day tbody > tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#wds-date-picker-month {
+    flex: 1;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    height: 100%;
+}
+#wds-date-picker-month > .month-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    color: var(--grey700);
+}
+
+.wds-date-picker-day-date-cell {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    color: var(--grey800);
+
+    cursor: pointer;
+}
+
+.wds-date-picker-day-date-cell::before,
+.wds-date-picker-day-date-cell::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.wds-date-picker-day-date-cell.prev-or-next-date {
+    color: var(--grey500);
+}
+
+.wds-date-picker-day-date-cell[data-today='true'][data-select='false'][data-start-date='false'][data-end-date='false']::after {
+    width: 30px;
+    height: 30px;
+    margin: auto;
+    border: 1px solid var(--primary500);
+    border-radius: 50%;
+}
+
+.wds-date-picker-day-date-cell[data-start-date='true'] {
+    color: #fff;
+}
+.wds-date-picker-day-date-cell[data-start-date='true']::after {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+    background-color: var(--primary500);
+    z-index: 1;
+}
+.wds-date-picker-day-date-cell[data-start-date-finish='true'][data-same-date='false']::before {
+    width: 50%;
+    height: 30px;
+    margin: auto 0;
+    margin-left: auto;
+    background-color: var(--primary400);
+}
+.wds-date-picker-day-date-cell[data-end-date='true'] {
+    color: #fff;
+}
+.wds-date-picker-day-date-cell[data-end-date='true']::after {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+    background-color: var(--primary500);
+    z-index: 1;
+}
+.wds-date-picker-day-date-cell[data-end-date='true'][data-same-date='false']::before {
+    width: 50%;
+    height: 30px;
+    margin: auto 0;
+    margin-right: auto;
+    background-color: var(--primary400);
+}
+
+.wds-date-picker-day-date-cell[data-select='true'] {
+    color: #fff;
+}
+.wds-date-picker-day-date-cell[data-select='true']::after {
+    width: 100%;
+    height: 30px;
+    margin: auto 0;
+    margin-left: auto;
+    background-color: var(--primary400);
+}
+
+.wds-date-picker-day-date-cell[data-disabled='true'] {
+    cursor: not-allowed;
+    color: var(--grey300);
+}
+
+.wds-date-picker-day-date-cell[data-disabled='false']:hover[data-select='false'][data-end-date='false'][data-start-date='false'] {
+    color: var(--grey500);
+}
+.wds-date-picker-day-date-cell[data-disabled='false']:hover[data-select='false'][data-end-date='false'][data-start-date='false'].prev-or-next-date {
+    color: var(--grey400);
+}
+
+.wds-date-picker-day-date-cell > span {
+    position: relative;
+    width: 17px;
+    z-index: 2;
+}
+.wds-date-picker-day-date-cell > span[data-event='true'] {
+    color: var(--grey300);
+}
+.wds-date-picker-button-container {
+    position: relative;
+}
+.wds-date-picker-button-container > button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--grey200);
+    border-radius: 4px;
+    background-color: #fff;
+    outline: none;
+    color: var(--grey700);
+}
+.wds-date-picker-button-container > button > svg {
+    color: var(--grey700);
+}
+.wds-date-picker-button-container > span {
+    position: absolute;
+    top: 0px;
+    left: 40px;
+    transition: all 0.2s;
+    transform-origin: -16px 8px;
+}
+.wds-date-picker-button-container > span[data-open='false'] {
+    visibility: hidden;
+    transform: scale(0);
+    opacity: 0;
+}
+.wds-date-picker-button-container > span[data-open='true'] {
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+}
+.wds-date-picker-button-container > span > div {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+}

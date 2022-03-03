@@ -1,0 +1,136 @@
+@keyframes skeleton-gradient {
+    0% {
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+
+    50% {
+        background-color: rgba(165, 165, 165, 0.3);
+    }
+
+    100% {
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+}
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input::placeholder {
+    color: var(--grey200);
+}
+.wds-input-container {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: none;
+}
+.wds-input-container[data-loading='false'] {
+    opacity: 0;
+    animation: show 0.5s forwards;
+}
+.wds-input-container > .wds-input {
+    width: 100%;
+    min-width: 100px;
+    padding: 6px 12px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    font-size: 15px;
+    line-height: 19px;
+    color: var(--grey700);
+    cursor: pointer;
+}
+.wds-input-container[data-border='true'] {
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--grey200);
+}
+.wds-input-container[data-border='true']:hover {
+    border-color: var(--grey300);
+}
+.wds-input-container[data-border='true'].focused {
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+}
+.wds-input-container[data-border='false'] {
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--grey100);
+}
+.wds-input-container[data-border='false']:hover {
+    background-color: var(--grey150);
+}
+.wds-input-container[data-border='false'].focused {
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+}
+.wds-input-container[data-loading='true']::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    z-index: 999;
+    pointer-events: none;
+}
+.wds-input-container[data-loading='true']::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    animation: skeleton-gradient 1.8s infinite ease-in-out;
+    z-index: 1000;
+    pointer-events: none;
+}
+.wds-input-container[data-is-icon='true'] > .wds-input {
+    padding-right: 34px;
+}
+.wds-input-container > .icon {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto 0;
+    color: inherit;
+    cursor: pointer;
+}
+.wds-input-container > .icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20%;
+    right: 0;
+    bottom: 0;
+    width: 20%;
+    height: 100%;
+    z-index: 2;
+}
+.wds-input-container[data-border='false'] > .icon::before {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--grey100));
+}
+.wds-input-container[data-border='true'] > .icon::before {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff);
+}
+.wds-input-container[data-border='false'] > .icon {
+    background-color: var(--grey100);
+}
+.wds-input-container[data-border='false']:hover > .icon {
+    background-color: var(--grey150);
+}
