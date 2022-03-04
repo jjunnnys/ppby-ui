@@ -25,8 +25,6 @@ import { ReactComponent as setting } from './setting.svg';
 import { ReactComponent as faq } from './faq.svg';
 import { ReactComponent as time } from './time.svg';
 
-console.log({ time });
-
 export {
     wjLogo,
     email,

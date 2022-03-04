@@ -1,32 +1,10 @@
-@keyframes skeleton-gradient {
-    0% {
-        background-color: rgba(165, 165, 165, 0.1);
-    }
-
-    50% {
-        background-color: rgba(165, 165, 165, 0.3);
-    }
-
-    100% {
-        background-color: rgba(165, 165, 165, 0.1);
-    }
-}
-@keyframes show {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 input::placeholder {
-    color: var(--grey200);
+    color: var(--grey300);
 }
 .wds-input-container {
     position: relative;
@@ -49,8 +27,11 @@ input::placeholder {
     color: var(--grey700);
     opacity: 0;
 }
+.wds-input-container[data-loading='true'] > .wds-input {
+    pointer-events: none;
+}
 .wds-input-container[data-loading='false'] > .wds-input {
-    animation: show 0.5s forwards;
+    animation: wds-show 0.5s forwards;
 }
 .wds-input-container[data-border='true'] {
     background-color: #fff;
@@ -81,7 +62,7 @@ input::placeholder {
     right: 0;
     bottom: 0;
     background-color: #fff;
-    z-index: 999;
+    z-index: 10;
     pointer-events: none;
 }
 .wds-input-container[data-loading='true']::before {
@@ -91,8 +72,8 @@ input::placeholder {
     left: 0;
     right: 0;
     bottom: 0;
-    animation: skeleton-gradient 1.8s infinite ease-in-out;
-    z-index: 1000;
+    animation: wds-skeleton-gradient 1.8s infinite ease-in-out;
+    z-index: 11;
     pointer-events: none;
 }
 .wds-input-container[data-is-icon='true'] > .wds-input {
@@ -120,12 +101,6 @@ input::placeholder {
     width: 20%;
     height: 100%;
     z-index: 2;
-}
-.wds-input-container[data-border='false'] > .icon::before {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--grey100));
-}
-.wds-input-container[data-border='true'] > .icon::before {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff);
 }
 .wds-input-container[data-border='false'] > .icon {
     background-color: var(--grey100);

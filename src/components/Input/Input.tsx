@@ -1,4 +1,4 @@
-import React, { useMemo, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
+import React, { useMemo, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { bindingNumberOrComma } from '@field-share/utils';
 // PAGES
 // COMPONENTS
@@ -10,20 +10,25 @@ import Icons, { IconsType } from '../Icons';
 // STYLES
 import './styles.css';
 
-interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'min' | 'max' | 'onChange'> {
+export type HTMLInputTypeAttribute = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url';
+
+interface InputProps
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'min' | 'max' | 'onChange' | 'type'> {
     loading?: boolean;
     bordered?: boolean;
     size?: 'default' | 'large';
     icon?: IconsType;
     iconColor?: string;
     onClickIcon?(): void;
-    onChange?<T = number | string | undefined>(value: T): void;
+    onChange?(value: number | string | undefined): void;
     min?: number;
     max?: number;
+    type?: HTMLInputTypeAttribute;
 }
 
 function Input(
     {
+        type = 'text',
         size = 'default',
         bordered = true,
         loading = false,
@@ -37,21 +42,24 @@ function Input(
     }: InputProps,
     ref: React.ForwardedRef<HTMLInputElement>,
 ) {
+    const [passwordType, setPasswordType] = useState<'password' | 'text'>('password');
+
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle(ref, () => inputRef.current!);
 
-    const inputType = useMemo(() => (props.type === 'number' ? 'text' : props.type), [props.type]);
+    const inputType = useMemo(() => (type === 'number' ? 'text' : type), [type]);
 
     const inputValue = useMemo(() => {
-        // console.log({ aa: bindingNumberOrComma(props.value as number).toComma });
-        return props.type === 'number' ? bindingNumberOrComma(props.value as number).toComma : props.value;
-    }, [props.type, props.value]);
+        const value = type === 'number' ? bindingNumberOrComma(props.value as number).toComma : props.value;
+        if (!value) return '';
+        return value;
+    }, [type, props.value]);
 
     const onChangeValue = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             if (!onChange) return;
             const { value } = e.target;
-            if (props.type === 'number') {
+            if (type === 'number') {
                 if (min && min > bindingNumberOrComma(value).toNumber) {
                     return onChange(min);
                 }
@@ -63,7 +71,7 @@ function Input(
             }
             return onChange(value);
         },
-        [max, min, onChange, props.type],
+        [max, min, onChange, type],
     );
 
     const onFocus = useCallback(
@@ -99,14 +107,27 @@ function Input(
                 {...props}
                 className="wds-input"
                 ref={inputRef}
-                type={inputType}
+                type={inputType === 'password' ? passwordType : inputType}
                 value={inputValue}
                 onChange={onChangeValue}
             />
-            {icon && (
+            {type === 'password' ? (
                 <span className="icon">
-                    <Icons icon={icon} fill={iconColor} onChange={onClickIcon} />
+                    <Icons
+                        icon={passwordType === 'password' ? 'visibility' : 'visibilityOff'}
+                        fill={iconColor}
+                        onClick={() => {
+                            setPasswordType((prev) => (prev === 'password' ? 'text' : 'password'));
+                            onClickIcon && onClickIcon();
+                        }}
+                    />
                 </span>
+            ) : (
+                icon && (
+                    <span className="icon">
+                        <Icons icon={icon} fill={iconColor} onClick={onClickIcon} />
+                    </span>
+                )
             )}
         </div>
     );

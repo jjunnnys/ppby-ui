@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import colors from '@field-share/colors';
-import { copyToClipboard } from '@field-share/utils';
+import { copyToClipboard, toast } from '@field-share/utils';
 // COMPONENTS
 import Icons from '../components/Icons';
 // HOOKS
@@ -40,7 +40,7 @@ const Template: ComponentStory<typeof Icons> = (args) => (
                 key={v}
                 onClick={() => {
                     copyToClipboard(`<Icon icon=${v} />`);
-                    alert('아이콘이 복사되었습니다.');
+                    toast.success('아이콘이 복사되었습니다.');
                 }}
                 style={{
                     display: 'flex',

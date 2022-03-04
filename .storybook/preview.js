@@ -17,7 +17,6 @@ export const decorators = [
             </div>
             <div id="wds-modal"></div>
             <div id="wds-alert-modal"></div>
-            <div id="wds-toast"></div>
             <div id="wds-pop-box"></div>
             <div id="wds-move-info"></div>
         </>

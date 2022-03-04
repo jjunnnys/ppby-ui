@@ -33,10 +33,9 @@
 }
 
 .wds-nt-container > .comma {
-    padding-bottom: 1em;
+    /* padding-bottom: 1em; */
     font-size: 90%;
-    height: 100%;
-    opacity: 0.8;
+    /* opacity: 0.8; */
 }
 
 .wds-nt-item {

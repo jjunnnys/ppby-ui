@@ -25,21 +25,11 @@ const isNumberOrStringMapping = (value: string | number) =>
         : map(value.length, (i) => value[i]);
 
 function NumberText({ number, fontSize, color = colors.grey[700], isLocaelString = false }: RightLeftHeaderProps) {
-    const numberToString = useMemo(
-        () =>
-            isNaN(Number(number))
-                ? 'NaN'
-                : isNumberOrStringMapping(isLocaelString ? Number(number).toLocaleString('ko') : number),
-        [isLocaelString, number],
-    );
-
-    const textStyle = useMemo(
-        () => ({
-            fontSize: `${fontSize}px`,
-            color,
-        }),
-        [fontSize, color],
-    );
+    const numberToString = useMemo(() => {
+        if (isNaN(Number(number))) return 'NaN';
+        const localeString = isLocaelString ? Number(number).toLocaleString('ko') : number;
+        return isNumberOrStringMapping(localeString);
+    }, [isLocaelString, number]);
 
     const translateY = useCallback(
         (value: string) => ({ transform: `translateY(-${Number(value) * fontSize}px)` }),
@@ -47,11 +37,14 @@ function NumberText({ number, fontSize, color = colors.grey[700], isLocaelString
     );
 
     useEffect(() => {
-        // console.log({ numberToString });
-    }, [numberToString]);
+        const element = document.querySelector<HTMLElement>('.wds-nt-container');
+        if (!element) return;
+        element.style.fontSize = `${fontSize}px`;
+        element.style.color = color;
+    }, [color, fontSize]);
 
     return (
-        <strong aria-label={`${number}`} className="wds-nt-container" style={textStyle}>
+        <strong aria-label={`${number}`} className="wds-nt-container">
             {numberToString === 'NaN'
                 ? 'NaN'
                 : map(numberToString.length, (i) =>

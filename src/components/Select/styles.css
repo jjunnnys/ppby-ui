@@ -1,0 +1,115 @@
+.wds-select-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 100px;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    overflow: hidden;
+}
+.wds-select-container::after {
+    content: attr(data-value);
+    position: absolute;
+    left: 8px;
+    right: 30px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    width: calc(100% - 38px);
+    background-color: #fff;
+    color: var(--grey700);
+    font-size: 15px;
+    line-height: 19px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+}
+.wds-select-container[data-is-placeholder='true']::after {
+    color: var(--grey400);
+}
+.wds-select-container[data-border='true'] {
+    transition: border-color 0.2s;
+    border: 1px solid var(--grey200);
+}
+.wds-select-container[data-border='true']:hover {
+    border: 1px solid var(--grey300);
+}
+.wds-select-container[data-border='false']::after {
+    transition: background-color 0.2s;
+}
+.wds-select-container[data-border='false']::after:hover {
+    background-color: var(--grey100);
+}
+.wds-select-container[data-loading='true']::after {
+    content: none;
+}
+.wds-select-container[data-loading='true']::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    animation: wds-skeleton-gradient 1.8s infinite ease-in-out;
+    z-index: 1;
+    pointer-events: none;
+}
+.wds-select-container > .icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 8px;
+    margin: auto 0;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    color: var(--grey500);
+    z-index: 1;
+}
+.wds-select-container > .clear-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--grey200);
+    z-index: 1;
+    cursor: pointer;
+}
+
+.wds-select-container > .clear-icon > svg {
+    width: 80%;
+    height: 80%;
+    color: var(--grey700);
+}
+
+.wds-select {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+.wds-select-container[data-loading='true'] > .wds-select {
+    pointer-events: none;
+}
+.wds-select-container[data-loading='false']::after {
+    animation: wds-show 0.5s forwards;
+}

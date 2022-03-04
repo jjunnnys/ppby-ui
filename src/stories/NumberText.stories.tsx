@@ -4,7 +4,6 @@ import colors from '@field-share/colors';
 // COMPONENTS
 import NumberText from '../components/NumberText';
 import Input from '../components/Input';
-import Test from '../components/NumberText/Test';
 
 export default {
     title: 'Design System/Atoms/NumberText',
@@ -121,7 +120,6 @@ const Template: ComponentStory<typeof NumberText> = (args) => {
                     up
                 </button>
             </div>
-            <Test />
         </div>
     );
 };

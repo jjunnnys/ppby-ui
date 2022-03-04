@@ -1,31 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import colors from '@field-share/colors';
 // COMPONENTS
-import Input, { HTMLInputTypeAttribute } from '../components/Input';
-import Icons from '../components/Icons';
+import Select from '../components/Select';
 
 export default {
-    title: 'Design System/Atoms/Input',
-    component: Input,
+    title: 'Design System/Atoms/Select',
+    component: Select,
     argTypes: {
-        type: {
-            options: ['email', 'number', 'password', 'search', 'tel', 'text', 'url'] as HTMLInputTypeAttribute[],
-            control: { type: 'select' },
+        options: {
             table: {
                 category: 'Value',
             },
         },
         placeholder: {
-            table: {
-                category: 'Value',
-            },
-        },
-        icon: {
-            options: Object.keys(Icons.svgs).map((v) => v),
-            control: {
-                type: 'select',
-            },
             table: {
                 category: 'Value',
             },
@@ -49,12 +36,6 @@ export default {
                 category: 'Value',
             },
         },
-        iconColor: {
-            control: { type: 'color' },
-            table: {
-                category: 'Value',
-            },
-        },
         onChange: {
             control: { type: null },
             table: {
@@ -62,9 +43,9 @@ export default {
             },
         },
     },
-} as ComponentMeta<typeof Input>;
+} as ComponentMeta<typeof Select>;
 
-const Template: ComponentStory<typeof Input> = (args) => {
+const Template: ComponentStory<typeof Select> = (args) => {
     const [value, setValue] = useState('');
 
     // useEffect(() => {
@@ -80,9 +61,8 @@ const Template: ComponentStory<typeof Input> = (args) => {
     // }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h5 style={{ marginBottom: 5 }}>type: {args.type}</h5>
-            <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
         </div>
     );
 };
@@ -90,9 +70,9 @@ const Template: ComponentStory<typeof Input> = (args) => {
 export const Default = Template.bind({});
 Default.storyName = '기본';
 Default.args = {
-    placeholder: 'placeholder',
-    iconColor: colors.grey[300],
-    type: 'text',
+    placeholder: '선택',
     loading: false,
+    bordered: true,
     size: 'default',
+    options: ['기본1', '기본2', '기본3', '기본4'],
 };
