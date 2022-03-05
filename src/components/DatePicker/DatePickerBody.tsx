@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { isToday, map } from '@field-share/utils';
 // PAGES
@@ -194,7 +194,7 @@ function DatePickerBody({
                     </thead>
                     <tbody>
                         {monthList?.map((weeks, i) => (
-                            <tr key={i}>
+                            <tr className="date-picker-month-row" key={i}>
                                 {weeks.map((day) => (
                                     <td
                                         key={day.format('YYYY-MM-DD')}
@@ -242,4 +242,4 @@ function DatePickerBody({
     );
 }
 
-export default DatePickerBody;
+export default React.memo(DatePickerBody);

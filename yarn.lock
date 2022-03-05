@@ -1905,13 +1905,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@field-share/utils@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@field-share/utils@npm:0.0.9::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.0.9%2Fbe85603c0d6908c5e151ac914bc14ccdda1b6503c2883cb96ac953b22fa6dd7a"
+"@field-share/utils@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@field-share/utils@npm:0.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.1.1%2F40e4e0fbe00da2dde9641d5d84ea4951b6bd15aed158cae126e653c5f555fcde"
   peerDependencies:
     dayjs: "*"
     react: "*"
-  checksum: 18f70719d84e646f59bd91466729203fc71e8ca3af013ce963ca68f04ceff9446bf461108786feccbb4052064b8603728283a2654d5753b52129a2d546f3cf62
+  checksum: f2d8f69155a68a7df5ec275c499077ac7ad97c85180d287f34afd33ad0e1ccbc2c791c132261d72a39ee23a1c064b524a711c3bc76dd3e96f4c18d152f5ca5f2
   languageName: node
   linkType: hard
 
@@ -1920,7 +1920,7 @@ __metadata:
   resolution: "@field-share/wds@workspace:."
   dependencies:
     "@field-share/colors": ^0.0.8
-    "@field-share/utils": ^0.0.9
+    "@field-share/utils": ^0.1.1
     "@mdx-js/react": ^1.6.22
     "@storybook/addon-actions": ^6.4.19
     "@storybook/addon-docs": ^6.4.19
@@ -1941,6 +1941,7 @@ __metadata:
     "@types/react": 17.0.39
     "@types/react-dom": 17.0.11
     are-passive-events-supported: ^1.1.1
+    classnames: ^2.3.1
     dayjs: ^1.10.8
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -6893,6 +6894,13 @@ __metadata:
     isobject: ^3.0.0
     static-extend: ^0.1.1
   checksum: be108900801e639e50f96a7e4bfa8867c753a7750a7603879f3981f8b0a89cba657497a2d5f40cd4ea557ff15d535a100818bb486baf6e26fe5d7872e75f1078
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "classnames@npm:2.3.1"
+  checksum: 14db8889d56c267a591f08b0834989fe542d47fac659af5a539e110cc4266694e8de86e4e3bbd271157dbd831361310a8293e0167141e80b0f03a0f175c80960
   languageName: node
   linkType: hard
 

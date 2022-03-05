@@ -3,36 +3,29 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 // COMPONENTS
 import Modal from '../components/Modal';
 import Alert from '../components/Alert';
+import Button from '../components/Button';
 
 export default {
     title: 'Design System/Components/Alert',
     component: Alert,
     argTypes: {
-        type: {
-            control: { type: 'radio' },
-            table: { category: 'Value' },
-        },
         title: {
             table: { category: 'Value' },
         },
         subTitle: {
             table: { category: 'Value' },
         },
-        cancelText: {
-            table: { category: 'Value' },
-        },
-        okText: {
-            table: { category: 'Value' },
-        },
         isVisible: {
             control: { type: null },
             table: { category: 'Value' },
         },
-        onOk: {
+        onCancel: {
+            control: { type: null },
             table: { category: 'Event' },
         },
-        onCancel: {
-            table: { category: 'Event' },
+        footer: {
+            control: { type: null },
+            table: { category: 'ReactNode' },
         },
     },
     decorators: [
@@ -50,31 +43,41 @@ const Template: ComponentStory<typeof Alert> = (args) => {
 
     return (
         <>
-            <button
-                type="button"
-                style={{
-                    padding: '10px 30px',
-                    borderStyle: 'solid',
-                    borderColor: 'blue',
-                    borderWidth: 1,
-                    borderRadius: 4,
-                }}
-                onClick={() => setIsVisible(true)}
-            >
-                open
-            </button>
+            <Button onClick={() => setIsVisible(true)} shape="round">
+                모달 열기
+            </Button>
             <Modal
                 isVisible={isVisible}
                 onCancel={() => setIsVisible(false)}
-                onOk={() => setIsVisibleAlert(true)}
-                title="테스트"
-                cancelText="취소"
-                type="danger"
-                okText="삭제"
+                title="제목"
+                footer={
+                    <Button.Group>
+                        <Button type="cancel" fontWeight="700" onClick={() => setIsVisible(false)}>
+                            취소하기
+                        </Button>
+                        <Button type="secondary" fontWeight="700" onClick={() => setIsVisibleAlert(true)}>
+                            삭제하기
+                        </Button>
+                    </Button.Group>
+                }
             >
-                <div style={{ padding: 24 }}>삭제 버튼을 누르면 Alert이 뜹니다.</div>
+                <p>삭제 버튼을 누르면 Alert이 뜹니다.</p>
             </Modal>
-            <Alert {...args} isVisible={isVisibleAlert} onCancel={() => setIsVisibleAlert(false)} onOk={() => {}} />
+            <Alert
+                {...args}
+                isVisible={isVisibleAlert}
+                onCancel={() => setIsVisibleAlert(false)}
+                footer={
+                    <Button.Group>
+                        <Button type="cancel" fontWeight="700" onClick={() => setIsVisibleAlert(false)}>
+                            취소하기
+                        </Button>
+                        <Button type="secondary" fontWeight="700">
+                            삭제하기
+                        </Button>
+                    </Button.Group>
+                }
+            />
         </>
     );
 };
@@ -83,7 +86,4 @@ export const Default = Template.bind({});
 Default.args = {
     title: '해당 이용권 예약을 삭제하시겠습니까?',
     subTitle: '이용권 예약을 삭제할시 취소할 수 없습니다.',
-    cancelText: '취소하기',
-    okText: '삭제하기',
-    type: 'danger',
 };

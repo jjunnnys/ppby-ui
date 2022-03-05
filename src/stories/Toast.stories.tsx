@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { toast } from '@field-share/utils';
+import { useToast } from '@field-share/utils';
 // COMPONENTS
 
 export default {
     title: 'Design System/Atoms/Toast',
     component: () => <></>,
-    argTypes: {},
+    argTypes: {
+        text: {
+            control: { type: 'text' },
+            table: { category: 'Value' },
+        },
+        type: {
+            options: ['info', 'success', 'error', 'warn'],
+            control: { type: 'select' },
+            table: { category: 'Value' },
+        },
+    },
 } as ComponentMeta<any>;
 
 const Template: ComponentStory<any> = (args) => {
-    const [value, setValue] = useState('');
-
-    // useEffect(() => {
-    //     let rafId = 0;
-    //     function up() {
-    //         setNumber((prev) => prev + 1);
-    //         rafId = requestAnimationFrame(up);
-    //     }
-    //     up();
-    //     if (rafId >= 10000) {
-    //         cancelAnimationFrame(rafId);
-    //     }
-    // }, []);
+    const toast = useToast();
 
     return (
         <button
@@ -30,13 +28,13 @@ const Template: ComponentStory<any> = (args) => {
                 borderStyle: 'solid',
                 borderColor: 'blue',
                 borderWidth: 1,
-                padding: '20px 52px',
+                padding: '10px 32px',
                 borderRadius: 8,
-                fontSize: 24,
+                fontSize: 18,
                 marginRight: 'auto',
             }}
             onClick={() => {
-                toast.success('테스트입니다.');
+                (toast as any)[args.type || 'info'](args.text);
             }}
         >
             open
@@ -46,4 +44,7 @@ const Template: ComponentStory<any> = (args) => {
 
 export const Default = Template.bind({});
 Default.storyName = '기본';
-Default.args = {};
+Default.args = {
+    text: '예약이 등록되었습니다.',
+    type: 'info',
+};

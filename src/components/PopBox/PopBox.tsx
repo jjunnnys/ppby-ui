@@ -44,14 +44,17 @@ function PopBox({
     useOnClickOutside(menuRef, onCancel, buttonRef!);
 
     useEffect(() => {
+        const dom = document.createElement('div');
         setIsMounted(true);
         if (document) {
-            const dom = document.getElementById('wds-pop-box');
+            dom.id = 'wds-pop-box';
+            document.body.insertAdjacentElement('beforeend', dom);
             ref.current = ref.current || dom;
         }
 
         return () => {
             setIsMounted(false);
+            document.body.removeChild(ref.current || dom);
         };
     }, []);
 

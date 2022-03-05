@@ -67,9 +67,9 @@ function DatePicker({
 
     const onClickShowDatePicker = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            const x = e.currentTarget.getClientRects().item(0)?.x || 0;
-            const y = e.currentTarget.getClientRects().item(0)?.y || 0;
-            const width = e.currentTarget.getClientRects().item(0)?.width || 0;
+            const x = e.currentTarget.getBoundingClientRect()?.x || 0;
+            const y = e.currentTarget.getBoundingClientRect()?.y || 0;
+            const width = e.currentTarget.getBoundingClientRect()?.width || 0;
 
             setIsVisible((prev) => {
                 if (prev) return false;

@@ -10,36 +10,27 @@ type AlertProps = {
     title: string;
     subTitle?: string;
     isVisible: boolean;
-    cancelText?: string;
-    okText?: string;
-    type?: 'primary' | 'danger';
     onCancel(): void;
-    onOk?(): void;
+    footer?: React.ReactNode;
 };
 
-function Alert({
-    isVisible,
-    title,
-    subTitle,
-    cancelText = '취소하기',
-    okText = '삭제하기',
-    type = 'danger',
-    onOk,
-    onCancel,
-}: AlertProps) {
+function Alert({ isVisible, title, subTitle, onCancel, footer }: AlertProps) {
     const ref = useRef<Element | null>(null);
     const alertRef = useRef<HTMLDivElement>(null);
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        const dom = document.createElement('div');
         setIsMounted(true);
         if (document) {
-            const dom = document.getElementById('wds-alert-modal');
+            dom.id = 'wds-alert-modal';
+            document.body.insertAdjacentElement('beforeend', dom);
             ref.current = dom;
         }
 
         return () => {
             setIsMounted(false);
+            document.body.removeChild(dom);
         };
     }, []);
 
@@ -57,25 +48,7 @@ function Alert({
                         <h1 className="wds-alert-title">{title}</h1>
                     </header>
                     <p className="wds-alert-content">{subTitle || ''}</p>
-                    <footer className="wds-alert-footer">
-                        <button
-                            type="button"
-                            className={['wds-alert-button', 'wds-close'].join(' ')}
-                            onClick={onCancel}
-                        >
-                            {cancelText}
-                        </button>
-                        {onOk && (
-                            <button
-                                type="button"
-                                className={['wds-alert-button', 'wds-ok'].join(' ')}
-                                data-type={type}
-                                onClick={onOk}
-                            >
-                                {okText}
-                            </button>
-                        )}
-                    </footer>
+                    {footer && <footer className="wds-alert-footer">{footer}</footer>}
                 </div>
             </div>,
             ref.current!,

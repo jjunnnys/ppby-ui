@@ -9,37 +9,28 @@ import './styles.css';
 type ModalProps = {
     title: string;
     children: React.ReactNode;
+    footer?: React.ReactNode;
     isVisible: boolean;
-    cancelText?: string;
-    okText?: string;
-    type?: 'primary' | 'danger';
     onCancel(): void;
-    onOk?(): void;
 };
 
-function Modal({
-    title,
-    children,
-    isVisible,
-    cancelText = '취소하기',
-    okText = '저장하기',
-    type = 'primary',
-    onCancel,
-    onOk,
-}: ModalProps) {
+function Modal({ title, children, footer, isVisible, onCancel }: ModalProps) {
     const ref = useRef<Element | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        const dom = document.createElement('div');
         setIsMounted(true);
         if (document) {
-            const dom = document.getElementById('wds-modal');
+            dom.id = 'wds-modal';
+            document.body.insertAdjacentElement('beforeend', dom);
             ref.current = dom;
         }
 
         return () => {
             setIsMounted(false);
+            document.body.removeChild(dom);
         };
     }, []);
 
@@ -57,25 +48,7 @@ function Modal({
                         />
                     </header>
                     <section className="wds-modal-content">{children}</section>
-                    <footer className="wds-modal-footer">
-                        {/* <button
-                            type="button"
-                            className={[styles.Modal__Button, styles.Close].join(' ')}
-                            onClick={onCancel}
-                        >
-                            {cancelText}
-                        </button>
-                        {onOk && (
-                            <button
-                                type="button"
-                                className={[styles.Modal__Button, styles.Ok].join(' ')}
-                                data-type={type}
-                                onClick={onOk}
-                            >
-                                {okText}
-                            </button>
-                        )} */}
-                    </footer>
+                    {footer && <footer className="wds-modal-footer">{footer}</footer>}
                 </div>
             </div>,
             ref.current!,

@@ -77,6 +77,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    opacity: 0;
+    animation: wds-show 0.5s ease-in-out forwards;
 }
 #wds-date-picker-day tbody > tr {
     display: flex;
