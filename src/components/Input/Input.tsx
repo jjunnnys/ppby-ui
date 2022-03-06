@@ -1,5 +1,5 @@
 import React, { useMemo, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { bindingNumberOrComma } from '@field-share/utils';
+import { bindingNumberOrComma, getPrefixCls } from '@field-share/utils';
 // PAGES
 // COMPONENTS
 import Icons, { IconsType } from '../Icons';
@@ -25,6 +25,8 @@ interface InputProps
     max?: number;
     type?: HTMLInputTypeAttribute;
 }
+
+const prefixCls = getPrefixCls('input');
 
 function Input(
     {

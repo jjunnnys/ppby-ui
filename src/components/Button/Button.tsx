@@ -4,39 +4,36 @@ import { tuple, getPrefixCls } from '@field-share/utils';
 // STYLES
 import './styles.css';
 
-const ButtonTypes = tuple('default', 'primary', 'secondary', 'cancel', 'goast');
-const ButtonHTMLTypes = tuple('submit', 'button', 'reset');
-const ButtonSize = tuple('small', 'medium', 'large');
-const ButtonShape = tuple('default', 'circle', 'round', 'ellipse');
-const ButtonFontWeight = tuple('100', '300', '400', '500', '700');
+const buttonTypes = tuple('default', 'primary', 'secondary', 'cancel', 'goast');
+const buttonHTMLTypes = tuple('submit', 'button', 'reset');
+const buttonSize = tuple('small', 'medium', 'large');
+const buttonShape = tuple('default', 'circle', 'round', 'ellipse');
+const buttonFontWeight = tuple('100', '300', '400', '500', '700');
 
 interface ButtonProps
     extends Omit<
         React.ButtonHTMLAttributes<HTMLButtonElement>,
         'type' | 'style' | 'onMouseDown' | 'onMouseUp' | 'onMouseLeave'
     > {
-    type?: typeof ButtonTypes[number];
+    type?: typeof buttonTypes[number];
     /** @default button */
-    htmlType?: typeof ButtonHTMLTypes[number];
+    htmlType?: typeof buttonHTMLTypes[number];
     width?: string | number;
     /** @default medium */
-    size?: typeof ButtonSize[number];
+    size?: typeof buttonSize[number];
     /** @default default */
-    shape?: typeof ButtonShape[number];
+    shape?: typeof buttonShape[number];
     /** @default 400 - Ragular */
-    fontWeight?: typeof ButtonFontWeight[number];
+    fontWeight?: typeof buttonFontWeight[number];
+    block?: boolean;
 }
+
+type ButtonGroupProps = Pick<ButtonProps, 'size' | 'shape' | 'children' | 'block'>;
 
 interface CompoundedComponent extends React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLElement>> {
     Group: typeof Group;
 }
 
-const getButtonWidth = (width: string | number | undefined, isButtonGroup: boolean) => {
-    if (width) {
-        return typeof width === 'number' ? `${width}px` : width;
-    }
-    return isButtonGroup ? '100%' : 'auto';
-};
 const prefixCls = getPrefixCls('btn');
 const SCALE_UP_TIME = 300;
 
@@ -49,6 +46,7 @@ function InternalButton(
         width,
         shape = 'default',
         fontWeight = '400',
+        block = false,
         ...props
     }: ButtonProps,
     ref: React.ForwardedRef<HTMLButtonElement>,
@@ -72,19 +70,22 @@ function InternalButton(
             prefixCls,
             {
                 [`${prefixCls}-${sizeCls}`]: sizeCls,
+                [`${prefixCls}-block`]: block,
+                [`${prefixCls}-${fontWeight}`]: buttonFontWeight.includes(fontWeight),
                 [`${prefixCls}-${type}`]: type,
                 [`${prefixCls}-${shape}`]: shape !== 'default' && shape,
             },
             props.className,
         );
-    }, [props.className, shape, size, type]);
+    }, [block, fontWeight, props.className, shape, size, type]);
 
     // 누른 상태
     const onMouseDown = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        if (!buttonRef.current) return;
         setIsMouseDown(true);
         setIsClickTimeout(true);
         upTimeout.current && clearTimeout(upTimeout.current);
-        const buttonEl = e.target as HTMLButtonElement;
+        const buttonEl = buttonRef.current;
         const rect = buttonEl.getBoundingClientRect();
         const { width, height, left, top } = rect;
         const positionY = e.clientY - top;
@@ -93,7 +94,9 @@ function InternalButton(
         const element = document.createElement('div');
         const chidElement = Array.from(buttonEl.children);
         chidElement.forEach((el) => {
-            buttonEl.removeChild(el);
+            if (el.className === 'on') {
+                buttonEl.removeChild(el);
+            }
         });
         element.classList.add('on');
         element.style.width = `${size}px`;
@@ -109,13 +112,16 @@ function InternalButton(
     // 눌렀다 떈 상태
     const onMouseUp = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            if (!buttonRef.current) return;
             downTimeout.current && clearTimeout(downTimeout.current);
             setIsMouseDown(false);
-            const buttonEl = e.target as HTMLButtonElement;
+            const buttonEl = buttonRef.current;
             const element = Array.from(buttonEl.children);
             const cleanChildren = () => {
                 element.forEach((el) => {
-                    buttonEl.removeChild(el);
+                    if (el.className === 'on') {
+                        buttonEl.removeChild(el);
+                    }
                 });
             };
 
@@ -131,24 +137,17 @@ function InternalButton(
     // 누르고 다른 곳으로 이동 상태
     const onMouseLeave = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            if (!isMouseDown) return;
-            const buttonEl = e.target as HTMLButtonElement;
+            if (!isMouseDown || !buttonRef.current) return;
+            const buttonEl = buttonRef.current;
             const element = Array.from(buttonEl.children);
             element.forEach((el) => {
-                buttonEl.removeChild(el);
+                if (el.className === 'on') {
+                    buttonEl.removeChild(el);
+                }
             });
         },
         [isMouseDown],
     );
-
-    useEffect(() => {
-        if (!buttonRef.current) return;
-        const parentNode = buttonRef.current.parentNode as HTMLElement;
-        const parentClassList = Array.from(parentNode.classList);
-        const isButtonGroup = parentClassList.includes(`${prefixCls}-group`);
-        buttonRef.current.style.width = getButtonWidth(width, isButtonGroup);
-        buttonRef.current.style.fontWeight = fontWeight;
-    }, [fontWeight, width]);
 
     return (
         <button
@@ -165,11 +164,22 @@ function InternalButton(
     );
 }
 
-function Group({ children, size = 'medium' }: { children: React.ReactNode; size?: typeof ButtonSize[number] }) {
-    const groupPrefixCls = `${prefixCls}-group`;
+function Group({ children, block = false, size = 'medium', shape = 'default' }: ButtonGroupProps) {
+    const groupPrefixCls = useMemo(
+        () =>
+            classNames(`${prefixCls}-group`, {
+                [`${prefixCls}-group-block`]: block,
+            }),
+        [block],
+    );
+
+    useEffect(() => {
+        // console.log({ children });
+    }, [children]);
+
     return (
         <div className={groupPrefixCls}>
-            {(children as any).map((v: any) => ({ ...v, props: { ...v.props, size } }))}
+            {(children as any).map((v: any) => ({ ...v, props: { ...v.props, size, shape, block } }))}
         </div>
     );
 }

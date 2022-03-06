@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getPrefixCls, map } from '@field-share/utils';
+import colors from '@field-share/colors';
 import dayjs, { Dayjs } from 'dayjs';
 import ko from 'dayjs/locale/ko';
 import localeData from 'dayjs/plugin/localeData';
 import isBetween from 'dayjs/plugin/isBetween';
-import { map } from '@field-share/utils';
 // COMPONENTS
 import Icons from '../Icons';
 import PopBox from '../PopBox';
@@ -14,6 +15,7 @@ import DatePickerBody from './DatePickerBody';
 // TYPES
 // STYLES
 import './styles.css';
+import Button from '../Button';
 
 export type DatePickerProps = {
     type?: 'button' | 'fixed';
@@ -39,6 +41,8 @@ const formatCurrentDate = (value: Dayjs | [Dayjs | undefined, Dayjs | undefined]
 const dateFormatMapping = (date: Dayjs, index: number) =>
     `${date.format('YYYY-MM')}-${index + 1 < 10 ? `0${index + 1}` : index + 1}`;
 
+export const prefixCls = getPrefixCls('picker');
+
 function DatePicker({
     type = 'button',
     dateType = 'day',
@@ -49,11 +53,13 @@ function DatePicker({
     eventDate,
     disabledDate = () => false,
 }: DatePickerProps) {
-    const ref = useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLButtonElement>(null);
+    const pickerRef = useRef<HTMLDivElement>(null);
     const [currentDate, setCurrentDate] = useState(formatCurrentDate(value));
     const [monthList, setMonthList] = useState<Dayjs[][] | undefined>();
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [openType, setOpenType] = useState<'right' | 'left'>('right');
 
     const initStartDate = useMemo(
         () => (value ? (Array.isArray(value) ? value[0]?.startOf('date') : value) : undefined),
@@ -67,15 +73,26 @@ function DatePicker({
 
     const onClickShowDatePicker = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            if (!pickerRef.current) return;
             const x = e.currentTarget.getBoundingClientRect()?.x || 0;
             const y = e.currentTarget.getBoundingClientRect()?.y || 0;
             const width = e.currentTarget.getBoundingClientRect()?.width || 0;
+            const pickerWidht = pickerRef.current.clientWidth;
+            const clientX = document.documentElement.clientWidth;
+            const isLeftPopBox = clientX - x < pickerWidht;
 
             setIsVisible((prev) => {
                 if (prev) return false;
-                setPosition({ x: x + width + 8, y });
+                if (isLeftPopBox) {
+                    setPosition({ x: x - 8 - pickerWidht, y });
+                    setOpenType('left');
+                } else {
+                    setPosition({ x: x + width + 8, y });
+                    setOpenType('right');
+                }
                 return true;
             });
+
             if (value) {
                 setCurrentDate((prev) =>
                     prev.isSame(dayjs(Array.isArray(value) ? value[0] : value).startOf('date'))
@@ -136,13 +153,19 @@ function DatePicker({
 
     return type === 'button' ? (
         <>
-            <div ref={ref} className="wds-date-picker-button-container">
-                <button type="button" aria-label="calendar" onClick={onClickShowDatePicker}>
-                    <Icons icon="calendar" />
-                </button>
-            </div>
-            <PopBox buttonRef={ref} isVisible={isVisible} onCancel={onCancel} top={position.y} left={position.x}>
+            <Button ref={ref} className={`${prefixCls}-btn`} shape="round" onClick={onClickShowDatePicker}>
+                <Icons icon="calendar" color={colors.grey[500]} />
+            </Button>
+            <PopBox
+                buttonRef={ref}
+                isVisible={isVisible}
+                onCancel={onCancel}
+                top={position.y}
+                left={position.x}
+                openType={openType}
+            >
                 <DatePickerBody
+                    ref={pickerRef}
                     dateType={dateType}
                     monthList={monthList}
                     currentDate={currentDate}

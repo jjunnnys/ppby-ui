@@ -1,16 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { isToday, map } from '@field-share/utils';
+import { isToday, map, isCurrentDateIncluded } from '@field-share/utils';
+import classNames from 'classnames';
 // PAGES
 // COMPONENTS
 import Icons from '../Icons';
-import { DatePickerProps } from './DatePicker';
+import { DatePickerProps, prefixCls } from './DatePicker';
 import NumberText from '../NumberText';
 // HOOKS
 // MODULES
 // LIB
 // TYPES
 // STYLES
+
+// TODO contextAPI 고려
 
 interface DatePickerBodyProps extends Omit<DatePickerProps, 'type' | 'value'> {
     monthList: Dayjs[][] | undefined;
@@ -22,29 +25,51 @@ interface DatePickerBodyProps extends Omit<DatePickerProps, 'type' | 'value'> {
     setIsVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function DatePickerBody({
-    dateType,
-    monthList,
-    currentDate,
-    setCurrentDate,
-    isOnlyOneDateSelect,
-    eventDate,
-    onChangeDate,
-    isShowToday,
-    disabledDate,
-    initStartDate,
-    initEndDate,
-    setIsVisible,
-}: DatePickerBodyProps) {
+function DatePickerBody(
+    {
+        dateType,
+        monthList,
+        currentDate,
+        setCurrentDate,
+        isOnlyOneDateSelect,
+        eventDate,
+        onChangeDate,
+        isShowToday,
+        disabledDate,
+        initStartDate,
+        initEndDate,
+        setIsVisible,
+    }: DatePickerBodyProps,
+    ref: React.ForwardedRef<HTMLDivElement>,
+) {
+    const _ref = useRef<HTMLDivElement>(null);
     const monthsShort = useRef(dayjs.monthsShort()).current;
     const [startDate, setStartDate] = useState<Dayjs | undefined>(initStartDate);
     const [endDate, setEndDate] = useState<Dayjs | undefined>(initEndDate);
     const yearNumber = useMemo(() => currentDate.format('YYYY년 MM월').split(' ')[0].split('년')[0], [currentDate]);
     const monthNumber = useMemo(() => currentDate.format('YYYY년 MM월').split(' ')[1].split('월')[0], [currentDate]);
 
-    const isEventDate = useCallback(
-        (day: Dayjs) => eventDate?.map((v) => v.toISOString()).includes(day.toISOString()) || false,
-        [eventDate],
+    useImperativeHandle(ref, () => _ref.current!);
+
+    const className = useMemo(
+        () =>
+            classNames(prefixCls, {
+                [`${prefixCls}-${dateType}`]: dateType || 'day',
+            }),
+        [dateType],
+    );
+
+    const cellClassName = useCallback(
+        (index: number, day: Dayjs) => {
+            const cellCls = `${prefixCls}-cell`;
+            const isPrevDate = index === 0 && day.get('date') > 10;
+            const isNextDate = monthList ? index === monthList.length - 1 && day.get('date') < 10 : undefined;
+            return classNames(cellCls, {
+                [`${cellCls}-not-included`]: isPrevDate || isNextDate,
+                [`${cellCls}-event`]: isCurrentDateIncluded(day, eventDate || []),
+            });
+        },
+        [eventDate, monthList],
     );
 
     const onClickDate = useCallback(
@@ -159,17 +184,12 @@ function DatePickerBody({
     }, [initStartDate, initEndDate]);
 
     return (
-        <div
-            className="wds-date-picker-container"
-            role="presentation"
-            aria-label="날짜 선택 캘린더"
-            data-date-type={dateType || 'day'}
-        >
-            <div className="date-picker-header">
+        <div ref={_ref} className={className} role="presentation" aria-label="날짜 선택 달력">
+            <div className={`${prefixCls}-header`}>
                 <button type="button" onClick={onClickArrow('left')}>
                     <Icons icon="leftArrow" />
                 </button>
-                <div className="year-month-wrapper">
+                <div className={`${prefixCls}-year-month`}>
                     <span>
                         <NumberText fontSize={14} number={yearNumber} />년
                     </span>
@@ -184,7 +204,7 @@ function DatePickerBody({
                 </button>
             </div>
             {dateType === 'day' ? (
-                <table id="wds-date-picker-day">
+                <table className={`${prefixCls}-body`}>
                     <thead>
                         <tr>
                             {dayjs.weekdaysShort(true).map((v) => (
@@ -194,7 +214,7 @@ function DatePickerBody({
                     </thead>
                     <tbody>
                         {monthList?.map((weeks, i) => (
-                            <tr className="date-picker-month-row" key={i}>
+                            <tr key={i}>
                                 {weeks.map((day) => (
                                     <td
                                         key={day.format('YYYY-MM-DD')}
@@ -205,19 +225,13 @@ function DatePickerBody({
                                         data-select={startDate && endDate ? day.isBetween(startDate, endDate) : false}
                                         data-same-date={startDate?.isSame(endDate)}
                                         data-disabled={disabledDate(day)}
-                                        className={[
-                                            'wds-date-picker-day-date-cell',
-                                            (i === 0 && day.get('date') > 10) ||
-                                            (i === monthList.length - 1 && day.get('date') < 10)
-                                                ? 'prev-or-next-date'
-                                                : '',
-                                        ].join(' ')}
+                                        className={cellClassName(i, day)}
                                         role="button"
                                         onKeyPress={() => {}}
                                         tabIndex={0}
                                         onClick={disabledDate(day) ? undefined : onClickDate(day)}
                                     >
-                                        <span data-event={isEventDate(day)}>{day.get('date')}</span>
+                                        <span>{day.get('date')}</span>
                                     </td>
                                 ))}
                             </tr>
@@ -242,4 +256,4 @@ function DatePickerBody({
     );
 }
 
-export default React.memo(DatePickerBody);
+export default React.memo(forwardRef(DatePickerBody));

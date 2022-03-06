@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 // COMPONENTS
 import Modal from '../components/Modal';
 import Alert from '../components/Alert';
 import Button from '../components/Button';
+import { Icons } from '..';
 
 export default {
     title: 'Design System/Components/Alert',
@@ -28,13 +29,6 @@ export default {
             table: { category: 'ReactNode' },
         },
     },
-    decorators: [
-        (Story) => (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '2em' }}>
-                <Story />
-            </div>
-        ),
-    ],
 } as ComponentMeta<typeof Alert>;
 
 const Template: ComponentStory<typeof Alert> = (args) => {
@@ -44,14 +38,14 @@ const Template: ComponentStory<typeof Alert> = (args) => {
     return (
         <>
             <Button onClick={() => setIsVisible(true)} shape="round">
-                모달 열기
+                <Icons icon="add" />
             </Button>
             <Modal
                 isVisible={isVisible}
                 onCancel={() => setIsVisible(false)}
                 title="제목"
                 footer={
-                    <Button.Group>
+                    <Button.Group size="large" block>
                         <Button type="cancel" fontWeight="700" onClick={() => setIsVisible(false)}>
                             취소하기
                         </Button>
@@ -68,7 +62,7 @@ const Template: ComponentStory<typeof Alert> = (args) => {
                 isVisible={isVisibleAlert}
                 onCancel={() => setIsVisibleAlert(false)}
                 footer={
-                    <Button.Group>
+                    <Button.Group size="large" block>
                         <Button type="cancel" fontWeight="700" onClick={() => setIsVisibleAlert(false)}>
                             취소하기
                         </Button>

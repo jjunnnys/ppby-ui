@@ -47,12 +47,15 @@
     line-height: 25px;
     color: var(--grey700);
 }
-.wds-modal-header-icon {
+.wds-modal-icon {
     cursor: pointer;
-    color: var(--grey700);
-}
-.wds-modal-header-icon:hover {
     color: var(--grey500);
+}
+.wds-modal-icon:hover {
+    color: var(--grey600);
+}
+.wds-modal-icon:active {
+    color: var(--grey700);
 }
 .wds-modal-content {
     min-height: 200px;

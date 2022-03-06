@@ -1,6 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useToast } from '@field-share/utils';
+import Button from '../components/Button';
 // COMPONENTS
 
 export default {
@@ -23,22 +24,16 @@ const Template: ComponentStory<any> = (args) => {
     const toast = useToast();
 
     return (
-        <button
-            style={{
-                borderStyle: 'solid',
-                borderColor: 'blue',
-                borderWidth: 1,
-                padding: '10px 32px',
-                borderRadius: 8,
-                fontSize: 18,
-                marginRight: 'auto',
-            }}
-            onClick={() => {
-                (toast as any)[args.type || 'info'](args.text);
-            }}
-        >
-            open
-        </button>
+        <div style={{ marginRight: 'auto' }}>
+            <Button
+                shape="round"
+                onClick={() => {
+                    (toast as any)[args.type || 'info'](args.text);
+                }}
+            >
+                open
+            </Button>
+        </div>
     );
 };
 

@@ -20,11 +20,17 @@ function Modal({ title, children, footer, isVisible, onCancel }: ModalProps) {
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        const dom = document.createElement('div');
+        let dom: HTMLDivElement;
         setIsMounted(true);
         if (document) {
-            dom.id = 'wds-modal';
-            document.body.insertAdjacentElement('beforeend', dom);
+            const element = document.querySelector<HTMLDivElement>('#wds-modal');
+            if (element) {
+                dom = element;
+            } else {
+                dom = document.createElement('div');
+                dom.id = 'wds-modal';
+                document.body.insertAdjacentElement('beforeend', dom);
+            }
             ref.current = dom;
         }
 
@@ -40,12 +46,7 @@ function Modal({ title, children, footer, isVisible, onCancel }: ModalProps) {
                 <div ref={modalRef} className="wds-modal-wrapper" role="dialog" aria-label="modal">
                     <header className="wds-modal-header">
                         <h1 className="wds-modal-header-title">{title}</h1>
-                        <Icons
-                            className="wds-modal-header-icon"
-                            icon="close"
-                            fill={colors.grey[700]}
-                            onClick={onCancel}
-                        />
+                        <Icons className="wds-modal-icon" icon="close" fill={colors.grey[700]} onClick={onCancel} />
                     </header>
                     <section className="wds-modal-content">{children}</section>
                     {footer && <footer className="wds-modal-footer">{footer}</footer>}

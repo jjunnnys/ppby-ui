@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
-import DatePicker from '../components/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import { map } from '@field-share/utils';
+import { startEndDateList } from '@field-share/utils';
+// COMPONENTS
+import DatePicker from '../components/DatePicker';
 
 export default {
     title: 'Design System/Molecules/DatePicker',
@@ -98,6 +98,8 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                     type="fixed"
                     onChangeDate={(date) => {
                         if (!Array.isArray(date)) {
+                            console.log({ date: date?.format('YYYY-MM-DD HH:mm:ss') });
+                            setValue(undefined);
                             setDisabledDateValue(date?.startOf('date'));
                             setDisabledDate(date?.startOf('date'));
                         }
@@ -121,14 +123,9 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                     type="fixed"
                     onChangeDate={(dates) => {
                         if (Array.isArray(dates)) {
+                            setValue(undefined);
                             setEventDateValue(dates);
-                            const start = dates[0]?.startOf('date');
-                            const end = dates[1]?.endOf('date');
-                            const length = (end?.diff(start, 'day') || 0) + 1;
-                            const list = map(length, (i) =>
-                                i === length - 1 ? start!.add(i, 'day').endOf('date') : start!.add(i, 'day'),
-                            );
-                            setEventDate(list);
+                            setEventDate(startEndDateList(dates));
                         }
                     }}
                     isOnlyOneDateSelect={false}
@@ -146,9 +143,10 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                 <DatePicker
                     {...args}
                     eventDate={eventDate}
-                    disabledDate={(date) =>
-                        date.isSame(disabledDate) || hasPrevDateDisabled ? date.isBefore(dayjs()) : false
-                    }
+                    disabledDate={(date) => {
+                        if (date.isSame(disabledDate)) return true;
+                        return hasPrevDateDisabled ? date.isBefore(dayjs()) : false;
+                    }}
                     value={value}
                     onChangeDate={(date) => setValue(date)}
                 />

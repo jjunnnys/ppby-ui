@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import colors from '@field-share/colors';
 // COMPONENTS
 import NumberText from '../components/NumberText';
 import Input from '../components/Input';
+import Button from '../components/Button';
 
 export default {
     title: 'Design System/Atoms/NumberText',
@@ -92,33 +93,10 @@ const Template: ComponentStory<typeof NumberText> = (args) => {
                 <span>원</span>
             </div>
             <div style={{ marginTop: 20 }}>
-                <button
-                    type="button"
-                    style={{
-                        padding: '10px 30px',
-                        borderStyle: 'solid',
-                        borderColor: 'blue',
-                        borderRadius: '4px 0 0 4px',
-                        borderWidth: 1,
-                        borderRightWidth: 0,
-                    }}
-                    onClick={onClick('down')}
-                >
-                    down
-                </button>
-                <button
-                    type="button"
-                    style={{
-                        padding: '10px 30px',
-                        borderStyle: 'solid',
-                        borderColor: 'blue',
-                        borderWidth: 1,
-                        borderRadius: '0 4px 4px 0',
-                    }}
-                    onClick={onClick('up')}
-                >
-                    up
-                </button>
+                <Button.Group shape="round">
+                    <Button onClick={onClick('down')}>down</Button>
+                    <Button onClick={onClick('up')}>up</Button>
+                </Button.Group>
             </div>
         </div>
     );
