@@ -1,14 +1,23 @@
-.wds-select-container {
+.wds-select {
     position: relative;
     display: flex;
     align-items: center;
     min-width: 100px;
     width: 100%;
+    height: 32px;
     border-radius: 4px;
     border: 1px solid transparent;
     overflow: hidden;
+    background-color: var(--grey200);
+    transition: box-shadow 0.3s;
 }
-.wds-select-container::after {
+.wds-select.wds-select-large {
+    height: 40px;
+}
+.wds-select:hover {
+    box-shadow: var(--hoverBoxShadow);
+}
+.wds-select::after {
     content: attr(data-value);
     position: absolute;
     left: 8px;
@@ -18,7 +27,6 @@
     display: flex;
     align-items: center;
     width: calc(100% - 38px);
-    background-color: #fff;
     color: var(--grey700);
     font-size: 15px;
     line-height: 19px;
@@ -27,27 +35,19 @@
     overflow: hidden;
     pointer-events: none;
     opacity: 0;
+    animation: wds-animate-show 0.5s ease-in-out forwards;
 }
-.wds-select-container[data-is-placeholder='true']::after {
+.wds-select.wds-select-placeholder::after {
     color: var(--grey400);
 }
-.wds-select-container[data-border='true'] {
-    transition: border-color 0.2s;
+.wds-select.wds-select-border {
+    background-color: #fff;
     border: 1px solid var(--grey200);
 }
-.wds-select-container[data-border='true']:hover {
-    border: 1px solid var(--grey300);
-}
-.wds-select-container[data-border='false']::after {
-    transition: background-color 0.2s;
-}
-.wds-select-container[data-border='false']::after:hover {
-    background-color: var(--grey100);
-}
-.wds-select-container[data-loading='true']::after {
+.wds-select.loading::after {
     content: none;
 }
-.wds-select-container[data-loading='true']::before {
+.wds-select.loading::before {
     content: '';
     position: absolute;
     top: 0;
@@ -56,11 +56,14 @@
     bottom: 0;
     width: 100%;
     height: 100%;
-    animation: wds-skeleton-gradient 1.8s infinite ease-in-out;
+    animation: wds-animate-skeleton-gradient 1.8s infinite ease-in-out;
     z-index: 1;
     pointer-events: none;
 }
-.wds-select-container > .icon {
+.wds-select.loading:hover {
+    box-shadow: none;
+}
+.wds-select > .icon {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -72,30 +75,7 @@
     color: var(--grey500);
     z-index: 1;
 }
-.wds-select-container > .clear-icon {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto 0;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background-color: var(--grey200);
-    z-index: 1;
-    cursor: pointer;
-}
-
-.wds-select-container > .clear-icon > svg {
-    width: 80%;
-    height: 80%;
-    color: var(--grey700);
-}
-
-.wds-select {
+.wds-select > select {
     width: 100%;
     height: 100%;
     outline: none;
@@ -107,9 +87,6 @@
     -moz-appearance: none;
     cursor: pointer;
 }
-.wds-select-container[data-loading='true'] > .wds-select {
+.wds-select.loading > select {
     pointer-events: none;
-}
-.wds-select-container[data-loading='false']::after {
-    animation: wds-show 0.5s forwards;
 }

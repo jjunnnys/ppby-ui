@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { hooks } from '@field-share/utils';
+import { getPrefixName, useOnClickOutside, OutsideHandler, useInsertAdjacentElement } from '@field-share/utils';
 // PAGES
 // COMPONENTS
 // HOOKS
@@ -9,68 +10,44 @@ import { hooks } from '@field-share/utils';
 // TYPES
 // STYLES
 import './styles.css';
+import classNames from 'classnames';
 
 type PopBoxProps = {
     children: React.ReactNode;
     openType?: 'right' | 'bottom' | 'left';
-    buttonRef?: React.RefObject<HTMLElement>;
     isVisible: boolean;
     width?: number;
     height?: number;
     top?: number;
     left?: number;
-    onCancel(): void;
+    onCancel: OutsideHandler;
 };
 
-const { useOnClickOutside } = hooks;
+const prefixCls = getPrefixName('pop-box').class;
 
-function PopBox({
-    children,
-    openType = 'right',
-    buttonRef,
-    isVisible,
-    width,
-    height,
-    left,
-    top,
-    onCancel,
-}: PopBoxProps) {
-    const ref = useRef<Element | null>(null);
+function PopBox({ children, openType = 'right', isVisible, width, height, left = 0, top = 0, onCancel }: PopBoxProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
-    const [isMounted, setIsMounted] = useState(false);
+    const { isMounted, portalRef } = useInsertAdjacentElement();
 
-    const className = useMemo(() => ['wds-pop-box-container', openType].join(' '), [openType]);
+    const className = useMemo(() => classNames(prefixCls, openType), [openType]);
 
-    useOnClickOutside(menuRef, onCancel, buttonRef!);
-
-    useEffect(() => {
-        const dom = document.createElement('div');
-        setIsMounted(true);
-        if (document) {
-            dom.id = 'wds-pop-box';
-            document.body.insertAdjacentElement('beforeend', dom);
-            ref.current = ref.current || dom;
-        }
-
-        return () => {
-            setIsMounted(false);
-            document.body.removeChild(ref.current || dom);
-        };
-    }, []);
+    useOnClickOutside(menuRef, onCancel);
 
     // 최초 캐싱
     useEffect(() => {
-        const element = document.querySelector('.wds-pop-box-container');
-        if (!element) return;
-        element.setAttribute('style', `width:${width}px; height: ${height}px; top: ${top}px; left: ${left}px`);
+        if (!menuRef.current) return;
+        menuRef.current.style.width = `${width}px`;
+        menuRef.current.style.height = `${height}px`;
+        menuRef.current.style.top = `${top}px`;
+        menuRef.current.style.left = `${left}px`;
     }, [height, left, top, width]);
 
-    if (!ref.current || !isMounted) return null;
+    if (!portalRef.current || !isMounted) return null;
     return createPortal(
         <div ref={menuRef} data-open={isVisible} className={className}>
             {children}
         </div>,
-        ref.current,
+        portalRef.current,
     );
 }
 

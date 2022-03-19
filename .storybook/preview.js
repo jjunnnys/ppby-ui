@@ -1,4 +1,5 @@
 import React from 'react';
+import '@field-share/styles/dist/css/main.css';
 
 export const decorators = [
     (Story) => (
@@ -18,6 +19,7 @@ export const decorators = [
 export const parameters = {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
+        expanded: true,
         matchers: {
             color: /(background|color)$/i,
             date: /Date$/,

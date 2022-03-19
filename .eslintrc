@@ -1,0 +1,58 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": ["plugin:react/recommended", "airbnb", "plugin:react-hooks/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": ["react", "@typescript-eslint"],
+    "rules": {
+        "react/function-component-definition": "off",
+        "import/no-extraneous-dependencies": "off",
+        "import/no-unresolved": "off",
+        "import/extensions": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-indent": "off",
+        "react/jsx-filename-extension": "off",
+        "indent": "off",
+        "no-use-before-define": "off",
+        "import/prefer-default-export": "off",
+        "react/jsx-indent-props": "off",
+        "react/require-default-props": "off",
+        "max-len": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "object-curly-newline": "off",
+        "jsx-a11y/label-has-associated-control": "off",
+        "new-parens": "off",
+        "react/jsx-curly-newline": "off",
+        "camelcase": "off",
+        "implicit-arrow-linebreak": "off",
+        "function-paren-newline": "off",
+        "no-unused-vars": "warn",
+        "consistent-return": "off",
+        "no-nested-ternary": "warn",
+        "operator-linebreak": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/no-array-index-key": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "no-unused-expressions": "off",
+        "react/no-unescaped-entities": "off",
+        "no-param-reassign": "off",
+        "react/prop-types": "off",
+        "no-underscore-dangle": "off",
+        "react/destructuring-assignment": "off",
+        "no-return-assign": "off",
+        "linebreak-style": "off",
+        "no-confusing-arrow": "off",
+        "no-undef": "off",
+        "no-restricted-globals": "off",
+        "no-restricted-exports": "off"
+    }
+}

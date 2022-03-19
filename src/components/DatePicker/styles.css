@@ -78,7 +78,7 @@
     flex-direction: column;
     align-items: center;
     opacity: 0;
-    animation: wds-show 0.5s ease-in-out forwards;
+    animation: wds-animate-show 0.5s ease-in-out forwards;
 }
 .wds-picker-body tbody > tr {
     display: flex;
@@ -221,4 +221,49 @@
     padding: 0px;
     width: 32px;
     height: 32px;
+}
+.wds-picker-btn > svg {
+    pointer-events: none;
+    width: 24px;
+    height: 24px;
+}
+.wds-picker-input {
+    position: relative;
+    justify-content: flex-start;
+    padding-left: 12px;
+    padding-right: 46px;
+    min-width: 120px;
+    height: 32px;
+}
+.wds-picker-input > .text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--grey700);
+    white-space: nowrap;
+    pointer-events: none;
+}
+.wds-picker-input > svg {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    right: 12px;
+    pointer-events: none;
+}
+.wds-picker-input.large {
+    padding-left: 16px;
+    padding-right: 50px;
+    height: 40px;
+}
+.wds-picker-input.large > .text {
+    font-size: 16px;
+    line-height: 20px;
+}
+.wds-picker-input.large > svg {
+    width: 24px;
+    height: 24px;
+    right: 14px;
+}
+.wds-picker-input > .text[data-placeholder='true'] {
+    color: var(--grey300);
 }

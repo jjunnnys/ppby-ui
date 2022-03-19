@@ -1,5 +1,7 @@
-import React, { useMemo, forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { bindingNumberOrComma, getPrefixCls } from '@field-share/utils';
+import React, { useMemo, forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
+import { bindingNumberOrComma, getPrefixName, applyHyphen } from '@field-share/utils';
+import colors from '@field-share/styles';
+import classNames from 'classnames';
 // PAGES
 // COMPONENTS
 import Icons, { IconsType } from '../Icons';
@@ -17,16 +19,25 @@ interface InputProps
     loading?: boolean;
     bordered?: boolean;
     size?: 'default' | 'large';
-    icon?: IconsType;
-    iconColor?: string;
-    onClickIcon?(): void;
+    afterIcon?: IconsType;
+    beforeIcon?: IconsType;
+    afterIconColor?: string;
+    beforeIconColor?: string;
+    onClickAfterIcon?(): void;
+    onClickBeforeIcon?(): void;
     onChange?(value: number | string | undefined): void;
+    /**
+     * type이 nubmer일 경우에만 사용
+     */
     min?: number;
+    /**
+     * type이 nubmer일 경우에만 사용
+     */
     max?: number;
     type?: HTMLInputTypeAttribute;
 }
 
-const prefixCls = getPrefixCls('input');
+const prefixCls = getPrefixName('input').class;
 
 function Input(
     {
@@ -34,11 +45,15 @@ function Input(
         size = 'default',
         bordered = true,
         loading = false,
-        icon,
-        iconColor,
-        onClickIcon,
+        afterIcon,
+        beforeIcon,
+        afterIconColor,
+        beforeIconColor,
+        onClickBeforeIcon,
+        onClickAfterIcon,
         min,
         max,
+        value,
         onChange,
         ...props
     }: InputProps,
@@ -49,29 +64,53 @@ function Input(
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle(ref, () => inputRef.current!);
 
+    const className = useMemo(
+        () =>
+            classNames(
+                prefixCls,
+                {
+                    [`${prefixCls}-${size}`]: size !== 'default',
+                    [`${prefixCls}-border`]: bordered,
+                    [`${prefixCls}-after-icon`]: type === 'password' || !!afterIcon,
+                    [`${prefixCls}-before-icon`]: !!beforeIcon,
+                },
+                `${prefixCls}-${loading ? 'on' : 'off'}`,
+            ),
+        [size, bordered, afterIcon, type, beforeIcon, loading],
+    );
+
     const inputType = useMemo(() => (type === 'number' ? 'text' : type), [type]);
 
     const inputValue = useMemo(() => {
-        const value = type === 'number' ? bindingNumberOrComma(props.value as number).toComma : props.value;
-        if (!value) return '';
-        return value;
-    }, [type, props.value]);
+        let inputTypeValue = value as string;
+        if (type === 'number') {
+            inputTypeValue = bindingNumberOrComma(value as number).toComma;
+        }
+        if (type === 'tel') {
+            inputTypeValue = applyHyphen(value as string).add;
+        }
+
+        return inputTypeValue || '';
+    }, [type, value]);
 
     const onChangeValue = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             if (!onChange) return;
-            const { value } = e.target;
+            const { value: v } = e.target;
             if (type === 'number') {
-                if (min && min > bindingNumberOrComma(value).toNumber) {
+                if (min && min > bindingNumberOrComma(v).toNumber) {
                     return onChange(min);
                 }
-                if (max && max < bindingNumberOrComma(value).toNumber) {
+                if (max && max < bindingNumberOrComma(v).toNumber) {
                     return onChange(max);
                 }
-                console.log({ value, toNumber: bindingNumberOrComma(value).toNumber });
-                return onChange(bindingNumberOrComma(value).toNumber);
+                return onChange(bindingNumberOrComma(v).toNumber);
             }
-            return onChange(value);
+            if (type === 'tel') {
+                return onChange(applyHyphen(v).remove);
+            }
+
+            return onChange(v);
         },
         [max, min, onChange, type],
     );
@@ -90,44 +129,52 @@ function Input(
         element.classList.remove('focused');
     }, []);
 
-    useEffect(() => {
-        const element = inputRef.current;
-        if (!element) return;
-        element.setAttribute('style', `height: ${size === 'default' ? 32 : 48}px`);
-    }, [size]);
-
     return (
         <div
-            className="wds-input-container"
-            data-border={bordered}
-            data-loading={loading}
-            data-is-icon={!!icon}
+            className={className}
+            // data-is-icon={!!icon}
             onFocus={onFocus}
             onBlur={onBlur}
         >
+            {beforeIcon && (
+                <span className="before-icon">
+                    <Icons
+                        icon={beforeIcon}
+                        fill={beforeIconColor}
+                        color={beforeIconColor}
+                        onClick={onClickBeforeIcon}
+                    />
+                </span>
+            )}
             <input
                 {...props}
-                className="wds-input"
                 ref={inputRef}
                 type={inputType === 'password' ? passwordType : inputType}
+                maxLength={type === 'tel' ? 13 : props.maxLength}
                 value={inputValue}
                 onChange={onChangeValue}
             />
             {type === 'password' ? (
-                <span className="icon">
+                <span className="after-icon">
                     <Icons
                         icon={passwordType === 'password' ? 'visibility' : 'visibilityOff'}
-                        fill={iconColor}
+                        fill={colors.grey[200]}
+                        color={colors.grey[200]}
                         onClick={() => {
                             setPasswordType((prev) => (prev === 'password' ? 'text' : 'password'));
-                            onClickIcon && onClickIcon();
+                            onClickBeforeIcon && onClickBeforeIcon();
                         }}
                     />
                 </span>
             ) : (
-                icon && (
-                    <span className="icon">
-                        <Icons icon={icon} fill={iconColor} onClick={onClickIcon} />
+                afterIcon && (
+                    <span className="after-icon">
+                        <Icons
+                            icon={afterIcon}
+                            fill={afterIconColor}
+                            color={afterIconColor}
+                            onClick={onClickAfterIcon}
+                        />
                     </span>
                 )
             )}

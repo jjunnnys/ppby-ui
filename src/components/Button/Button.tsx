@@ -1,6 +1,17 @@
-import React, { forwardRef, useState, useEffect, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+/* eslint-disable react/button-has-type */
+import React, {
+    forwardRef,
+    useState,
+    useEffect,
+    useCallback,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    createContext,
+    useContext,
+} from 'react';
 import classNames from 'classnames';
-import { tuple, getPrefixCls } from '@field-share/utils';
+import { getPrefixName, tuple } from '@field-share/utils';
 // STYLES
 import './styles.css';
 
@@ -8,7 +19,6 @@ const buttonTypes = tuple('default', 'primary', 'secondary', 'cancel', 'goast');
 const buttonHTMLTypes = tuple('submit', 'button', 'reset');
 const buttonSize = tuple('small', 'medium', 'large');
 const buttonShape = tuple('default', 'circle', 'round', 'ellipse');
-const buttonFontWeight = tuple('100', '300', '400', '500', '700');
 
 interface ButtonProps
     extends Omit<
@@ -23,8 +33,8 @@ interface ButtonProps
     size?: typeof buttonSize[number];
     /** @default default */
     shape?: typeof buttonShape[number];
-    /** @default 400 - Ragular */
-    fontWeight?: typeof buttonFontWeight[number];
+    /** @default reagular - Ragular */
+    fontWeight?: 'reagular' | 'bold';
     block?: boolean;
 }
 
@@ -34,8 +44,11 @@ interface CompoundedComponent extends React.ForwardRefExoticComponent<ButtonProp
     Group: typeof Group;
 }
 
-const prefixCls = getPrefixCls('btn');
+const prefixCls = getPrefixName('btn').class;
 const SCALE_UP_TIME = 300;
+const SizeContext = createContext<typeof buttonSize[number] | undefined>(undefined);
+const ShapeContext = createContext<typeof buttonShape[number] | undefined>(undefined);
+const BlockContext = createContext<boolean>(false);
 
 function InternalButton(
     {
@@ -43,14 +56,17 @@ function InternalButton(
         type = 'default',
         htmlType = 'button',
         size = 'medium',
-        width,
+        // width,
         shape = 'default',
-        fontWeight = '400',
+        fontWeight,
         block = false,
         ...props
     }: ButtonProps,
     ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
+    const sizeContext = useContext(SizeContext);
+    const shapeContext = useContext(ShapeContext);
+    const blockContext = useContext(BlockContext);
     const [isMouseDown, setIsMouseDown] = useState(false);
     const [isClcikTimeout, setIsClickTimeout] = useState(false);
     const upTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -64,20 +80,23 @@ function InternalButton(
             small: 'sm',
             medium: undefined,
         };
-        const sizeCls = size ? sizeClassNameMap[size] || '' : '';
+        const _shape = shapeContext || shape;
+        const _size = sizeContext || size;
+        const _block = blockContext || block;
+        const sizeCls = _size ? sizeClassNameMap[_size] || '' : '';
 
         return classNames(
             prefixCls,
             {
                 [`${prefixCls}-${sizeCls}`]: sizeCls,
-                [`${prefixCls}-block`]: block,
-                [`${prefixCls}-${fontWeight}`]: buttonFontWeight.includes(fontWeight),
+                [`${prefixCls}-${fontWeight}`]: fontWeight !== 'reagular',
                 [`${prefixCls}-${type}`]: type,
-                [`${prefixCls}-${shape}`]: shape !== 'default' && shape,
+                [`${prefixCls}-${_shape}`]: _shape !== 'default' && _shape,
+                block: _block,
             },
             props.className,
         );
-    }, [block, fontWeight, props.className, shape, size, type]);
+    }, [block, blockContext, fontWeight, props.className, shape, shapeContext, size, sizeContext, type]);
 
     // 누른 상태
     const onMouseDown = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -87,10 +106,9 @@ function InternalButton(
         upTimeout.current && clearTimeout(upTimeout.current);
         const buttonEl = buttonRef.current;
         const rect = buttonEl.getBoundingClientRect();
-        const { width, height, left, top } = rect;
-        const positionY = e.clientY - top;
-        const positionX = e.clientX - left;
-        const size = width > height ? width : height;
+        const positionY = e.clientY - rect.top;
+        const positionX = e.clientX - rect.left;
+        const rectSize = rect.width > rect.height ? rect.width : rect.height;
         const element = document.createElement('div');
         const chidElement = Array.from(buttonEl.children);
         chidElement.forEach((el) => {
@@ -99,10 +117,10 @@ function InternalButton(
             }
         });
         element.classList.add('on');
-        element.style.width = `${size}px`;
-        element.style.height = `${size}px`;
-        element.style.top = `${positionY - size / 2}px`;
-        element.style.left = `${positionX - size / 2}px`;
+        element.style.width = `${rectSize}px`;
+        element.style.height = `${rectSize}px`;
+        element.style.top = `${positionY - rectSize / 2}px`;
+        element.style.left = `${positionX - rectSize / 2}px`;
         buttonEl.appendChild(element);
         downTimeout.current = setTimeout(() => {
             setIsClickTimeout(false);
@@ -153,7 +171,7 @@ function InternalButton(
         <button
             {...props}
             ref={buttonRef}
-            type={htmlType}
+            type={htmlType as any}
             className={className}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
@@ -173,14 +191,14 @@ function Group({ children, block = false, size = 'medium', shape = 'default' }: 
         [block],
     );
 
-    useEffect(() => {
-        // console.log({ children });
-    }, [children]);
-
     return (
-        <div className={groupPrefixCls}>
-            {(children as any).map((v: any) => ({ ...v, props: { ...v.props, size, shape, block } }))}
-        </div>
+        <SizeContext.Provider value={size}>
+            <ShapeContext.Provider value={shape === 'circle' ? 'default' : shape}>
+                <BlockContext.Provider value={block}>
+                    <div className={groupPrefixCls}>{children}</div>
+                </BlockContext.Provider>
+            </ShapeContext.Provider>
+        </SizeContext.Provider>
     );
 }
 

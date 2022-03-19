@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 // COMPONENTS
 import Modal from '../components/Modal';
@@ -35,42 +35,41 @@ const Template: ComponentStory<typeof Alert> = (args) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
+    const footerModal = (
+        <Button.Group size="large" block>
+            <Button type="cancel" fontWeight="bold" onClick={() => setIsVisible(false)}>
+                취소하기
+            </Button>
+            <Button type="secondary" fontWeight="bold" onClick={() => setIsVisibleAlert(true)}>
+                삭제하기
+            </Button>
+        </Button.Group>
+    );
+
+    const footerAlert = (
+        <Button.Group size="large" block>
+            <Button type="cancel" fontWeight="bold" onClick={() => setIsVisibleAlert(false)}>
+                취소하기
+            </Button>
+            <Button type="secondary" fontWeight="bold" onClick={() => setIsVisibleAlert(true)}>
+                삭제하기
+            </Button>
+        </Button.Group>
+    );
+
     return (
         <>
             <Button onClick={() => setIsVisible(true)} shape="round">
-                <Icons icon="add" />
+                <Icons icon="close" />
             </Button>
-            <Modal
-                isVisible={isVisible}
-                onCancel={() => setIsVisible(false)}
-                title="제목"
-                footer={
-                    <Button.Group size="large" block>
-                        <Button type="cancel" fontWeight="700" onClick={() => setIsVisible(false)}>
-                            취소하기
-                        </Button>
-                        <Button type="secondary" fontWeight="700" onClick={() => setIsVisibleAlert(true)}>
-                            삭제하기
-                        </Button>
-                    </Button.Group>
-                }
-            >
+            <Modal isVisible={isVisible} onCancel={() => setIsVisible(false)} title="제목" footer={footerModal}>
                 <p>삭제 버튼을 누르면 Alert이 뜹니다.</p>
             </Modal>
             <Alert
                 {...args}
                 isVisible={isVisibleAlert}
                 onCancel={() => setIsVisibleAlert(false)}
-                footer={
-                    <Button.Group size="large" block>
-                        <Button type="cancel" fontWeight="700" onClick={() => setIsVisibleAlert(false)}>
-                            취소하기
-                        </Button>
-                        <Button type="secondary" fontWeight="700">
-                            삭제하기
-                        </Button>
-                    </Button.Group>
-                }
+                footer={footerAlert}
             />
         </>
     );

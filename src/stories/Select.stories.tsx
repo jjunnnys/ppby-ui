@@ -36,6 +36,12 @@ export default {
                 category: 'Value',
             },
         },
+        clearOption: {
+            control: { type: 'boolean' },
+            table: {
+                category: 'Value',
+            },
+        },
         onChange: {
             control: { type: null },
             table: {
@@ -46,19 +52,11 @@ export default {
 } as ComponentMeta<typeof Select>;
 
 const Template: ComponentStory<typeof Select> = (args) => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState<string | undefined>('');
 
-    // useEffect(() => {
-    //     let rafId = 0;
-    //     function up() {
-    //         setNumber((prev) => prev + 1);
-    //         rafId = requestAnimationFrame(up);
-    //     }
-    //     up();
-    //     if (rafId >= 10000) {
-    //         cancelAnimationFrame(rafId);
-    //     }
-    // }, []);
+    useEffect(() => {
+        console.log({ value });
+    }, [value]);
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -75,4 +73,5 @@ Default.args = {
     bordered: true,
     size: 'default',
     options: ['기본1', '기본2', '기본3', '기본4'],
+    clearOption: false,
 };

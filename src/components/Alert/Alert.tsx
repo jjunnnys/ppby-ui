@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import colors from '@field-share/colors';
-import { getPrefixCls } from '@field-share/utils';
+import colors from '@field-share/styles';
+import { getPrefixName } from '@field-share/utils';
 import classNames from 'classnames';
 // COMPONENTS
 import Icons from '../Icons';
@@ -16,7 +16,7 @@ type AlertProps = {
     footer?: React.ReactNode;
 };
 
-const prefixCls = getPrefixCls('alert');
+const prefixCls = getPrefixName('alert').class;
 
 function Alert({ isVisible, title, subTitle, onCancel, footer }: AlertProps) {
     const ref = useRef<Element | null>(null);

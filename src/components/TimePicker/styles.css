@@ -1,0 +1,125 @@
+.wds-time-picker {
+    position: relative;
+    justify-content: flex-start;
+    padding-left: 12px;
+    padding-right: 46px;
+    min-width: 100px;
+    height: 32px;
+}
+.wds-time-picker > .text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--grey700);
+    white-space: nowrap;
+    pointer-events: none;
+}
+.wds-time-picker > svg {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    right: 12px;
+    pointer-events: none;
+}
+.wds-time-picker.large {
+    min-width: 114px;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 50px;
+}
+.wds-time-picker.large > .text {
+    font-size: 16px;
+    line-height: 20px;
+}
+.wds-time-picker.large > svg {
+    width: 24px;
+    height: 24px;
+    right: 14px;
+}
+.wds-time-picker > .text[data-placeholder='true'] {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--grey300);
+}
+.wds-time-picker-body {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 114px;
+    height: 270px;
+    background-color: #ffffff;
+    border: 1px solid var(--grey300);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.wds-time-picker-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), #fff);
+    z-index: 1;
+}
+.wds-time-picker-body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+    z-index: 1;
+}
+.wds-time-picker-body > .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 4px;
+    width: 100%;
+    padding: 15px 0px;
+    overflow-y: scroll;
+}
+.wds-time-picker-body > .col:first-of-type {
+    padding-left: 4px;
+    padding-right: 2px;
+}
+.wds-time-picker-body > .col:last-of-type {
+    padding-right: 4px;
+    padding-left: 2px;
+}
+.wds-time-picker-body > .col {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.wds-time-picker-body > .col::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+.wds-time-picker-body > .col > button {
+    width: 100%;
+    min-height: 30px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    font-size: 16px;
+    line-height: 20px;
+}
+.wds-time-picker-body > .col > button.select {
+    position: relative;
+    background-color: var(--primary500);
+    color: #fff;
+}
+.wds-time-picker-body > .col > button:focus {
+    background-color: var(--primary200);
+}
+.wds-time-picker-body > .col > button:focus-visible {
+    background-color: var(--primary200);
+}
+.wds-time-picker-body > .col > button.select:focus,
+.wds-time-picker-body > .col > button.select:focus-visible {
+    color: #fff;
+    background-color: var(--primary500);
+    box-shadow: 0 0 3px 2px var(--primary300);
+}

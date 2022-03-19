@@ -1,4 +1,6 @@
-import React, { useState, useCallback, useImperativeHandle, useRef, forwardRef, useEffect } from 'react';
+import React, { useState, useCallback, useImperativeHandle, useRef, forwardRef, useEffect, useMemo } from 'react';
+import { getPrefixName } from '@field-share/utils';
+import classNames from 'classnames';
 // COMPONENTS
 import Icons from '../Icons';
 // HOOKS
@@ -14,68 +16,68 @@ interface SelectProps extends Omit<React.InputHTMLAttributes<HTMLSelectElement>,
     bordered?: boolean;
     value?: string | number;
     size?: 'default' | 'large';
-    onChange?(v: string): void;
+    clearOption?: boolean;
+    onChange?(value: string | undefined): void;
 }
 
+const CLEAR = 'clear';
+
+const prefixCls = getPrefixName('select').class;
+
 function Select(
-    { options, bordered = true, size = 'default', loading = false, value, onChange, ...props }: SelectProps,
+    {
+        options,
+        bordered = true,
+        size = 'default',
+        loading = false,
+        value,
+        onChange,
+        clearOption = false,
+        ...props
+    }: SelectProps,
     ref: React.ForwardedRef<HTMLSelectElement>,
 ) {
     const containerRef = useRef<HTMLDivElement>(null);
     const selectRef = useRef<HTMLSelectElement>(null);
     const [selectValue, setSelectValue] = useState(() => value || '');
-    const [isClear, setIsClear] = useState(false);
+
+    useImperativeHandle(ref, () => selectRef.current!);
+
+    const className = useMemo(
+        () =>
+            classNames(prefixCls, {
+                [`${prefixCls}-${size}`]: size !== 'default',
+                [`${prefixCls}-border`]: bordered,
+                [`${prefixCls}-placeholder`]: !selectValue,
+                loading,
+            }),
+        [bordered, loading, selectValue, size],
+    );
 
     const onSelect = useCallback(
         (e: React.ChangeEvent<HTMLSelectElement>) => {
             setSelectValue(e.target.value);
-            onChange && onChange(e.target.value);
+            onChange && onChange(e.target.value || undefined);
         },
         [onChange],
     );
 
-    const onMouseEnter = useCallback(() => {
-        if (!selectValue) return;
-        setIsClear(true);
-    }, [selectValue]);
-
-    const onMouseLeave = useCallback(() => {
-        setIsClear(false);
-    }, []);
-
-    useImperativeHandle(ref, () => selectRef.current!);
-
-    useEffect(() => {
-        if (!containerRef.current) return;
-        containerRef.current.style.height = `${size === 'default' ? 32 : 48}px`;
-    }, [size]);
-
     return (
         <div
             ref={containerRef}
-            className="wds-select-container"
-            data-border={bordered}
-            data-is-placeholder={!selectValue}
+            className={className}
             data-value={selectValue || props?.placeholder}
-            data-loading={loading}
             aria-label="select"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
         >
-            <select ref={selectRef} className="wds-select" value={value} onChange={onSelect} {...props}>
+            <select {...props} ref={selectRef} value={value} onChange={onSelect}>
+                {clearOption && <option value="">- 선택취소 -</option>}
                 {options.map((option) => (
                     <option key={option} value={option}>
                         {option}
                     </option>
                 ))}
             </select>
-            {isClear ? (
-                <span className="clear-icon">
-                    <Icons icon="close" onClick={() => setSelectValue('')} />
-                </span>
-            ) : (
-                <Icons className="icon" icon="downArrow" />
-            )}
+            <Icons className="icon" icon="downArrow" />
         </div>
     );
 }

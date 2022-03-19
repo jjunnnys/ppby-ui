@@ -25,7 +25,7 @@ export default create({
     // Toolbar default and active colors
     //   barTextColor: "silver",
     //   barSelectedColor: "black",
-    //   barBg: "hotpink",
+    // barBg: '#E0E0E0',
 
     // Form colors
     //   inputBg: "white",
@@ -35,5 +35,5 @@ export default create({
 
     brandTitle: 'WDS storybook',
     brandUrl: 'https://www.woojooins.com',
-    brandImage: 'https://www.woojooins.com/static/images/logo.webp',
+    brandImage: 'static/logo.svg',
 });

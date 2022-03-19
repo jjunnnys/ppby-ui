@@ -1,11 +1,12 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { isToday, map, isCurrentDateIncluded } from '@field-share/utils';
+import { DateEventValue, isCurrentDateIncludedInList, isToday, map } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS
 import Icons from '../Icons';
-import { DatePickerProps, prefixCls } from './DatePicker';
+import { DatePickerProps, prefixCls, DateValueType } from './DatePicker';
 import NumberText from '../NumberText';
 // HOOKS
 // MODULES
@@ -18,8 +19,8 @@ import NumberText from '../NumberText';
 interface DatePickerBodyProps extends Omit<DatePickerProps, 'type' | 'value'> {
     monthList: Dayjs[][] | undefined;
     currentDate: Dayjs;
-    initStartDate: Dayjs | undefined;
-    initEndDate: Dayjs | undefined;
+    initStartDate: DateEventValue;
+    initEndDate: DateEventValue;
     setCurrentDate: React.Dispatch<React.SetStateAction<Dayjs>>;
     disabledDate: (date: Dayjs) => boolean;
     setIsVisible?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -59,6 +60,20 @@ function DatePickerBody(
         [dateType],
     );
 
+    const handleDate = useCallback(
+        (dates: DateValueType) => {
+            if (onChangeDate) return onChangeDate(dates);
+        },
+        [onChangeDate],
+    );
+
+    const handleVisible = useCallback(
+        (bool: boolean) => {
+            if (setIsVisible) return setIsVisible(bool);
+        },
+        [setIsVisible],
+    );
+
     const cellClassName = useCallback(
         (index: number, day: Dayjs) => {
             const cellCls = `${prefixCls}-cell`;
@@ -66,7 +81,7 @@ function DatePickerBody(
             const isNextDate = monthList ? index === monthList.length - 1 && day.get('date') < 10 : undefined;
             return classNames(cellCls, {
                 [`${cellCls}-not-included`]: isPrevDate || isNextDate,
-                [`${cellCls}-event`]: isCurrentDateIncluded(day, eventDate || []),
+                [`${cellCls}-event`]: isCurrentDateIncludedInList(day, eventDate || []),
             });
         },
         [eventDate, monthList],
@@ -96,16 +111,16 @@ function DatePickerBody(
                 setStartDate((prev) => {
                     if (prev?.isSame(day)) return prev;
                     setEndDate(day);
-                    onChangeDate(day);
+                    handleDate(day);
                     const timeout = setTimeout(() => {
-                        setIsVisible && setIsVisible(false);
+                        handleVisible(false);
                         clearTimeout(timeout);
                     }, 200);
                     return day;
                 });
             } else {
                 if (!!startDate && !!endDate) {
-                    onChangeDate([day, undefined]);
+                    handleDate([day, undefined]);
                     setStartDate(day);
                     setEndDate(undefined);
                     return;
@@ -117,33 +132,24 @@ function DatePickerBody(
                         const isDisabledList = map(day.diff(prevStart, 'day') + 1, (i) => prevStart.add(i, 'day'));
                         const isReset = isDisabledList.findIndex((d) => disabledDate(d)) !== -1;
                         if (isReset) {
-                            onChangeDate([day, undefined]);
+                            handleDate([day, undefined]);
                             setEndDate(undefined);
                             return day;
                         }
                         setEndDate(day);
-                        onChangeDate([prevStart, day.endOf('date')]);
+                        handleDate([prevStart, day.endOf('date')]);
                         const timeout = setTimeout(() => {
-                            setIsVisible && setIsVisible(false);
+                            handleVisible(false);
                             clearTimeout(timeout);
                         }, 200);
                         return prevStart;
                     }
-                    onChangeDate([day, undefined]);
+                    handleDate([day, undefined]);
                     return day;
                 });
             }
         },
-        [
-            currentDate,
-            isOnlyOneDateSelect,
-            setCurrentDate,
-            onChangeDate,
-            setIsVisible,
-            startDate,
-            endDate,
-            disabledDate,
-        ],
+        [currentDate, isOnlyOneDateSelect, handleDate, handleVisible, startDate, endDate, disabledDate],
     );
 
     const onClickMonth = useCallback(
@@ -152,13 +158,13 @@ function DatePickerBody(
                 setStartDate((prev) => {
                     if (prev?.isSame(day)) return prev;
                     setEndDate(day);
-                    onChangeDate(day);
-                    setIsVisible && setIsVisible(false);
+                    handleDate(day);
+                    handleVisible(false);
                     return day;
                 });
             }
         },
-        [isOnlyOneDateSelect, onChangeDate, setIsVisible],
+        [handleDate, handleVisible, isOnlyOneDateSelect],
     );
 
     const onClickArrow = useCallback(

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import colors from '@field-share/colors';
+import colors from '@field-share/styles';
 // COMPONENTS
 import Input, { HTMLInputTypeAttribute } from '../components/Input';
 import Icons from '../components/Icons';
@@ -21,7 +21,16 @@ export default {
                 category: 'Value',
             },
         },
-        icon: {
+        afterIcon: {
+            options: Object.keys(Icons.svgs).map((v) => v),
+            control: {
+                type: 'select',
+            },
+            table: {
+                category: 'Value',
+            },
+        },
+        beforeIcon: {
             options: Object.keys(Icons.svgs).map((v) => v),
             control: {
                 type: 'select',
@@ -49,10 +58,28 @@ export default {
                 category: 'Value',
             },
         },
-        iconColor: {
+        afterIconColor: {
             control: { type: 'color' },
             table: {
                 category: 'Value',
+            },
+        },
+        beforeIconColor: {
+            control: { type: 'color' },
+            table: {
+                category: 'Value',
+            },
+        },
+        onClickAfterIcon: {
+            control: { type: null },
+            table: {
+                category: 'Event',
+            },
+        },
+        onClickBeforeIcon: {
+            control: { type: null },
+            table: {
+                category: 'Event',
             },
         },
         onChange: {
@@ -81,7 +108,7 @@ const Template: ComponentStory<typeof Input> = (args) => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h5 style={{ marginBottom: 5 }}>type: {args.type}</h5>
+            <h4 style={{}}>type: {args.type}</h4>
             <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
         </div>
     );
@@ -91,7 +118,8 @@ export const Default = Template.bind({});
 Default.storyName = '기본';
 Default.args = {
     placeholder: 'placeholder',
-    iconColor: colors.grey[300],
+    afterIconColor: colors.grey[300],
+    beforeIconColor: colors.grey[300],
     type: 'text',
     loading: false,
     size: 'default',

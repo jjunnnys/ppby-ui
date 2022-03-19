@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import colors from '@field-share/colors';
+import colors from '@field-share/styles';
 // COMPONENTS
 import Icons from '../Icons';
 // STYLES

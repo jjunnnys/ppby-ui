@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import dayjs, { Dayjs } from 'dayjs';
-import { startEndDateList } from '@field-share/utils';
+import { isArray, startEndDateList } from '@field-share/utils';
 // COMPONENTS
 import DatePicker from '../components/DatePicker';
 
@@ -10,31 +10,38 @@ export default {
     component: DatePicker,
     argTypes: {
         type: {
-            control: { type: null },
+            control: false,
             table: {
                 category: 'Value',
             },
         },
         value: {
-            control: { type: null },
+            control: false,
+            table: {
+                category: 'Value',
+            },
+        },
+        inputFormat: {
             table: {
                 category: 'Value',
             },
         },
         dateType: {
-            control: { type: 'radio' },
             table: {
                 category: 'Value',
             },
         },
         isOnlyOneDateSelect: {
-            control: { type: 'boolean' },
             table: {
                 category: 'Value',
             },
         },
         isShowToday: {
-            control: { type: 'boolean' },
+            table: {
+                category: 'Value',
+            },
+        },
+        inputTypeSize: {
             table: {
                 category: 'Value',
             },
@@ -95,9 +102,9 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                 </div>
                 <DatePicker
                     dateType="day"
-                    type="fixed"
+                    type="button"
                     onChangeDate={(date) => {
-                        if (!Array.isArray(date)) {
+                        if (!isArray(date)) {
                             console.log({ date: date?.format('YYYY-MM-DD HH:mm:ss') });
                             setValue(undefined);
                             setDisabledDateValue(date?.startOf('date'));
@@ -120,7 +127,7 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                 <h4>이벤트 날짜 설정</h4>
                 <DatePicker
                     dateType="day"
-                    type="fixed"
+                    type="button"
                     onChangeDate={(dates) => {
                         if (Array.isArray(dates)) {
                             setValue(undefined);
@@ -133,10 +140,10 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                     isShowToday
                 />
             </div>
-            <div style={{ marginLeft: 20, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ margin: '0 20px', display: 'flex', flexDirection: 'column' }}>
                 <h4>결과 확인</h4>
                 <h6 style={{ marginBottom: 5, marginTop: 0 }}>
-                    {Array.isArray(value)
+                    {isArray(value)
                         ? `${value[0]?.format('YYYY-MM-DD HH:mm:ss')} ~ ${value[1]?.format('YYYY-MM-DD HH:mm:ss')}`
                         : value?.format('YYYY-MM-DD HH:mm:ss')}
                 </h6>
@@ -151,12 +158,15 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                     onChangeDate={(date) => setValue(date)}
                 />
             </div>
+            <h3 style={{ textAlign: 'right', flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                type : {args.type}
+            </h3>
         </div>
     );
 };
 
 export const Button = Template.bind({});
-Button.storyName = '버튼';
+Button.storyName = 'button';
 Button.args = {
     type: 'button',
     dateType: 'day',
@@ -164,8 +174,18 @@ Button.args = {
     isShowToday: true,
 };
 
+export const Input = Template.bind({});
+Input.storyName = 'input';
+Input.args = {
+    type: 'input',
+    dateType: 'day',
+    isOnlyOneDateSelect: true,
+    isShowToday: true,
+    inputTypeSize: 'default',
+};
+
 export const Fixed = Template.bind({});
-Fixed.storyName = '고정';
+Fixed.storyName = 'fixed';
 Fixed.args = {
     type: 'fixed',
     dateType: 'day',

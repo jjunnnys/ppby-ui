@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import colors from '@field-share/colors';
+import colors from '@field-share/styles';
 // COMPONENTS
 import NumberText from '../components/NumberText';
 import Input from '../components/Input';
@@ -11,7 +11,7 @@ export default {
     component: NumberText,
     argTypes: {
         number: {
-            control: { type: null },
+            control: false,
             table: {
                 category: 'Value',
             },
@@ -24,10 +24,15 @@ export default {
         color: {
             table: {
                 category: 'Value',
+                defaultValue: null,
             },
         },
-        isLocaelString: {
-            control: { type: 'boolean' },
+        isMountAnimate: {
+            table: {
+                category: 'Value',
+            },
+        },
+        isComma: {
             table: {
                 category: 'Value',
             },
@@ -37,7 +42,7 @@ export default {
 
 const Template: ComponentStory<typeof NumberText> = (args) => {
     // const [number, setNumber] = useState<number>(isNaN(Number(args.number)) ? 0 : Number(args.number));
-    const [number, setNumber] = useState<number>(35000);
+    const [number, setNumber] = useState<number>(3721468000);
     const onClick = (type: 'up' | 'down') => () => {
         if (type === 'up') {
             setNumber((prev) => prev + 10);
@@ -107,5 +112,6 @@ Default.storyName = '기본';
 Default.args = {
     fontSize: 16,
     color: colors.grey[700],
-    isLocaelString: true,
+    isComma: true,
+    isMountAnimate: false,
 };
