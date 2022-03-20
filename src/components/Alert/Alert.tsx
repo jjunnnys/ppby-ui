@@ -8,7 +8,7 @@ import Icons from '../Icons';
 // STYLES
 import './styles.css';
 
-type AlertProps = {
+export type AlertProps = {
     title: string;
     subTitle?: string;
     isVisible: boolean;

@@ -1,4 +1,3 @@
-import { ReactComponent as wjLogo } from './wj_logo.svg';
 import { ReactComponent as email } from './email.svg';
 import { ReactComponent as password } from './password.svg';
 import { ReactComponent as visibility } from './visibility.svg';
@@ -26,7 +25,6 @@ import { ReactComponent as faq } from './faq.svg';
 import { ReactComponent as time } from './time.svg';
 
 export {
-    wjLogo,
     email,
     password,
     visibility,

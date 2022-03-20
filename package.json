@@ -1,16 +1,21 @@
 {
     "name": "@field-share/wds",
+    "version": "0.0.2",
     "author": "Field Share",
     "license": "ISC",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Field-Share/woojooin_desgin_system.git"
+        "url": "https://github.com/Field-Share/woojooin_design_system_web.git"
     },
-    "version": "0.0.1",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
     "main": "dist/index.js",
     "module": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "private": true,
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "/dist"
+    ],
     "dependencies": {
         "@testing-library/jest-dom": "5.16.2",
         "@testing-library/react": "12.1.3",
