@@ -31,9 +31,9 @@
         "typescript": "4.5.5"
     },
     "scripts": {
-        "build": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly",
+        "build:prod": "rm -rf dist && rollup -c && tsc --emitDeclarationOnly",
         "storybook": "start-storybook -p 6006 -s public",
-        "build-storybook": "build-storybook -s public"
+        "build": "build-storybook -s public"
     },
     "browserslist": {
         "production": [
