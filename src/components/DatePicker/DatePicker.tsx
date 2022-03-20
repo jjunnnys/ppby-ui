@@ -165,7 +165,13 @@ function DatePicker({
     if (type === 'button') {
         return (
             <>
-                <Button ref={ref} className={`${prefixCls}-btn`} shape="round" onClick={onClickShowDatePicker}>
+                <Button
+                    ref={ref}
+                    className={`${prefixCls}-btn`}
+                    size="small"
+                    shape="round"
+                    onClick={onClickShowDatePicker}
+                >
                     <Icons icon="calendar" color={colors.grey[500]} />
                 </Button>
                 <PopBox

@@ -88,10 +88,10 @@ function InternalButton(
         return classNames(
             prefixCls,
             {
-                [`${prefixCls}-${sizeCls}`]: sizeCls,
-                [`${prefixCls}-${fontWeight}`]: fontWeight !== 'reagular',
-                [`${prefixCls}-${type}`]: type,
-                [`${prefixCls}-${_shape}`]: _shape !== 'default' && _shape,
+                [`${prefixCls}-${sizeCls}`]: !!sizeCls,
+                [`${prefixCls}-${fontWeight}`]: !!fontWeight && fontWeight !== 'reagular',
+                [`${prefixCls}-${type}`]: type !== 'default',
+                [`${prefixCls}-${_shape}`]: _shape !== 'default',
                 block: _block,
             },
             props.className,
