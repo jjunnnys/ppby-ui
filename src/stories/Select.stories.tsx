@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 // COMPONENTS
 import Select from '../components/Select';
@@ -18,6 +18,12 @@ export default {
             },
         },
         loading: {
+            control: { type: 'boolean' },
+            table: {
+                category: 'Value',
+            },
+        },
+        disabled: {
             control: { type: 'boolean' },
             table: {
                 category: 'Value',
@@ -74,4 +80,5 @@ Default.args = {
     size: 'default',
     options: ['기본1', '기본2', '기본3', '기본4'],
     clearOption: false,
+    disabled: false,
 };

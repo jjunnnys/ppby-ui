@@ -64,10 +64,16 @@ const CheckboxTemplate: ComponentStory<typeof Checkbox> = (args) => {
 const RadioTemplate: ComponentStory<typeof Radio> = (args) => {
     const [value, setValue] = useState<string | undefined>();
     const [disabled, setDisabled] = useState(false);
+    const [direction, setDirection] = useState<'column' | 'row'>('column');
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', columnGap: 12 }}>
+                <Switch
+                    checked={direction === 'row'}
+                    label={direction}
+                    onChange={(checked) => setDirection(checked ? 'row' : 'column')}
+                />
                 <Checkbox
                     checked={disabled}
                     onChange={(isChecked) => {
@@ -77,7 +83,7 @@ const RadioTemplate: ComponentStory<typeof Radio> = (args) => {
                 />
                 <h4 style={{}}>value: {value ? `${value}` : ''}</h4>{' '}
             </div>
-            <Radio.Group disabled={disabled} value={value} onChange={(v) => setValue(v)} direction="column">
+            <Radio.Group disabled={disabled} value={value} onChange={(v) => setValue(v)} direction={direction}>
                 <Radio value="1" label={`${args.label}1`} />
                 <Radio value="2" label={`${args.label}2`} />
                 <Radio value="3" label={`${args.label}3`} />

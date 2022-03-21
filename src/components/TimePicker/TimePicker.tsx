@@ -16,7 +16,7 @@ import './styles.css';
 type TimeType = `${number}${number}`;
 export type TimePickerValueType = `${TimeType}:${TimeType}`;
 
-type TimePickerProps = {
+export type TimePickerProps = {
     value: TimePickerValueType | undefined;
     size?: 'default' | 'large';
     hourList?: TimeType[];
@@ -34,9 +34,6 @@ const getTimeValue = (i: number, range?: number): TimeType => {
         doubleDigits = `${i * range < 10 ? `0${i * range}` : i * range}`;
     }
     return `${Number(doubleDigits[0])}${Number(doubleDigits[1])}`;
-};
-const buttonDisalbed = (bool: boolean) => (button: HTMLButtonElement) => {
-    button.disabled = bool;
 };
 
 function TimePicker({ value, size, hourList, minuteList, onChange }: TimePickerProps) {
@@ -267,7 +264,7 @@ function TimePicker({ value, size, hourList, minuteList, onChange }: TimePickerP
 
     return (
         <>
-            <Button ref={ref} className={className} shape="round" onClick={onClickTimePicker}>
+            <Button ref={ref} className={className} onClick={onClickTimePicker}>
                 <span ref={textRef} className="text" data-placeholder={!value && !hour}>
                     {hour ? `${hour}:${minute || '00'}` : value || '시간선택'}
                 </span>

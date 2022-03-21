@@ -10,17 +10,16 @@ import Icons from '../Icons';
 // STYLES
 import './styles.css';
 
-interface SelectProps extends Omit<React.InputHTMLAttributes<HTMLSelectElement>, 'size' | 'value' | 'onChange'> {
+export interface SelectProps
+    extends Omit<React.InputHTMLAttributes<HTMLSelectElement>, 'size' | 'value' | 'onChange' | 'ref'> {
     options: string[];
     loading?: boolean;
     bordered?: boolean;
-    value?: string | number;
+    value?: string;
     size?: 'default' | 'large';
     clearOption?: boolean;
     onChange?(value: string | undefined): void;
 }
-
-const CLEAR = 'clear';
 
 const prefixCls = getPrefixName('select').class;
 
@@ -33,13 +32,14 @@ function Select(
         value,
         onChange,
         clearOption = false,
+        disabled,
+        style,
         ...props
     }: SelectProps,
     ref: React.ForwardedRef<HTMLSelectElement>,
 ) {
     const containerRef = useRef<HTMLDivElement>(null);
     const selectRef = useRef<HTMLSelectElement>(null);
-    const [selectValue, setSelectValue] = useState(() => value || '');
 
     useImperativeHandle(ref, () => selectRef.current!);
 
@@ -48,16 +48,16 @@ function Select(
             classNames(prefixCls, {
                 [`${prefixCls}-${size}`]: size !== 'default',
                 [`${prefixCls}-border`]: bordered,
-                [`${prefixCls}-placeholder`]: !selectValue,
+                [`${prefixCls}-placeholder`]: !value,
+                disabled,
                 loading,
             }),
-        [bordered, loading, selectValue, size],
+        [bordered, disabled, loading, size, value],
     );
 
     const onSelect = useCallback(
         (e: React.ChangeEvent<HTMLSelectElement>) => {
-            setSelectValue(e.target.value);
-            onChange && onChange(e.target.value || undefined);
+            onChange && onChange(e.target.value || (undefined as any));
         },
         [onChange],
     );
@@ -66,13 +66,14 @@ function Select(
         <div
             ref={containerRef}
             className={className}
-            data-value={selectValue || props?.placeholder}
-            aria-label="select"
+            data-value={value || props?.placeholder}
+            aria-disabled={disabled}
+            style={style}
         >
-            <select {...props} ref={selectRef} value={value} onChange={onSelect}>
+            <select {...props} ref={selectRef} onChange={onSelect} disabled={disabled}>
                 {clearOption && <option value="">- 선택취소 -</option>}
                 {options.map((option) => (
-                    <option key={option} value={option}>
+                    <option key={option as any} value={option as any}>
                         {option}
                     </option>
                 ))}

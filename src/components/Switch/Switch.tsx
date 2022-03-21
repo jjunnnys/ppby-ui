@@ -4,7 +4,7 @@ import { getPrefixName } from '@field-share/utils';
 // STYLES
 import './styles.css';
 
-type SwitchProps = {
+export type SwitchProps = {
     checked?: boolean;
     onChange?(checked: boolean): void;
     disabled?: boolean;

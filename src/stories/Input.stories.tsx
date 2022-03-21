@@ -17,6 +17,12 @@ export default {
                 category: 'Value',
             },
         },
+        isValidate: {
+            defaultValue: false,
+            table: {
+                category: 'Value',
+            },
+        },
         placeholder: {
             table: {
                 category: 'Value',
@@ -41,6 +47,12 @@ export default {
             },
         },
         loading: {
+            control: { type: 'boolean' },
+            table: {
+                category: 'Value',
+            },
+        },
+        disabled: {
             control: { type: 'boolean' },
             table: {
                 category: 'Value',
@@ -95,21 +107,9 @@ export default {
 const Template: ComponentStory<typeof Input> = (args) => {
     const [value, setValue] = useState('');
 
-    // useEffect(() => {
-    //     let rafId = 0;
-    //     function up() {
-    //         setNumber((prev) => prev + 1);
-    //         rafId = requestAnimationFrame(up);
-    //     }
-    //     up();
-    //     if (rafId >= 10000) {
-    //         cancelAnimationFrame(rafId);
-    //     }
-    // }, []);
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{}}>type: {args.type}</h4>
+            <h4>type: {args.type}</h4>
             <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
         </div>
     );
@@ -124,4 +124,6 @@ Default.args = {
     type: 'text',
     loading: false,
     size: 'default',
+    isValidate: false,
+    disabled: false,
 };

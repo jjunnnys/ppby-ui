@@ -32,8 +32,11 @@ export default {
         shape: {
             options: ['default', 'circle', 'ellipse', 'round'],
             control: { type: 'select' },
+            description: '버튼 모양',
+            defaultValue: 'round',
             table: {
                 category: 'Value',
+                defaultValue: { summary: 'round' },
             },
         },
         fontWeight: {
@@ -135,7 +138,7 @@ Default.storyName = '기본';
 Default.args = {
     type: 'default',
     size: 'medium',
-    shape: 'default',
+    shape: 'round',
     block: false,
 };
 
@@ -144,6 +147,6 @@ Group.storyName = '그룹';
 Group.args = {
     type: 'default',
     size: 'medium',
-    shape: 'default',
+    shape: 'round',
     block: true,
 };

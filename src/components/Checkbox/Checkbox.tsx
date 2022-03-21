@@ -10,7 +10,7 @@ import classNames from 'classnames';
 // STYLES
 import './styles.css';
 
-type CheckboxProps = {
+export type CheckboxProps = {
     checked?: boolean;
     onChange?(checked: boolean): void;
     disabled?: boolean;

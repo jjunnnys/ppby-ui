@@ -12,7 +12,7 @@ import { getPrefixName, useOnClickOutside, OutsideHandler, useInsertAdjacentElem
 import './styles.css';
 import classNames from 'classnames';
 
-type PopBoxProps = {
+export type PopBoxProps = {
     children: React.ReactNode;
     openType?: 'right' | 'bottom' | 'left';
     isVisible: boolean;

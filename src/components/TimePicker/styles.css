@@ -3,6 +3,7 @@
     justify-content: flex-start;
     padding-left: 12px;
     padding-right: 46px;
+    width: fit-content;
     min-width: 100px;
     height: 32px;
 }

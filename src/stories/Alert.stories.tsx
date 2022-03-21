@@ -60,7 +60,7 @@ const Template: ComponentStory<typeof Alert> = (args) => {
     return (
         <>
             <Button onClick={() => setIsVisible(true)} shape="round">
-                <Icons icon="close" />
+                <Icons icon="close" width={24} height={24} />
             </Button>
             <Modal isVisible={isVisible} onCancel={() => setIsVisible(false)} title="제목" footer={footerModal}>
                 <p>삭제 버튼을 누르면 Alert이 뜹니다.</p>
@@ -76,6 +76,7 @@ const Template: ComponentStory<typeof Alert> = (args) => {
 };
 
 export const Default = Template.bind({});
+Default.storyName = '기본';
 Default.args = {
     title: '해당 이용권 예약을 삭제하시겠습니까?',
     subTitle: '이용권 예약을 삭제할시 취소할 수 없습니다.',

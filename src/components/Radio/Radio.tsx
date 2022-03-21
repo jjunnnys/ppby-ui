@@ -12,7 +12,7 @@ import './styles.css';
 
 type ChangeType = ((value: string | undefined) => void) | undefined;
 
-type RadioProps = {
+export type RadioProps = {
     value?: string;
     label?: string;
 };

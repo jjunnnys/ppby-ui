@@ -13,6 +13,13 @@ input::-webkit-search-results-decoration {
 input::placeholder {
     color: var(--grey300);
 }
+input:disabled {
+    cursor: not-allowed;
+}
+.wds-input > input[type='number'],
+.wds-input > input[type='tel'] {
+    letter-spacing: 0.05em;
+}
 .wds-input {
     position: relative;
     border-radius: 4px;
@@ -28,21 +35,17 @@ input::placeholder {
 .wds-input-large {
     height: 40px;
 }
-.wds-input:hover {
+.wds-input:not(.loading):not(.disabled):hover {
     box-shadow: var(--hoverBoxShadow);
 }
-.wds-input.focused {
+.wds-input.focused:not(.loading):not(.disabled) {
     box-shadow: var(--activeBoxShadow);
 }
 .wds-input.wds-input-border {
     background-color: #fff;
     border: 1px solid var(--grey300);
 }
-.wds-input.wds-input-on.focused,
-.wds-input.wds-input-on:hover {
-    box-shadow: none;
-}
-.wds-input.wds-input-on::after {
+.wds-input.loading::after {
     content: '';
     position: absolute;
     top: 0;
@@ -53,7 +56,7 @@ input::placeholder {
     z-index: 10;
     pointer-events: none;
 }
-.wds-input.wds-input-on::before {
+.wds-input.loading::before {
     content: '';
     position: absolute;
     top: 0;
@@ -64,7 +67,7 @@ input::placeholder {
     z-index: 11;
     pointer-events: none;
 }
-.wds-input > input {
+.wds-input:not(.loading) > input {
     width: 100%;
     min-width: 100px;
     height: 100%;
@@ -75,22 +78,28 @@ input::placeholder {
     font-size: 14px;
     line-height: 18px;
     color: var(--grey700);
+    animation: wds-animate-show 0.3s ease-in-out forwards;
 }
 .wds-input-large > input {
     font-size: 16px;
     line-height: 20px;
 }
-.wds-input.wds-input-on > input {
-    pointer-events: none;
+.wds-input.disabled {
+    background-color: var(--grey150);
 }
-.wds-input.wds-input-off > input {
-    animation: wds-animate-show 0.5s ease-in-out forwards;
+.wds-input.disabled > input,
+.wds-input.disabled > input::placeholder {
+    color: var(--grey200);
 }
 .wds-input.wds-input-after-icon {
     padding-right: 34px;
 }
 .wds-input.wds-input-before-icon {
     padding-left: 34px;
+}
+.wds-input.wds-input-after-icon.disabled > .after-icon,
+.wds-input.wds-input-before-icon.disabled > .before-on {
+    pointer-events: none;
 }
 .wds-input-large.wds-input-after-icon {
     padding-right: 36px;
@@ -113,8 +122,8 @@ input::placeholder {
 .wds-input > .after-icon {
     position: absolute;
     top: 0;
-    right: 10px;
     bottom: 0;
+    right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -124,11 +133,42 @@ input::placeholder {
     color: inherit;
     cursor: pointer;
 }
+.wds-input > .before-icon > svg,
+.wds-input > .after-icon > svg {
+    width: 24px;
+    height: 24px;
+}
 .wds-input > .after-icon.password {
     color: var(--grey400);
 }
-.wds-input.wds-input-border > .before-icon,
-.wds-input.wds-input-border > .after-icon {
+.wds-input > .after-icon.vaidate > svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.wds-input > .after-icon.vaidate > svg.error {
+    color: var(--error500);
+    opacity: 0;
+    animation: none;
+}
+.wds-input > .after-icon.vaidate > svg.error.show {
+    animation: wds-animate-show 0.3s forwards;
+}
+.wds-input > .after-icon.vaidate > svg.success {
+    color: var(--primary500);
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s;
+}
+.wds-input > .after-icon.vaidate > svg.success.show {
+    opacity: 1;
+    transform: scale(1.5);
+    transition: opacity 0.3s, transform 0.2s;
+}
+.wds-input.wds-input-border:not(.disabled) > .before-icon,
+.wds-input.wds-input-border:not(.disabled) > .after-icon {
     background-color: #fff;
 }
 .wds-input > .before-icon {

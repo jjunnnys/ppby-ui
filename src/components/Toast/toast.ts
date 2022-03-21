@@ -13,10 +13,17 @@ const successIcon = `
 </svg>
 `;
 
-const warningOrErrorIcon = `
+const warningIcon = `
 <svg  height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
     <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
 </svg>
+`;
+
+const errorIcon = `
+<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.00004 1.33333C4.32004 1.33333 1.33337 4.31999 1.33337 8C1.33337 11.68 4.32004 14.6667 8.00004 14.6667C11.68 14.6667 14.6667 11.68 14.6667 8C14.6667 4.31999 11.68 1.33333 8.00004 1.33333ZM8.66671 11.3333H7.33337V10H8.66671V11.3333ZM8.66671 8.66666H7.33337V4.66666H8.66671V8.66666Z" fill="currentColor"/>
+</svg>
+
 `;
 
 /**
@@ -75,8 +82,11 @@ class Toast {
         if (type === 'success') {
             icon.innerHTML = successIcon;
         }
-        if (type === 'warn' || type === 'error') {
-            icon.innerHTML = warningOrErrorIcon;
+        if (type === 'warn') {
+            icon.innerHTML = warningIcon;
+        }
+        if (type === 'error') {
+            icon.innerHTML = errorIcon;
         }
         contentDom.classList.add(this._text);
         contentDom.innerText = content;

@@ -1,3 +1,8 @@
+import './styles/_reset.css';
+import './styles/_varialbe.css';
+import './styles/_keyframes.css';
+import './components/Toast/styles.css';
+
 export { default as Alert } from './components/Alert';
 export * from './components/Alert';
 export { default as Button } from './components/Button';

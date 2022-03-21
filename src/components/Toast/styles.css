@@ -37,6 +37,12 @@
 }
 .wds-toast-icon {
     display: inline-block;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0, 0.23, 1, 0.71);
+    animation-name: wds-animate-shake;
+    transform-origin: center bottom;
+}
+.wds-toast-icon > svg {
     width: 24px;
     height: 24px;
 }

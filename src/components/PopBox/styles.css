@@ -24,11 +24,11 @@
     transform: scale(1);
 }
 .wds-pop-box.bottom {
-    clip-path: inset(0% 0% 100% 0%);
+    clip-path: inset(0 0 100% 0);
     transform: translateY(-12px);
 }
 .wds-pop-box.bottom[data-open='true'] {
-    clip-path: inset(0% 0% 0% 0%);
+    clip-path: inset(-2% -2% -2% -2%);
     transform: translateY(0px);
 }
 .wds-pop-box[data-open='true'] {

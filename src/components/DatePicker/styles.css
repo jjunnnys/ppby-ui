@@ -78,7 +78,7 @@
     flex-direction: column;
     align-items: center;
     opacity: 0;
-    animation: wds-animate-show 0.5s ease-in-out forwards;
+    animation: wds-animate-show 0.3s ease-in-out forwards;
 }
 .wds-picker-body tbody > tr {
     display: flex;

@@ -55,6 +55,7 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 };
 
 export const Default = Template.bind({});
+Default.storyName = '기본';
 Default.args = {
     title: '제목',
 };

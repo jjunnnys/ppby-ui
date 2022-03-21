@@ -1,8 +1,6 @@
-/* eslint-disable react/button-has-type */
 import React, {
     forwardRef,
     useState,
-    useEffect,
     useCallback,
     useImperativeHandle,
     useMemo,
@@ -20,18 +18,17 @@ const buttonHTMLTypes = tuple('submit', 'button', 'reset');
 const buttonSize = tuple('small', 'medium', 'large');
 const buttonShape = tuple('default', 'circle', 'round', 'ellipse');
 
-interface ButtonProps
+export interface ButtonProps
     extends Omit<
         React.ButtonHTMLAttributes<HTMLButtonElement>,
-        'type' | 'style' | 'onMouseDown' | 'onMouseUp' | 'onMouseLeave'
+        'ref' | 'type' | 'onMouseDown' | 'onMouseUp' | 'onMouseLeave'
     > {
     type?: typeof buttonTypes[number];
     /** @default button */
     htmlType?: typeof buttonHTMLTypes[number];
-    width?: string | number;
     /** @default medium */
     size?: typeof buttonSize[number];
-    /** @default default */
+    /** @default round */
     shape?: typeof buttonShape[number];
     /** @default reagular - Ragular */
     fontWeight?: 'reagular' | 'bold';
@@ -56,8 +53,7 @@ function InternalButton(
         type = 'default',
         htmlType = 'button',
         size = 'medium',
-        // width,
-        shape = 'default',
+        shape = 'round',
         fontWeight,
         block = false,
         ...props
@@ -72,6 +68,7 @@ function InternalButton(
     const upTimeout = useRef<NodeJS.Timeout | null>(null);
     const downTimeout = useRef<NodeJS.Timeout | null>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
+
     useImperativeHandle(ref, () => buttonRef.current!);
 
     const className = useMemo(() => {
@@ -171,7 +168,7 @@ function InternalButton(
         <button
             {...props}
             ref={buttonRef}
-            type={htmlType as any}
+            type={htmlType}
             className={className}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
@@ -182,7 +179,7 @@ function InternalButton(
     );
 }
 
-function Group({ children, block = false, size = 'medium', shape = 'default' }: ButtonGroupProps) {
+function Group({ children, block = false, size = 'medium', shape = 'round' }: ButtonGroupProps) {
     const groupPrefixCls = useMemo(
         () =>
             classNames(`${prefixCls}-group`, {
@@ -193,7 +190,7 @@ function Group({ children, block = false, size = 'medium', shape = 'default' }: 
 
     return (
         <SizeContext.Provider value={size}>
-            <ShapeContext.Provider value={shape === 'circle' ? 'default' : shape}>
+            <ShapeContext.Provider value={shape === 'circle' ? 'round' : shape}>
                 <BlockContext.Provider value={block}>
                     <div className={groupPrefixCls}>{children}</div>
                 </BlockContext.Provider>
