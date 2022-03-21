@@ -1,6 +1,6 @@
 {
     "name": "@field-share/wds",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "author": "Field Share",
     "license": "ISC",
     "repository": {
@@ -90,6 +90,8 @@
     "peerDependencies": {
         "dayjs": "*",
         "react": "*",
-        "react-dom": "*"
+        "react-dom": "*",
+        "@field-share/styles": "*",
+        "@field-share/utils": "*"
     }
 }
