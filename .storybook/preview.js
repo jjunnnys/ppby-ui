@@ -1,5 +1,6 @@
 import React from 'react';
 import '@field-share/styles/dist/css/main.css';
+import '../src/components/Toast/styles.css';
 
 export const decorators = [
     (Story) => (

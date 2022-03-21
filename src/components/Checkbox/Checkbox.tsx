@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { getPrefixName } from '@field-share/utils';
+import { getPrefixName, simpleUniqueId } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS
@@ -21,6 +21,7 @@ const prefixCls = getPrefixName('checkbox').class;
 
 function Checkbox({ checked, disabled = false, onChange, label }: CheckboxProps) {
     const className = useMemo(() => classNames(prefixCls, {}), []);
+    const id = useMemo(() => (label ? simpleUniqueId(label) : undefined), [label]);
     const onChecked = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const isChecked = e.target.checked;
@@ -31,14 +32,8 @@ function Checkbox({ checked, disabled = false, onChange, label }: CheckboxProps)
 
     return (
         <div className={className}>
-            <input
-                id={label ? `${prefixCls}-${label}` : undefined}
-                type="checkbox"
-                checked={checked}
-                onChange={onChecked}
-                disabled={disabled}
-            />
-            {label && <label htmlFor={`${prefixCls}-${label}`}>{label}</label>}
+            <input id={id} type="checkbox" checked={checked} onChange={onChecked} disabled={disabled} />
+            {label && <label htmlFor={id}>{label}</label>}
         </div>
     );
 }

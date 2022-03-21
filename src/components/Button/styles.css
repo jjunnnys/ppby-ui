@@ -29,7 +29,7 @@
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
-.wds-btn + .wds-btn {
+.wds-btn-group .wds-btn + .wds-btn {
     border-left-width: 0px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;

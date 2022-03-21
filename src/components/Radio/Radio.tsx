@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useMemo, createContext, useContext, useEffect } from 'react';
-import { getPrefixName } from '@field-share/utils';
+import { getPrefixName, simpleUniqueId } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS
@@ -23,14 +23,6 @@ type GroupProps = {
     value?: string;
     onChange?(value: string | undefined): void;
 };
-
-function gen4() {
-    return Math.random().toString(16).slice(-4);
-}
-
-function simpleUniqueId(prefix?: string) {
-    return (prefix ? `${prefix}-` : '').concat([gen4(), gen4(), gen4(), gen4()].join(''));
-}
 
 const prefixCls = getPrefixName('radio').class;
 const ValueContext = createContext<string | undefined>(undefined);

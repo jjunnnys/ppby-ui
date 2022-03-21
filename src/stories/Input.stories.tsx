@@ -12,6 +12,7 @@ export default {
         type: {
             options: ['email', 'number', 'password', 'search', 'tel', 'text', 'url'] as HTMLInputTypeAttribute[],
             control: { type: 'select' },
+            description: 'input type',
             table: {
                 category: 'Value',
             },

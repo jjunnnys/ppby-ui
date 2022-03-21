@@ -8,10 +8,11 @@
     border-radius: 4px;
     border: 1px solid transparent;
     overflow: hidden;
-    background-color: var(--grey200);
+    background-color: var(--grey150);
     transition: box-shadow 0.3s;
 }
 .wds-select.wds-select-large {
+    min-width: 120px;
     height: 40px;
 }
 .wds-select:hover {
@@ -20,16 +21,12 @@
 .wds-select::after {
     content: attr(data-value);
     position: absolute;
-    left: 8px;
-    right: 30px;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    width: calc(100% - 38px);
+    left: 16px;
+    width: calc(100% - 42px);
     color: var(--grey700);
-    font-size: 15px;
-    line-height: 19px;
+
+    font-size: 14px;
+    line-height: 18px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -37,12 +34,16 @@
     opacity: 0;
     animation: wds-animate-show 0.5s ease-in-out forwards;
 }
+.wds-select.wds-select-large::after {
+    font-size: 16px;
+    line-height: 20px;
+}
 .wds-select.wds-select-placeholder::after {
     color: var(--grey400);
 }
 .wds-select.wds-select-border {
     background-color: #fff;
-    border: 1px solid var(--grey200);
+    border: 1px solid var(--grey300);
 }
 .wds-select.loading::after {
     content: none;

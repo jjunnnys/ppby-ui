@@ -23,6 +23,8 @@ import { ReactComponent as money } from './money.svg';
 import { ReactComponent as setting } from './setting.svg';
 import { ReactComponent as faq } from './faq.svg';
 import { ReactComponent as time } from './time.svg';
+import { ReactComponent as search } from './search.svg';
+import { ReactComponent as error } from './error.svg';
 
 export {
     email,
@@ -50,4 +52,6 @@ export {
     setting,
     faq,
     time,
+    search,
+    error,
 };

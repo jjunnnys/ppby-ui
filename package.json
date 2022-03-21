@@ -50,8 +50,8 @@
     "packageManager": "yarn@3.2.0",
     "devDependencies": {
         "@babel/core": "^7.17.8",
-        "@field-share/styles": "^0.0.8",
-        "@field-share/utils": "^0.3.9",
+        "@field-share/styles": "^0.1.0",
+        "@field-share/utils": "^0.4.1",
         "@mdx-js/react": "^1.6.22",
         "@rollup/plugin-commonjs": "^21.0.2",
         "@rollup/plugin-node-resolve": "^13.1.3",

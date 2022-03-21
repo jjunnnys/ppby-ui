@@ -39,6 +39,7 @@ interface InputProps
 
 const prefixCls = getPrefixName('input').class;
 
+// TODO: validation
 function Input(
     {
         type = 'text',
@@ -47,8 +48,8 @@ function Input(
         loading = false,
         afterIcon,
         beforeIcon,
-        afterIconColor,
-        beforeIconColor,
+        afterIconColor = colors.grey[300],
+        beforeIconColor = colors.grey[300],
         onClickBeforeIcon,
         onClickAfterIcon,
         min,
@@ -56,7 +57,7 @@ function Input(
         value,
         onChange,
         ...props
-    }: InputProps,
+    }: Omit<InputProps, 'style'>,
     ref: React.ForwardedRef<HTMLInputElement>,
 ) {
     const [passwordType, setPasswordType] = useState<'password' | 'text'>('password');
@@ -137,45 +138,45 @@ function Input(
             onBlur={onBlur}
         >
             {beforeIcon && (
-                <span className="before-icon">
-                    <Icons
-                        icon={beforeIcon}
-                        fill={beforeIconColor}
-                        color={beforeIconColor}
-                        onClick={onClickBeforeIcon}
-                    />
-                </span>
+                <button
+                    type="button"
+                    className="before-icon"
+                    onClick={() => {
+                        inputRef.current?.focus();
+                        onClickBeforeIcon && onClickBeforeIcon();
+                    }}
+                >
+                    <Icons icon={beforeIcon} fill={beforeIconColor} color={beforeIconColor} />
+                </button>
             )}
             <input
                 {...props}
                 ref={inputRef}
-                type={inputType === 'password' ? passwordType : inputType}
+                type={inputType === 'password' ? inputType : type}
                 maxLength={type === 'tel' ? 13 : props.maxLength}
                 value={inputValue}
                 onChange={onChangeValue}
             />
             {type === 'password' ? (
-                <span className="after-icon">
+                <button type="button" className="after-icon password">
                     <Icons
                         icon={passwordType === 'password' ? 'visibility' : 'visibilityOff'}
-                        fill={colors.grey[200]}
-                        color={colors.grey[200]}
                         onClick={() => {
                             setPasswordType((prev) => (prev === 'password' ? 'text' : 'password'));
                             onClickBeforeIcon && onClickBeforeIcon();
                         }}
                     />
-                </span>
+                </button>
             ) : (
                 afterIcon && (
-                    <span className="after-icon">
+                    <button type="button" className="after-icon">
                         <Icons
                             icon={afterIcon}
                             fill={afterIconColor}
                             color={afterIconColor}
                             onClick={onClickAfterIcon}
                         />
-                    </span>
+                    </button>
                 )
             )}
         </div>

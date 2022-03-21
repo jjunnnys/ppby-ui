@@ -1998,20 +1998,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@field-share/styles@npm:^0.0.8":
-  version: 0.0.8
-  resolution: "@field-share/styles@npm:0.0.8::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Fstyles%2F0.0.8%2F041036cfd263c9de21a9f5018c779065118bf020a52c429294065ebbff4337aa"
-  checksum: c9273049294bbf203dad8d910e7bbd4ecfdb54fb034afda27b30c0be568c045918af3a51430df90940cc2f6ae164de8c9cb0a64b8c35546625d96d0f4e5010af
+"@field-share/styles@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@field-share/styles@npm:0.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Fstyles%2F0.1.0%2F1c21717ab1736839e547e4a61ed436aef96b9772bcdc7a3b3f6c387d503b8f7c"
+  checksum: e0972d4280881cef0625f6efe8788e0e3fddc200f59261f11c81382cfe8a7d667d033d3035429e510adb703f5f279a296ad3cc72527c2815c0c35693033db997
   languageName: node
   linkType: hard
 
-"@field-share/utils@npm:^0.3.9":
-  version: 0.3.9
-  resolution: "@field-share/utils@npm:0.3.9::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.3.9%2F6799c7f2a0051f8ab471908b221f501f0a259603176ee08f20387e160eed8caf"
+"@field-share/utils@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@field-share/utils@npm:0.4.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.4.1%2F3ef3b914fbf83a5f778a27f9d19cce9718ac05895c480be0a610e77c7a38f704"
   peerDependencies:
     dayjs: "*"
     react: ">=16.8"
-  checksum: d7d699d1105d04cab25a2fd6fea05c5190e2fb92e06167461fdb88792f25b39117f4c42e82cc73421cb037127869592d7d5552334c8013580a32b410c4ab48f3
+  checksum: b905ce397a83bfe34517b96dc625754b109439bbc16cadd2878cc6970bfd85d46c2931ede02f6905f7771264d075ca69c9fdec76be9c9cc76d0417c0cd88b10a
   languageName: node
   linkType: hard
 
@@ -2020,8 +2020,8 @@ __metadata:
   resolution: "@field-share/wds@workspace:."
   dependencies:
     "@babel/core": ^7.17.8
-    "@field-share/styles": ^0.0.8
-    "@field-share/utils": ^0.3.9
+    "@field-share/styles": ^0.1.0
+    "@field-share/utils": ^0.4.1
     "@mdx-js/react": ^1.6.22
     "@rollup/plugin-commonjs": ^21.0.2
     "@rollup/plugin-node-resolve": ^13.1.3
