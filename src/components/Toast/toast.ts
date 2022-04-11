@@ -1,10 +1,28 @@
 import { getPrefixName } from '@field-share/utils';
 
-/* eslint-disable no-param-reassign */
-type ShowMethodType = 'success' | 'error' | 'warn' | 'info';
+type ShowMethodType = 'success' | 'error' | 'warn' | 'info' | 'loading';
+
+const loadingIcon = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="32px" width="32px" viewBox="0 0 32 32">
+<path
+    opacity="0.2"
+    d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
+/>
+<path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z">
+    <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 16 16"
+        to="360 16 16"
+        dur="0.4s"
+        repeatCount="indefinite"
+    />
+</path>
+</svg>
+`;
 
 const infoIcon = `
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 0 24 24"  fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
 `;
 
 const successIcon = `
@@ -48,6 +66,8 @@ class Toast {
 
     private _spacing = 50;
 
+    private timeoutList: NodeJS.Timeout[] = [];
+
     constructor() {
         if (typeof window === 'undefined') throw new Error('브라우저 환경에서 사용 가능합니다.');
         const toastEl = document.querySelector<HTMLDivElement>(`#${this.prefixCls}`);
@@ -60,22 +80,27 @@ class Toast {
     }
 
     private removeBoxTimeoutFunction(contentBox: HTMLDivElement, closeCallback?: () => void) {
-        if (contentBox) this.dom.removeChild(contentBox);
+        contentBox.remove();
         const boxs = Array.from(document.querySelectorAll<HTMLDivElement>(`.${this._container}`));
         boxs.forEach((box) => {
             box.style.top = `${parseInt(box.style.top, 10) - this._spacing}px`;
         });
-        this.count -= 1;
+        if (this.count !== 1) {
+            this.count -= 1;
+        }
 
         if (typeof closeCallback === 'function') closeCallback();
     }
 
     private show(content: string, duration = 3000, type: ShowMethodType = 'info', closeCallback = () => {}): void {
-        const contentBox = document.createElement('div');
+        const box = document.createElement('div');
         const contentDom = document.createElement('span');
         const icon = document.createElement('i');
         icon.classList.add(`${this.prefixCls}-icon`);
         icon.classList.add(type);
+        if (type === 'loading') {
+            icon.innerHTML = loadingIcon;
+        }
         if (type === 'info') {
             icon.innerHTML = infoIcon;
         }
@@ -90,19 +115,21 @@ class Toast {
         }
         contentDom.classList.add(this._text);
         contentDom.innerText = content;
-        contentBox.classList.add(this._container);
-        contentBox.classList.add(this._toastIn);
-        contentBox.appendChild(icon);
-        contentBox.appendChild(contentDom);
-        contentBox.style.top = `${this.count * this._spacing - 14}px`;
-        this.dom.appendChild(contentBox);
+        box.classList.add(this._container);
+        box.classList.add(this._toastIn);
+        box.appendChild(icon);
+        box.appendChild(contentDom);
+        box.style.top = `${this.count * this._spacing - 14}px`;
+        this.dom.appendChild(box);
 
         this.count += 1;
 
-        setTimeout(() => {
-            contentBox.classList.add(this._toastOut);
-            setTimeout(() => this.removeBoxTimeoutFunction(contentBox, closeCallback), 300);
+        const tiemout = setTimeout(() => {
+            box.classList.add(this._toastOut);
+            setTimeout(() => this.removeBoxTimeoutFunction(box, closeCallback), 300);
         }, duration);
+
+        this.timeoutList = [...this.timeoutList, tiemout];
     }
 
     mount() {
@@ -110,9 +137,21 @@ class Toast {
     }
 
     clean() {
-        if (this.dom.parentNode) {
-            document.body.removeChild(this.dom);
+        const containers = Array.from(document.querySelectorAll<HTMLDivElement>(`.${this._container}`));
+        if (containers) {
+            containers.forEach((el, i) => {
+                clearTimeout(this.timeoutList[i]);
+                el.classList.add(this._toastOut);
+                setTimeout(() => this.removeBoxTimeoutFunction(el, () => {}), 300);
+            });
+            this.timeoutList = [];
+            this.count = 1;
         }
+    }
+
+    loading(content: string, duration?: number, closeCallback?: () => {}) {
+        const _duration = duration ? (duration > 30000 ? duration : 30000) : 30000;
+        return this.show(content, _duration, 'loading', closeCallback);
     }
 
     success(content: string, duration?: number, closeCallback?: () => {}) {

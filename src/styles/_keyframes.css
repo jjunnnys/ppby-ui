@@ -39,9 +39,15 @@
 }
 @keyframes wds-animate-scale-up {
     0% {
+        opacity: 1;
         transform: scale(0);
     }
+    60% {
+        opacity: 1;
+        transform: scale(2);
+    }
     100% {
+        opacity: 0;
         transform: scale(2);
     }
 }

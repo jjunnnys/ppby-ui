@@ -13,10 +13,7 @@ export interface InputProps
     extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'ref' | 'size' | 'min' | 'max' | 'onChange' | 'type'> {
     loading?: boolean;
     bordered?: boolean;
-    /**
-     * input type에 따른 검사를 할 것인지에 대한 옵션 (`email` | `url` type만 가능)
-     */
-    isValidate?: boolean;
+    validate?: (value: string) => boolean;
     size?: 'default' | 'large';
     afterIcon?: IconsType;
     beforeIcon?: IconsType;
@@ -36,8 +33,6 @@ export interface InputProps
     type?: HTMLInputTypeAttribute;
 }
 type AfterIconProps = {
-    isValidate: boolean;
-    isError: boolean;
     type: HTMLInputTypeAttribute;
     passwordType: 'password' | 'text';
     afterIcon?: IconsType;
@@ -47,41 +42,31 @@ type AfterIconProps = {
 
 const prefixCls = getPrefixName('input').class;
 
-const urlRegex = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
-const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
-const validateUrl = urlRegex.test.bind(urlRegex);
-const validateEmail = emailRegex.test.bind(emailRegex);
+// const urlRegex = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
+// const emailRegex =
+//     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
+// const validateUrl = urlRegex.test.bind(urlRegex);
+// const validateEmail = emailRegex.test.bind(emailRegex);
 
-function AfterIcon({
-    isValidate,
-    isError,
-    type,
-    afterIcon,
-    afterIconColor,
-    passwordType,
-    onClickAfterIcon,
-}: AfterIconProps) {
-    if (isValidate) {
-        return (
-            <button type="button" className="after-icon vaidate" onClick={onClickAfterIcon}>
-                <Icons className={['error', isError ? 'show' : ''].join(' ')} icon="error" />
-                <Icons className={['success', isError ? '' : 'show'].join(' ')} icon="check" />
-            </button>
-        );
-    }
+function AfterIcon({ type, afterIcon, afterIconColor, passwordType, onClickAfterIcon }: AfterIconProps) {
     if (type === 'password') {
         return (
-            <button type="button" className="after-icon password" onClick={onClickAfterIcon}>
-                <Icons icon={passwordType === 'password' ? 'visibility' : 'visibilityOff'} />
-            </button>
+            <Icons
+                className="after-icon password"
+                icon={passwordType === 'password' ? 'visibility' : 'visibilityOff'}
+                onClick={onClickAfterIcon}
+            />
         );
     }
     if (afterIcon) {
         return (
-            <button type="button" className="after-icon" onClick={onClickAfterIcon}>
-                <Icons icon={afterIcon} fill={afterIconColor} color={afterIconColor} />
-            </button>
+            <Icons
+                className="after-icon"
+                icon={afterIcon}
+                fill={afterIconColor}
+                color={afterIconColor}
+                onClick={onClickAfterIcon}
+            />
         );
     }
     return null;
@@ -103,7 +88,7 @@ function Input(
         max,
         value,
         onChange,
-        isValidate,
+        validate,
         style,
         disabled,
         ...props
@@ -111,28 +96,9 @@ function Input(
     ref: React.ForwardedRef<HTMLInputElement>,
 ) {
     const [passwordType, setPasswordType] = useState<'password' | 'text'>('password');
-    const [isError, setIsError] = useState(false);
 
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle(ref, () => inputRef.current!);
-
-    const className = useMemo(
-        () =>
-            classNames(prefixCls, {
-                [`${prefixCls}-${size}`]: size !== 'default',
-                [`${prefixCls}-border`]: bordered,
-                [`${prefixCls}-after-icon`]: type === 'password' || !!afterIcon,
-                [`${prefixCls}-before-icon`]: !!beforeIcon,
-                loading,
-                disabled,
-            }),
-        [size, bordered, type, afterIcon, beforeIcon, loading, disabled],
-    );
-
-    const validateType = useMemo(() => {
-        if (type === 'email' || type === 'url') return value ? Boolean(isValidate) : false;
-        return false;
-    }, [isValidate, type, value]);
 
     const inputType = useMemo(() => (type === 'number' ? 'text' : type), [type]);
 
@@ -148,36 +114,38 @@ function Input(
         return inputTypeValue || '';
     }, [type, value]);
 
+    const className = useMemo(
+        () =>
+            classNames(prefixCls, {
+                [`${prefixCls}-${size}`]: size !== 'default',
+                [`${prefixCls}-border`]: bordered,
+                [`${prefixCls}-after-icon`]: type === 'password' || !!afterIcon,
+                [`${prefixCls}-before-icon`]: !!beforeIcon,
+                [`${prefixCls}-error`]: validate ? validate(inputValue) : false,
+                loading,
+                disabled,
+            }),
+        [size, bordered, type, afterIcon, beforeIcon, validate, inputValue, loading, disabled],
+    );
+
     const onChangeValue = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             if (!onChange) return;
             const { value: v } = e.target;
-            if (type === 'number') {
-                if (min && min > bindingNumberOrComma(v).toNumber) {
-                    return onChange(min);
-                }
-                if (max && max < bindingNumberOrComma(v).toNumber) {
-                    return onChange(max);
-                }
-                return onChange(bindingNumberOrComma(v).toNumber);
+            switch (type) {
+                case 'number':
+                    if (min && min > bindingNumberOrComma(v).toNumber) {
+                        return onChange(min);
+                    }
+                    if (max && max < bindingNumberOrComma(v).toNumber) {
+                        return onChange(max);
+                    }
+                    return onChange(bindingNumberOrComma(v).toNumber);
+                case 'tel':
+                    return onChange(applyHyphen(v).remove);
+                default:
+                    return onChange(v);
             }
-            if (type === 'tel') {
-                return onChange(applyHyphen(v).remove);
-            }
-            if (type === 'url') {
-                if (v) {
-                    setIsError(!validateUrl(v));
-                }
-                return onChange(v);
-            }
-            if (type === 'email') {
-                if (v) {
-                    setIsError(!validateEmail(v));
-                }
-                return onChange(v);
-            }
-
-            return onChange(v);
         },
         [max, min, onChange, type],
     );
@@ -199,16 +167,16 @@ function Input(
     return (
         <div className={className} onFocus={onFocus} onBlur={onBlur} style={style} aria-disabled={disabled}>
             {beforeIcon && (
-                <button
-                    type="button"
+                <Icons
                     className="before-icon"
                     onClick={() => {
                         inputRef.current?.focus();
                         onClickBeforeIcon && onClickBeforeIcon();
                     }}
-                >
-                    <Icons icon={beforeIcon} fill={beforeIconColor} color={beforeIconColor} />
-                </button>
+                    icon={beforeIcon}
+                    fill={beforeIconColor}
+                    color={beforeIconColor}
+                />
             )}
             <input
                 {...props}
@@ -218,11 +186,8 @@ function Input(
                 value={inputValue}
                 onChange={onChangeValue}
                 disabled={disabled}
-                required={validateType || props.required}
             />
             <AfterIcon
-                isValidate={validateType}
-                isError={isError}
                 passwordType={passwordType}
                 type={type}
                 afterIcon={afterIcon}

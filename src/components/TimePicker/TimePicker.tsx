@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { getPrefixName, OutsideHandler, map } from '@field-share/utils';
+import { getPrefixName, OutsideHandler, range } from '@field-share/utils';
 import colors from '@field-share/styles';
 // COMPONENTS
 import Button from '../Button';
@@ -28,10 +28,10 @@ const prefixCls = getPrefixName('time-picker').class;
 const hourBtnCls = '.hour-btn';
 const minuteBtnCls = '.minute-btn';
 
-const getTimeValue = (i: number, range?: number): TimeType => {
+const getTimeValue = (i: number, rangeNumber?: number): TimeType => {
     let doubleDigits = `${i < 10 ? `0${i}` : i}`;
-    if (range) {
-        doubleDigits = `${i * range < 10 ? `0${i * range}` : i * range}`;
+    if (rangeNumber) {
+        doubleDigits = `${i * rangeNumber < 10 ? `0${i * rangeNumber}` : i * rangeNumber}`;
     }
     return `${Number(doubleDigits[0])}${Number(doubleDigits[1])}`;
 };
@@ -284,7 +284,7 @@ function TimePicker({ value, size, hourList, minuteList, onChange }: TimePickerP
                                       {v}
                                   </button>
                               ))
-                            : map(24, (i) => (
+                            : range(24, (i) => (
                                   <button
                                       key={i.toString()}
                                       type="button"
@@ -307,7 +307,7 @@ function TimePicker({ value, size, hourList, minuteList, onChange }: TimePickerP
                                       {v}
                                   </button>
                               ))
-                            : map(6, (i) => (
+                            : range(6, (i) => (
                                   <button
                                       key={i.toString()}
                                       type="button"

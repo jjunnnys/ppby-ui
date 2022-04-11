@@ -21,6 +21,8 @@
     box-sizing: border-box;
     transform: translateX(-50%);
     transition: all 0.3s;
+    z-index: 9999;
+    pointer-events: none;
 }
 .wds-toast-container > .toast-text {
     font-size: 16px;
@@ -46,16 +48,25 @@
     width: 24px;
     height: 24px;
 }
+.wds-toast-icon.loading > svg {
+    width: 20px;
+    height: 20px;
+}
+.wds-toast-icon.loading {
+    margin-right: 7px;
+    color: #fff;
+    animation: none;
+}
 .wds-toast-icon.info {
     margin-right: 3px;
-    color: var(--primary200);
+    color: var(--blueDynamic100);
 }
 .wds-toast-icon.success {
     color: #ffffff;
 }
 .wds-toast-icon.error {
     margin-right: 5px;
-    color: var(--error600);
+    color: var(--redDynamic500);
 }
 .wds-toast-icon.warn {
     margin-right: 5px;

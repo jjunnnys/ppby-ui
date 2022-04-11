@@ -23,6 +23,7 @@ export interface SelectProps
 
 const prefixCls = getPrefixName('select').class;
 
+// TODO focus 추가
 function Select(
     {
         options,
@@ -39,7 +40,7 @@ function Select(
     ref: React.ForwardedRef<HTMLSelectElement>,
 ) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const selectRef = useRef<HTMLSelectElement>(null);
+    const selectRef = useRef<HTMLSelectElement | null>(null);
 
     useImperativeHandle(ref, () => selectRef.current!);
 
@@ -58,9 +59,27 @@ function Select(
     const onSelect = useCallback(
         (e: React.ChangeEvent<HTMLSelectElement>) => {
             onChange && onChange(e.target.value || (undefined as any));
+            containerRef.current?.classList.remove('focus');
         },
         [onChange],
     );
+
+    useEffect(() => {
+        if (!selectRef.current) return;
+        const onFocus = () => {
+            containerRef.current?.classList.add('focus');
+        };
+        const onBlur = () => {
+            containerRef.current?.classList.remove('focus');
+        };
+        selectRef.current.addEventListener('focus', onFocus, true);
+        selectRef.current.addEventListener('blur', onBlur, true);
+
+        return () => {
+            selectRef.current?.removeEventListener('focus', onFocus, true);
+            selectRef.current?.removeEventListener('blur', onBlur, true);
+        };
+    }, []);
 
     return (
         <div

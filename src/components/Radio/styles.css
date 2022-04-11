@@ -62,8 +62,8 @@
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        background: var(--active-inner);
-        transform: scale(var(--s, 0.7));
+        background-color: var(--active-inner);
+        transform: scale(var(--s, 0.6));
         opacity: var(--o, 0);
     }
     .wds-radio > input + label {

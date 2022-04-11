@@ -32,7 +32,7 @@ const Template: ComponentStory<typeof Modal> = (args) => {
     const onCancel = () => setIsVisible(false);
 
     const footer = (
-        <Button.Group size="large" block>
+        <Button.Group size="large" block shape="default">
             <Button type="cancel" fontWeight="bold" onClick={onCancel}>
                 취소하기
             </Button>

@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import ko from 'dayjs/locale/ko';
 import localeData from 'dayjs/plugin/localeData';
 import isBetween from 'dayjs/plugin/isBetween';
-import { getPrefixName, isArray, map, DateEventValue, OutsideHandler } from '@field-share/utils';
+import { getPrefixName, isArray, range, DateEventValue, OutsideHandler } from '@field-share/utils';
 import colors from '@field-share/styles';
 // COMPONENTS
 import Icons from '../Icons';
@@ -137,28 +137,23 @@ function DatePicker({
         const prevMonth = currentDate.startOf('month').subtract(1, 'month');
         const nextMonth = currentDate.startOf('month').add(1, 'month');
 
-        const prevMonthList = map(prevMonth.daysInMonth(), (i) =>
+        const prevMonthList = range(prevMonth.daysInMonth(), (i) =>
             prevMonth.add(prevMonth.daysInMonth() - (i + 1), 'days'),
         );
-        const nextMonthList = map(nextMonth.daysInMonth(), (i) => nextMonth.add(i, 'days'));
+        const nextMonthList = range(nextMonth.daysInMonth(), (i) => nextMonth.add(i, 'days'));
 
         const daysInMonthList = [
             // 이전 달
-            ...map(startWeekIndex, (i) => prevMonthList[i]).reverse(),
+            ...range(startWeekIndex, (i) => prevMonthList[i]).reverse(),
             // 이번 달
-            ...map(currentDate.daysInMonth(), (i) => dayjs(dateFormattingToString(currentDate, i))),
+            ...range(currentDate.daysInMonth(), (i) => dayjs(dateFormattingToString(currentDate, i))),
             // 다음 달
-            ...map(endWeekIndex, (i) => nextMonthList[i]),
+            ...range(endWeekIndex, (i) => nextMonthList[i]),
         ];
 
-        // console.log({
-        //     a: map(startWeekIndex, (i) => prevMonthList[i]).reverse(),
-        //     b: map(currentDate.daysInMonth(), (i) => dayjs(dateFormattingToString(currentDate, i))),
-        //     c: map(endWeekIndex, (i) => nextMonthList[i]),
-        // });
         const weeksLength = Math.floor(daysInMonthList.length / 7);
-        const weeksMapping = (i: number) => map(7, (j) => daysInMonthList[i * 7 + j]);
-        setMonthList(map(weeksLength, weeksMapping));
+        const weeksMapping = (i: number) => range(7, (j) => daysInMonthList[i * 7 + j]);
+        setMonthList(range(weeksLength, weeksMapping));
         console.timeEnd('달 계산');
     }, [currentDate]);
 

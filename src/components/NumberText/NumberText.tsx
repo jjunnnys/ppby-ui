@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import colors from '@field-share/styles';
-import { map, tuple, getPrefixName, isArray } from '@field-share/utils';
+import { range, tuple, getPrefixName, isArray } from '@field-share/utils';
 import classNames from 'classnames';
 // STYLES
 import './styles.css';
@@ -29,8 +29,8 @@ const prefixCls = getPrefixName('nt').class;
 
 const splitToString = (value: string | number) =>
     typeof value === 'number'
-        ? map(value.toString().length, (i) => value.toString()[i])
-        : map(value.length, (i) => value[i]);
+        ? range(value.toString().length, (i) => value.toString()[i])
+        : range(value.length, (i) => value[i]);
 
 function NumberText({
     number,
@@ -81,7 +81,7 @@ function NumberText({
     return (
         <strong aria-label={`${number}`} className={className}>
             {isArray(numberToString)
-                ? map(numberToString.length, (i) =>
+                ? range(numberToString.length, (i) =>
                       numberToString[i] === ',' ? (
                           <span key={i.toString()} className="comma">
                               ,

@@ -148,16 +148,18 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                             : value?.format('YYYY-MM-DD HH:mm:ss')}
                     </h6>
                 </div>
-                <DatePicker
-                    {...args}
-                    eventDate={eventDate}
-                    disabledDate={(date) => {
-                        if (date.isSame(disabledDate)) return true;
-                        return hasPrevDateDisabled ? date.isBefore(dayjs()) : false;
-                    }}
-                    value={value}
-                    onChangeDate={(date) => setValue(date)}
-                />
+                <div>
+                    <DatePicker
+                        {...args}
+                        eventDate={eventDate}
+                        disabledDate={(date) => {
+                            if (date.isSame(disabledDate)) return true;
+                            return hasPrevDateDisabled ? date.isBefore(dayjs()) : false;
+                        }}
+                        value={value}
+                        onChangeDate={(date) => setValue(date)}
+                    />
+                </div>
             </div>
         </div>
     );

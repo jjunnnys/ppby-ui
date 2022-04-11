@@ -36,7 +36,7 @@ const Template: ComponentStory<typeof Alert> = (args) => {
     const [isVisibleAlert, setIsVisibleAlert] = useState(false);
 
     const footerModal = (
-        <Button.Group size="large" block>
+        <Button.Group size="large" block shape="default">
             <Button type="cancel" fontWeight="bold" onClick={() => setIsVisible(false)}>
                 취소하기
             </Button>
@@ -47,7 +47,7 @@ const Template: ComponentStory<typeof Alert> = (args) => {
     );
 
     const footerAlert = (
-        <Button.Group size="large" block>
+        <Button.Group size="large" block shape="default">
             <Button type="cancel" fontWeight="bold" onClick={() => setIsVisibleAlert(false)}>
                 취소하기
             </Button>

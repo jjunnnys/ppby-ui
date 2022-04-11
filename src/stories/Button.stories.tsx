@@ -10,7 +10,7 @@ export default {
     component: Button,
     argTypes: {
         type: {
-            options: ['default', 'primary', 'secondary', 'cancel', 'goast'],
+            options: ['default', 'primary', 'secondary', 'cancel', 'goast', 'danger'],
             control: { type: 'select' },
             description: '버튼 타입',
             defaultValue: 'default',
@@ -49,6 +49,14 @@ export default {
             },
         },
         block: {
+            control: {
+                type: 'boolean',
+            },
+            table: {
+                category: 'Value',
+            },
+        },
+        enalbledShadow: {
             control: {
                 type: 'boolean',
             },
@@ -124,9 +132,6 @@ const GroupTemplate: ComponentStory<typeof Button> = (args) => {
                     {map(number, (i) => (
                         <Button key={i.toString()} {...args}>{`${i + 1}-${value}`}</Button>
                     ))}
-                    {/* <Button {...args}>{value}</Button>
-                    <Button {...args}>{value}</Button>
-                    <Button {...args}>{value}</Button> */}
                 </Button.Group>
             </div>
         </div>

@@ -25,6 +25,7 @@ import { ReactComponent as faq } from './faq.svg';
 import { ReactComponent as time } from './time.svg';
 import { ReactComponent as search } from './search.svg';
 import { ReactComponent as error } from './error.svg';
+import { ReactComponent as multiplication } from './multiplication.svg';
 
 export {
     email,
@@ -54,4 +55,5 @@ export {
     time,
     search,
     error,
+    multiplication,
 };

@@ -31,3 +31,5 @@ export { default as TimePicker } from './components/TimePicker';
 export * from './components/TimePicker';
 export { default as toast } from './components/Toast';
 export * from './components/Toast';
+export { default as Tooltip } from './components/Tooltip';
+export * from './components/Tooltip';

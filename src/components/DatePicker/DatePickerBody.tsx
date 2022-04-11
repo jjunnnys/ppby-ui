@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { DateEventValue, isCurrentDateIncludedInList, isToday, map } from '@field-share/utils';
+import { DateEventValue, isCurrentDateIncludedInList, isToday, range } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS
@@ -56,6 +56,7 @@ function DatePickerBody(
         () =>
             classNames(prefixCls, {
                 [`${prefixCls}-${dateType}`]: dateType || 'day',
+                mobile: false,
             }),
         [dateType],
     );
@@ -129,7 +130,7 @@ function DatePickerBody(
                 setStartDate((prevStart) => {
                     if (prevStart) {
                         if (day.isBefore(prevStart)) return day;
-                        const isDisabledList = map(day.diff(prevStart, 'day') + 1, (i) => prevStart.add(i, 'day'));
+                        const isDisabledList = range(day.diff(prevStart, 'day') + 1, (i) => prevStart.add(i, 'day'));
                         const isReset = isDisabledList.findIndex((d) => disabledDate(d)) !== -1;
                         if (isReset) {
                             handleDate([day, undefined]);
@@ -149,7 +150,7 @@ function DatePickerBody(
                 });
             }
         },
-        [currentDate, isOnlyOneDateSelect, handleDate, handleVisible, startDate, endDate, disabledDate],
+        [currentDate, isOnlyOneDateSelect, setCurrentDate, handleDate, handleVisible, startDate, endDate, disabledDate],
     );
 
     const onClickMonth = useCallback(

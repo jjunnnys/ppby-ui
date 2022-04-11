@@ -25,6 +25,9 @@
     transition: background 0.3s, border-color 0.3s, box-shadow 0.5s;
     overflow: hidden;
 }
+.wds-btn.shadow:focus {
+    box-shadow: var(--hoverBoxShadow);
+}
 .wds-btn-group > .wds-btn:nth-of-type(1n):not(:last-of-type) {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -40,12 +43,12 @@
 .wds-btn-bold {
     font-weight: 700;
 }
-.wds-btn:not(:disabled):hover {
+.wds-btn.shadow:not(:disabled):hover {
     transition: box-shadow 0.3s;
     box-shadow: var(--hoverBoxShadow);
     z-index: 1;
 }
-.wds-btn:not(:disabled):active {
+.wds-btn.shadow:not(:disabled):active {
     transition: box-shadow 0.3s;
     box-shadow: var(--activeBoxShadow);
     z-index: 1;
@@ -55,15 +58,23 @@
     background-color: var(--grey150);
     color: var(--grey200);
 }
-.wds-btn > .on {
+.wds-btn > .wds-btn-press-shadow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+.wds-btn > .wds-btn-press-shadow > div {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.05);
     border-radius: 50%;
     transform: scale(0);
-    animation: wds-animate-scale-up 0.5s ease forwards;
     pointer-events: none;
+    animation: wds-animate-scale-up 0.5s ease-in forwards;
 }
 .wds-btn-sm {
     padding: 0 8px;
@@ -87,17 +98,21 @@
     background-color: var(--grey700);
     color: #fff;
 }
-.wds-btn-primary > .on,
-.wds-btn-secondary > .on {
-    background-color: rgba(255, 255, 255, 0.2);
+.wds-btn-primary > .wds-btn-press-shadow > div,
+.wds-btn-secondary > .wds-btn-press-shadow > div {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 .wds-btn-cancel {
     border: none;
     background-color: var(--grey200);
     color: var(--grey700);
 }
-.wds-btn-cancel > .on {
+.wds-btn-cancel > .wds-btn-press-shadow > div {
     background-color: rgba(0, 0, 0, 0.1);
+}
+.wds-btn-danger {
+    border-color: var(--redDynamic400);
+    color: var(--redDynamic400);
 }
 .wds-btn-goast {
     border: none;

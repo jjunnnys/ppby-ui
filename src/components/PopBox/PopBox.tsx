@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getPrefixName, useOnClickOutside, OutsideHandler, useInsertAdjacentElement } from '@field-share/utils';
 // PAGES
@@ -14,22 +14,43 @@ import classNames from 'classnames';
 
 export type PopBoxProps = {
     children: React.ReactNode;
-    openType?: 'right' | 'bottom' | 'left';
+    openType?: 'top' | 'right' | 'bottom' | 'left';
     isVisible: boolean;
     width?: number;
     height?: number;
     top?: number;
     left?: number;
+    disabledShadow?: boolean;
     onCancel: OutsideHandler;
 };
 
 const prefixCls = getPrefixName('pop-box').class;
 
-function PopBox({ children, openType = 'right', isVisible, width, height, left = 0, top = 0, onCancel }: PopBoxProps) {
+function PopBox({
+    children,
+    openType = 'right',
+    disabledShadow = false,
+    isVisible,
+    width,
+    height,
+    left = 0,
+    top = 0,
+    onCancel,
+}: PopBoxProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
     const { isMounted, portalRef } = useInsertAdjacentElement();
 
-    const className = useMemo(() => classNames(prefixCls, openType), [openType]);
+    const className = useMemo(
+        () =>
+            classNames(
+                prefixCls,
+                {
+                    'not-shadow': disabledShadow,
+                },
+                openType,
+            ),
+        [openType, disabledShadow],
+    );
 
     useOnClickOutside(menuRef, onCancel);
 

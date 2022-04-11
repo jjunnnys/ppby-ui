@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import colors from '@field-share/styles';
 // COMPONENTS
 import Input, { HTMLInputTypeAttribute } from '../components/Input';
 import Icons from '../components/Icons';
@@ -13,12 +12,6 @@ export default {
             options: ['email', 'number', 'password', 'search', 'tel', 'text', 'url'] as HTMLInputTypeAttribute[],
             control: { type: 'select' },
             description: 'input type',
-            table: {
-                category: 'Value',
-            },
-        },
-        isValidate: {
-            defaultValue: false,
             table: {
                 category: 'Value',
             },
@@ -95,6 +88,12 @@ export default {
                 category: 'Event',
             },
         },
+        validate: {
+            control: { type: null },
+            table: {
+                category: 'Event',
+            },
+        },
         onChange: {
             control: { type: null },
             table: {
@@ -108,8 +107,12 @@ const Template: ComponentStory<typeof Input> = (args) => {
     const [value, setValue] = useState('');
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', rowGap: 8 }}>
             <h4>type: {args.type}</h4>
+            <Input {...args} value={value} onChange={(v: string) => setValue(v)} validate={(v) => !!v} />
+            <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
+            <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
+            <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
             <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
         </div>
     );
@@ -119,11 +122,8 @@ export const Default = Template.bind({});
 Default.storyName = '기본';
 Default.args = {
     placeholder: 'placeholder',
-    afterIconColor: colors.grey[300],
-    beforeIconColor: colors.grey[300],
     type: 'text',
     loading: false,
     size: 'default',
-    isValidate: false,
     disabled: false,
 };

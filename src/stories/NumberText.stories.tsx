@@ -41,7 +41,6 @@ export default {
 } as ComponentMeta<typeof NumberText>;
 
 const Template: ComponentStory<typeof NumberText> = (args) => {
-    // const [number, setNumber] = useState<number>(isNaN(Number(args.number)) ? 0 : Number(args.number));
     const [number, setNumber] = useState<number>(3721468000);
     const onClick = (type: 'up' | 'down') => () => {
         if (type === 'up') {
@@ -50,18 +49,6 @@ const Template: ComponentStory<typeof NumberText> = (args) => {
         }
         setNumber((prev) => prev - 10);
     };
-
-    // useEffect(() => {
-    //     let rafId = 0;
-    //     function up() {
-    //         setNumber((prev) => prev + 1);
-    //         rafId = requestAnimationFrame(up);
-    //     }
-    //     up();
-    //     if (rafId >= 10000) {
-    //         cancelAnimationFrame(rafId);
-    //     }
-    // }, []);
 
     return (
         <div

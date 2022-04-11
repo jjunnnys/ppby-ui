@@ -60,12 +60,11 @@ export default {
 const Template: ComponentStory<typeof Select> = (args) => {
     const [value, setValue] = useState<string | undefined>('');
 
-    useEffect(() => {
-        console.log({ value });
-    }, [value]);
-
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', rowGap: 8 }}>
+            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
+            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
+            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
             <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
         </div>
     );

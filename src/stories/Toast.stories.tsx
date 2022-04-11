@@ -19,7 +19,7 @@ export default {
             table: { category: 'Value' },
         },
         type: {
-            options: ['info', 'success', 'error', 'warn'],
+            options: ['info', 'success', 'error', 'warn', 'loading'],
             control: { type: 'select' },
             table: { category: 'Value' },
         },
@@ -27,9 +27,17 @@ export default {
 } as ComponentMeta<any>;
 
 const Template: ComponentStory<any> = (args) => (
-    <div style={{ marginRight: 'auto' }}>
-        <Button shape="round" onClick={() => (toast as any)[args.type || 'info'](args.text, args.duration)}>
+    <div style={{ display: 'flex', flexDirection: 'column', rowGap: 8, alignItems: 'flex-start', marginRight: 'auto' }}>
+        <Button
+            shape="round"
+            onClick={() => {
+                (toast as any)[args.type || 'info'](args.text, args.duration);
+            }}
+        >
             open
+        </Button>
+        <Button size="small" onClick={() => toast.clean()}>
+            remove
         </Button>
     </div>
 );
