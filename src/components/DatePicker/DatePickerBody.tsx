@@ -26,6 +26,10 @@ interface DatePickerBodyProps extends Omit<DatePickerProps, 'type' | 'value'> {
     setIsVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const mobileRexg =
+    /iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i;
+const isMobile = mobileRexg.test.bind(mobileRexg);
+
 function DatePickerBody(
     {
         dateType,
@@ -56,7 +60,7 @@ function DatePickerBody(
         () =>
             classNames(prefixCls, {
                 [`${prefixCls}-${dateType}`]: dateType || 'day',
-                mobile: false,
+                mobile: isMobile(navigator.userAgent),
             }),
         [dateType],
     );

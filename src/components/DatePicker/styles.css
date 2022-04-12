@@ -66,6 +66,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.wds-picker.mobile .wds-picker-body thead > tr {
     border-bottom: 1px solid var(--grey200);
 }
 .wds-picker-body th {
