@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { map } from '@field-share/utils';
+import { range } from '@field-share/utils';
 // COMPONENTS
 import Button from '../components/Button';
 import Input from '../components/Input';
@@ -129,7 +129,7 @@ const GroupTemplate: ComponentStory<typeof Button> = (args) => {
             </div>
             <div>
                 <Button.Group {...args}>
-                    {map(number, (i) => (
+                    {range(number, (i) => (
                         <Button key={i.toString()} {...args}>{`${i + 1}-${value}`}</Button>
                     ))}
                 </Button.Group>
