@@ -76,7 +76,7 @@
     pointer-events: none;
     animation: wds-animate-scale-up 0.5s ease-in forwards;
 }
-.wds-btn-sm {
+.wds-btn-sm:not(.wds-picker-btn) {
     padding: 0 8px;
     min-width: 30px;
     height: 30px;
@@ -111,8 +111,8 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 .wds-btn-danger {
-    border-color: var(--redDynamic400);
-    color: var(--redDynamic400);
+    border-color: var(--error500);
+    color: var(--error500);
 }
 .wds-btn-goast {
     border: none;

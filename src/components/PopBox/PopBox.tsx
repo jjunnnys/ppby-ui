@@ -57,10 +57,12 @@ function PopBox({
     // 최초 캐싱
     useEffect(() => {
         if (!menuRef.current) return;
+        const totalTop = window.scrollY + top;
+        const totalLeft = window.scrollX + left;
         menuRef.current.style.width = `${width}px`;
         menuRef.current.style.height = `${height}px`;
-        menuRef.current.style.top = `${top}px`;
-        menuRef.current.style.left = `${left}px`;
+        menuRef.current.style.top = `${totalTop}px`;
+        menuRef.current.style.left = `${totalLeft}px`;
     }, [height, left, top, width]);
 
     if (!portalRef.current || !isMounted) return null;

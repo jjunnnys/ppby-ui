@@ -121,6 +121,23 @@ import toast from '../components/Toast';
         </ol>
     </div>
     <div class="row">
+        <h1 class="title">Error</h1>
+        <ol>
+            {Object.entries(colors.error).map(([key, value]) => (
+                <li
+                    key={key}
+                    onClick={() => {
+                        copyToClipboard(value);
+                        toast.success(`${value} 복사 되었습니다.`);
+                    }}
+                >
+                    <div style={{ backgroundColor: value }}></div>
+                    <span>{key}</span>
+                </li>
+            ))}
+        </ol>
+    </div>
+    <div class="row">
         <h1 class="title">Red : Dynamic</h1>
         <ol>
             {Object.entries(colors.redDynamic).map(([key, value]) => (

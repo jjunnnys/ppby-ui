@@ -26,6 +26,7 @@ import { ReactComponent as time } from './time.svg';
 import { ReactComponent as search } from './search.svg';
 import { ReactComponent as error } from './error.svg';
 import { ReactComponent as multiplication } from './multiplication.svg';
+import { ReactComponent as trash } from './trash.svg';
 
 export {
     email,
@@ -56,4 +57,5 @@ export {
     search,
     error,
     multiplication,
+    trash,
 };

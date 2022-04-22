@@ -1,5 +1,5 @@
 .wds-pop-box {
-    position: fixed;
+    position: absolute;
     z-index: 900;
     opacity: 0;
     pointer-events: none;

@@ -83,10 +83,10 @@ const RadioTemplate: ComponentStory<typeof Radio> = (args) => {
                 />
                 <h4 style={{}}>value: {value ? `${value}` : ''}</h4>{' '}
             </div>
-            <Radio.Group disabled={disabled} value={value} onChange={(v) => setValue(v)} direction={direction}>
-                <Radio value="1" label={`${args.label}1`} />
-                <Radio value="2" label={`${args.label}2`} />
-                <Radio value="3" label={`${args.label}3`} />
+            <Radio.Group value={value} onChange={(v) => setValue(v)} direction={direction}>
+                <Radio value="1" disabled={disabled} label={`${args.label}1`} />
+                <Radio value="2" disabled={disabled} label={`${args.label}2`} />
+                <Radio value="3" disabled={disabled} label={`${args.label}3`} />
             </Radio.Group>
         </div>
     );

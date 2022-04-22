@@ -36,7 +36,7 @@ const getTimeValue = (i: number, rangeNumber?: number): TimeType => {
     return `${Number(doubleDigits[0])}${Number(doubleDigits[1])}`;
 };
 
-function TimePicker({ value, size, hourList, minuteList, onChange }: TimePickerProps) {
+function TimePicker({ value, size = 'default', hourList, minuteList, onChange }: TimePickerProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLSpanElement>(null);

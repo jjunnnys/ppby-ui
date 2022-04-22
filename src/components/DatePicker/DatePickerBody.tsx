@@ -239,7 +239,7 @@ function DatePickerBody(
                                         className={cellClassName(i, day)}
                                         role="button"
                                         onKeyPress={() => {}}
-                                        tabIndex={0}
+                                        // tabIndex={-1}
                                         onClick={disabledDate(day) ? undefined : onClickDate(day)}
                                     >
                                         <span>{day.get('date')}</span>

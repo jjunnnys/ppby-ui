@@ -15,11 +15,11 @@ type ChangeType = ((value: string | undefined) => void) | undefined;
 export type RadioProps = {
     value?: string;
     label?: string;
+    disabled?: boolean;
 };
 type GroupProps = {
     children: React.ReactNode;
     direction?: 'column' | 'row';
-    disabled?: boolean;
     value?: string;
     onChange?(value: string | undefined): void;
 };
@@ -27,13 +27,11 @@ type GroupProps = {
 const prefixCls = getPrefixName('radio').class;
 const ValueContext = createContext<string | undefined>(undefined);
 const NameContext = createContext<string | undefined>(undefined);
-const DisabledContext = createContext<boolean>(false);
 const ChangeContext = createContext<ChangeType>(undefined);
 
-function Radio({ label, value }: RadioProps) {
+function Radio({ label, value, disabled }: RadioProps) {
     const groupValue = useContext(ValueContext);
     const groupName = useContext(NameContext);
-    const disabled = useContext(DisabledContext);
     const onChangeValue = useContext(ChangeContext);
     const className = useMemo(() => classNames(prefixCls, {}), []);
 
@@ -65,7 +63,7 @@ function Radio({ label, value }: RadioProps) {
     );
 }
 
-function Group({ children, direction = 'row', onChange, value, disabled = false }: GroupProps) {
+function Group({ children, direction = 'row', onChange, value }: GroupProps) {
     const groupPrefixCls = useMemo(
         () =>
             classNames(`${prefixCls}-group`, {
@@ -78,9 +76,7 @@ function Group({ children, direction = 'row', onChange, value, disabled = false 
         <ChangeContext.Provider value={onChange}>
             <ValueContext.Provider value={value}>
                 <NameContext.Provider value={simpleUniqueId(prefixCls)}>
-                    <DisabledContext.Provider value={disabled}>
                         <div className={groupPrefixCls}>{children}</div>
-                    </DisabledContext.Provider>
                 </NameContext.Provider>
             </ValueContext.Provider>
         </ChangeContext.Provider>
