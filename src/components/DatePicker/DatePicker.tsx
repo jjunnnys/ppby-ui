@@ -44,7 +44,7 @@ const validateFormDate = (value: DateValueType, index?: 0 | 1) => {
         if (isArray(value)) return value[index || 0] || dayjs().startOf('date');
         return value;
     }
-    return dayjs().startOf('date');
+    return undefined;
 };
 
 const dateFormattingToString = (date: Dayjs, index: number) =>
@@ -66,14 +66,13 @@ function DatePicker({
 }: DatePickerProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
-    const [currentDate, setCurrentDate] = useState(() => validateFormDate(value));
+    const [currentDate, setCurrentDate] = useState(() => validateFormDate(value) || dayjs());
     const [monthList, setMonthList] = useState<Dayjs[][] | undefined>();
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [openType, setOpenType] = useState<'right' | 'left'>('right');
-
-    const initStartDate = useMemo(() => validateFormDate(value, 0), [value]);
-    const initEndDate = useMemo(() => validateFormDate(value, 1), [value]);
+    const [startDate, setStartDate] = useState<Dayjs | undefined>(() => validateFormDate(value, 0));
+    const [endDate, setEndDate] = useState<Dayjs | undefined>(() => validateFormDate(value, 1));
 
     const onClickShowDatePicker = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -111,6 +110,98 @@ function DatePicker({
             }
         },
         [inputTypeSize, type, value],
+    );
+
+    const handleNextOrPrevDate = useCallback(
+        (day: Dayjs) => {
+            // prev
+            if (currentDate.startOf('month').isAfter(day.startOf('month'))) {
+                setCurrentDate((prev) => {
+                    const prevMonth = prev.startOf('month').subtract(1, 'month');
+                    return prevMonth;
+                });
+                return;
+            }
+            // next
+            if (currentDate.startOf('month').isBefore(day.startOf('month'))) {
+                setCurrentDate((prev) => {
+                    const nextMonth = prev.startOf('month').add(1, 'month');
+                    return nextMonth;
+                });
+            }
+        },
+        [currentDate],
+    );
+
+    const onClickDay = useCallback(
+        (day: Dayjs) => () => {
+            handleNextOrPrevDate(day);
+
+            if (isOnlyOneDateSelect) {
+                onChangeDate && onChangeDate(day);
+                setStartDate((prev) => {
+                    if (prev?.isSame(day)) return prev;
+                    setEndDate(day);
+                    const timeout = setTimeout(() => {
+                        setIsVisible(false);
+                        clearTimeout(timeout);
+                    }, 200);
+                    return day;
+                });
+            } else {
+                if (!!startDate && !!endDate) {
+                    onChangeDate && onChangeDate([day, undefined]);
+                    setStartDate(day);
+                    setEndDate(undefined);
+                    return;
+                }
+
+                let isReset = false;
+                setStartDate((prevStart) => {
+                    if (prevStart) {
+                        if (day.isBefore(prevStart)) return day;
+                        const isDisabledList = range(day.diff(prevStart, 'day') + 1, (i) => prevStart.add(i, 'day'));
+                        isReset = isDisabledList.findIndex((d) => disabledDate(d)) !== -1;
+                        if (isReset) {
+                            setEndDate(undefined);
+                            return day;
+                        }
+                        setEndDate(day);
+                        const timeout = setTimeout(() => {
+                            setIsVisible(false);
+                            clearTimeout(timeout);
+                        }, 200);
+                        return prevStart;
+                    }
+                    return day;
+                });
+
+                if (isReset) {
+                    onChangeDate && onChangeDate([day, undefined]);
+                } else {
+                    onChangeDate && onChangeDate([startDate, day.endOf('date')]);
+                }
+            }
+        },
+        [handleNextOrPrevDate, isOnlyOneDateSelect, onChangeDate, startDate, endDate, disabledDate],
+    );
+
+    const onClickMonth = useCallback(
+        (day: Dayjs) => () => {
+            if (isOnlyOneDateSelect) {
+                setStartDate((prev) => {
+                    if (prev?.isSame(day)) return prev;
+                    setEndDate(day);
+                    onChangeDate && onChangeDate(day);
+                    const timeout = setTimeout(() => {
+                        setIsVisible(false);
+                        clearTimeout(timeout);
+                    }, 200);
+                    return day;
+                });
+            }
+        },
+        [isOnlyOneDateSelect, onChangeDate],
     );
 
     const onCancel = useCallback<OutsideHandler>((e) => {
@@ -157,6 +248,40 @@ function DatePicker({
         console.timeEnd('달 계산');
     }, [currentDate]);
 
+    if (type === 'input' && !isOnlyOneDateSelect) return null;
+    if (type === 'input') {
+        return (
+            <>
+                <Button
+                    ref={ref}
+                    className={[`${prefixCls}-input`, inputTypeSize === 'default' ? '' : inputTypeSize].join(' ')}
+                    shape="round"
+                    onClick={onClickShowDatePicker}
+                >
+                    <span className="text" data-placeholder={!(value && !isArray(value))}>
+                        {value && !isArray(value) ? value?.format(inputFormat) : '날짜선택'}
+                    </span>
+                    <Icons icon="calendar" color={colors.grey[300]} />
+                </Button>
+                <PopBox isVisible={isVisible} onCancel={onCancel} top={position.y} left={position.x} openType="bottom">
+                    <DatePickerBody
+                        ref={pickerRef}
+                        dateType={dateType}
+                        monthList={monthList}
+                        currentDate={currentDate}
+                        setCurrentDate={setCurrentDate}
+                        disabledDate={disabledDate}
+                        eventDate={eventDate}
+                        isShowToday={isShowToday}
+                        startDate={startDate}
+                        endDate={endDate}
+                        onClickDate={dateType === 'day' ? onClickDay : onClickMonth}
+                    />
+                </PopBox>
+            </>
+        );
+    }
+
     if (type === 'button') {
         return (
             <>
@@ -182,50 +307,12 @@ function DatePicker({
                         monthList={monthList}
                         currentDate={currentDate}
                         setCurrentDate={setCurrentDate}
-                        onChangeDate={onChangeDate}
-                        initStartDate={initStartDate}
-                        initEndDate={initEndDate}
                         disabledDate={disabledDate}
                         eventDate={eventDate}
-                        isOnlyOneDateSelect={isOnlyOneDateSelect}
                         isShowToday={isShowToday}
-                        setIsVisible={setIsVisible}
-                    />
-                </PopBox>
-            </>
-        );
-    }
-
-    if (type === 'input' && !isOnlyOneDateSelect) return null;
-    if (type === 'input') {
-        return (
-            <>
-                <Button
-                    ref={ref}
-                    className={[`${prefixCls}-input`, inputTypeSize === 'default' ? '' : inputTypeSize].join(' ')}
-                    shape="round"
-                    onClick={onClickShowDatePicker}
-                >
-                    <span className="text" data-placeholder={!(value && !isArray(value))}>
-                        {value && !isArray(value) ? value?.format(inputFormat) : '날짜선택'}
-                    </span>
-                    <Icons icon="calendar" color={colors.grey[300]} />
-                </Button>
-                <PopBox isVisible={isVisible} onCancel={onCancel} top={position.y} left={position.x} openType="bottom">
-                    <DatePickerBody
-                        ref={pickerRef}
-                        dateType={dateType}
-                        monthList={monthList}
-                        currentDate={currentDate}
-                        setCurrentDate={setCurrentDate}
-                        onChangeDate={onChangeDate}
-                        initStartDate={initStartDate}
-                        initEndDate={initEndDate}
-                        disabledDate={disabledDate}
-                        eventDate={eventDate}
-                        isOnlyOneDateSelect
-                        isShowToday={isShowToday}
-                        setIsVisible={setIsVisible}
+                        startDate={startDate}
+                        endDate={endDate}
+                        onClickDate={dateType === 'day' ? onClickDay : onClickMonth}
                     />
                 </PopBox>
             </>
@@ -238,13 +325,12 @@ function DatePicker({
             monthList={monthList}
             currentDate={currentDate}
             setCurrentDate={setCurrentDate}
-            onChangeDate={onChangeDate}
-            initStartDate={initStartDate}
-            initEndDate={initEndDate}
             disabledDate={disabledDate}
             eventDate={eventDate}
-            isOnlyOneDateSelect={isOnlyOneDateSelect}
             isShowToday={isShowToday}
+            startDate={startDate}
+            endDate={endDate}
+            onClickDate={dateType === 'day' ? onClickDay : onClickMonth}
         />
     );
 }

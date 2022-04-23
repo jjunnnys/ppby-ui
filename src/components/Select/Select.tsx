@@ -97,7 +97,18 @@ function Select(
                     </option>
                 ))}
             </select>
-            <Icons className="icon" icon="downArrow" />
+            <svg
+                className="icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M4 8.39999L5.3 7L12 14.206L18.7 7L20 8.39999L12 17L4 8.39999Z" fill="#7B7B7B" />
+            </svg>
+
+            {/* <Icons className="icon" icon="downArrow" /> */}
         </div>
     );
 }

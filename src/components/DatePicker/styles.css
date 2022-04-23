@@ -9,10 +9,9 @@
     border-radius: 4px;
 }
 .wds-picker.mobile {
-    /* width: 100%; */
-    padding: 0;
-    width: 366px;
+    width: 100%;
     max-width: 366px;
+    padding: 0;
     border: none;
     border-radius: none;
 }

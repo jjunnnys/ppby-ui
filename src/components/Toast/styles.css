@@ -39,10 +39,6 @@
 }
 .wds-toast-icon {
     display: inline-block;
-    animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0, 0.23, 1, 0.71);
-    animation-name: wds-animate-shake;
-    transform-origin: center bottom;
 }
 .wds-toast-icon > svg {
     width: 24px;
@@ -70,5 +66,5 @@
 }
 .wds-toast-icon.warn {
     margin-right: 5px;
-    color: #ff9900;
+    color: var(--orangeDynamic500);
 }

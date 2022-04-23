@@ -16,6 +16,9 @@ input::placeholder {
 input:disabled {
     cursor: not-allowed;
 }
+input[type='text' i] {
+    padding: 0;
+}
 .wds-input > input[type='number'],
 .wds-input > input[type='tel'] {
     letter-spacing: 0.05em;
@@ -114,7 +117,7 @@ input:disabled {
     padding-left: 36px;
 }
 .wds-input:not(.wds-input-before-icon):not(.wds-input-after-icon) > input {
-    padding: 4px 16px;
+    padding: 4px 8px;
 }
 .wds-input:not(.wds-input-before-icon) > input {
     padding-left: 16px;

@@ -22,8 +22,8 @@
 .wds-select:not(.loading)::after {
     content: attr(data-value);
     position: absolute;
-    left: 16px;
-    width: calc(100% - 42px);
+    left: 8px;
+    width: calc(100% - 40px);
     color: var(--grey700);
 
     font-size: 14px;

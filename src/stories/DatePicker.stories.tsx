@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import dayjs, { Dayjs } from 'dayjs';
 import { isArray, startEndDateList } from '@field-share/utils';
@@ -102,7 +102,6 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                         type="button"
                         onChangeDate={(date) => {
                             if (!isArray(date)) {
-                                console.log({ date: date?.format('YYYY-MM-DD HH:mm:ss') });
                                 setValue(undefined);
                                 setDisabledDateValue(date?.startOf('date'));
                                 setDisabledDate(date?.startOf('date'));

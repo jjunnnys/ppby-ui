@@ -1,12 +1,11 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { DateEventValue, isCurrentDateIncludedInList, isToday, range } from '@field-share/utils';
+import { isCurrentDateIncludedInList, isToday } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS
 import Icons from '../Icons';
-import { DatePickerProps, prefixCls, DateValueType } from './DatePicker';
+import { DatePickerProps, prefixCls } from './DatePicker';
 import NumberText from '../NumberText';
 // HOOKS
 // MODULES
@@ -16,45 +15,41 @@ import NumberText from '../NumberText';
 
 // TODO contextAPI 고려
 
-interface DatePickerBodyProps extends Omit<DatePickerProps, 'type' | 'value'> {
+interface DatePickerBodyProps
+    extends Omit<
+        DatePickerProps,
+        'type' | 'value' | 'onChangeDate' | 'isOnlyOneDateSelect' | 'inputFormat' | 'inputTypeSize'
+    > {
     monthList: Dayjs[][] | undefined;
     currentDate: Dayjs;
-    initStartDate: DateEventValue;
-    initEndDate: DateEventValue;
     setCurrentDate: React.Dispatch<React.SetStateAction<Dayjs>>;
     disabledDate: (date: Dayjs) => boolean;
-    setIsVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+    startDate: Dayjs | undefined;
+    endDate: Dayjs | undefined;
+    onClickDate: (date: Dayjs) => () => void;
 }
 
 const mobileRexg =
     /iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i;
 const isMobile = mobileRexg.test.bind(mobileRexg);
 
-function DatePickerBody(
-    {
+function DatePickerBody(props: DatePickerBodyProps, ref: React.ForwardedRef<HTMLDivElement>) {
+    const {
         dateType,
         monthList,
         currentDate,
         setCurrentDate,
-        isOnlyOneDateSelect,
         eventDate,
-        onChangeDate,
         isShowToday,
         disabledDate,
-        initStartDate,
-        initEndDate,
-        setIsVisible,
-    }: DatePickerBodyProps,
-    ref: React.ForwardedRef<HTMLDivElement>,
-) {
+        startDate,
+        endDate,
+        onClickDate,
+    } = props;
     const _ref = useRef<HTMLDivElement>(null);
     const monthsShort = useRef(dayjs.monthsShort()).current;
-    const [startDate, setStartDate] = useState<Dayjs | undefined>(initStartDate);
-    const [endDate, setEndDate] = useState<Dayjs | undefined>(initEndDate);
     const yearNumber = useMemo(() => currentDate.format('YYYY년 MM월').split(' ')[0].split('년')[0], [currentDate]);
     const monthNumber = useMemo(() => currentDate.format('YYYY년 MM월').split(' ')[1].split('월')[0], [currentDate]);
-
-    useImperativeHandle(ref, () => _ref.current!);
 
     const className = useMemo(
         () =>
@@ -63,20 +58,6 @@ function DatePickerBody(
                 mobile: isMobile(navigator.userAgent),
             }),
         [dateType],
-    );
-
-    const handleDate = useCallback(
-        (dates: DateValueType) => {
-            if (onChangeDate) return onChangeDate(dates);
-        },
-        [onChangeDate],
-    );
-
-    const handleVisible = useCallback(
-        (bool: boolean) => {
-            if (setIsVisible) return setIsVisible(bool);
-        },
-        [setIsVisible],
     );
 
     const cellClassName = useCallback(
@@ -90,86 +71,6 @@ function DatePickerBody(
             });
         },
         [eventDate, monthList],
-    );
-
-    const onClickDate = useCallback(
-        (day: Dayjs) => () => {
-            if (dayjs(currentDate.startOf('month')).isAfter(day.startOf('month'))) {
-                /**
-                 * 이전
-                 */
-                setCurrentDate((prev) => {
-                    const prevMonth = prev.startOf('month').subtract(1, 'month');
-                    return prevMonth;
-                });
-            } else if (dayjs(currentDate.startOf('month')).isBefore(day.startOf('month'))) {
-                /**
-                 * 이후
-                 */
-                setCurrentDate((prev) => {
-                    const nextMonth = prev.startOf('month').add(1, 'month');
-                    return nextMonth;
-                });
-            }
-
-            if (isOnlyOneDateSelect) {
-                setStartDate((prev) => {
-                    if (prev?.isSame(day)) return prev;
-                    setEndDate(day);
-                    handleDate(day);
-                    const timeout = setTimeout(() => {
-                        handleVisible(false);
-                        clearTimeout(timeout);
-                    }, 200);
-                    return day;
-                });
-            } else {
-                if (!!startDate && !!endDate) {
-                    handleDate([day, undefined]);
-                    setStartDate(day);
-                    setEndDate(undefined);
-                    return;
-                }
-
-                setStartDate((prevStart) => {
-                    if (prevStart) {
-                        if (day.isBefore(prevStart)) return day;
-                        const isDisabledList = range(day.diff(prevStart, 'day') + 1, (i) => prevStart.add(i, 'day'));
-                        const isReset = isDisabledList.findIndex((d) => disabledDate(d)) !== -1;
-                        if (isReset) {
-                            handleDate([day, undefined]);
-                            setEndDate(undefined);
-                            return day;
-                        }
-                        setEndDate(day);
-                        handleDate([prevStart, day.endOf('date')]);
-                        const timeout = setTimeout(() => {
-                            handleVisible(false);
-                            clearTimeout(timeout);
-                        }, 200);
-                        return prevStart;
-                    }
-                    handleDate([day, undefined]);
-                    return day;
-                });
-            }
-        },
-        [currentDate, isOnlyOneDateSelect, setCurrentDate, handleDate, handleVisible, startDate, endDate, disabledDate],
-    );
-
-    const onClickMonth = useCallback(
-        (day: Dayjs) => () => {
-            if (isOnlyOneDateSelect) {
-                setStartDate((prev) => {
-                    if (prev?.isSame(day)) return prev;
-                    setEndDate(day);
-                    handleDate(day);
-                    handleVisible(false);
-                    return day;
-                });
-            }
-        },
-        [handleDate, handleVisible, isOnlyOneDateSelect],
     );
 
     const onClickArrow = useCallback(
@@ -189,10 +90,9 @@ function DatePickerBody(
         [dateType, setCurrentDate],
     );
 
-    useEffect(() => {
-        if (!initStartDate) setStartDate(undefined);
-        if (!initEndDate) setEndDate(undefined);
-    }, [initStartDate, initEndDate]);
+    useImperativeHandle(ref, () => _ref.current!);
+
+    useEffect(() => {}, []);
 
     return (
         <div ref={_ref} className={className} role="presentation" aria-label="날짜 선택 달력">
@@ -237,9 +137,9 @@ function DatePickerBody(
                                         data-same-date={startDate?.isSame(endDate)}
                                         data-disabled={disabledDate(day)}
                                         className={cellClassName(i, day)}
+                                        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
                                         role="button"
                                         onKeyPress={() => {}}
-                                        // tabIndex={-1}
                                         onClick={disabledDate(day) ? undefined : onClickDate(day)}
                                     >
                                         <span>{day.get('date')}</span>
@@ -256,7 +156,7 @@ function DatePickerBody(
                             key={v}
                             type="button"
                             className="month-cell"
-                            onClick={onClickMonth(dayjs(`${yearNumber}-${i + 1}-01`))}
+                            onClick={onClickDate(dayjs(`${yearNumber}-${i + 1}-01`))}
                         >
                             {v}
                         </button>
