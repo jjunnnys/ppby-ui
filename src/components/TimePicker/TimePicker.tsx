@@ -21,6 +21,7 @@ export type TimePickerProps = {
     size?: 'default' | 'large';
     hourList?: TimeType[];
     minuteList?: TimeType[];
+    disabled?: boolean;
     onChange?(value: TimePickerValueType): void;
 };
 
@@ -36,11 +37,10 @@ const getTimeValue = (i: number, rangeNumber?: number): TimeType => {
     return `${Number(doubleDigits[0])}${Number(doubleDigits[1])}`;
 };
 
-function TimePicker({ value, size = 'default', hourList, minuteList, onChange }: TimePickerProps) {
+function TimePicker({ value, size = 'default', hourList, minuteList, onChange, disabled }: TimePickerProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLSpanElement>(null);
-    const closeTimeout = useRef<NodeJS.Timeout>();
 
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -265,7 +265,7 @@ function TimePicker({ value, size = 'default', hourList, minuteList, onChange }:
 
     return (
         <>
-            <Button ref={ref} className={className} onClick={onClickTimePicker}>
+            <Button ref={ref} className={className} onClick={onClickTimePicker} disabled={disabled}>
                 <span ref={textRef} className="text" data-placeholder={!value && !hour}>
                     {hour ? `${hour}:${minute || '00'}` : value || '시간선택'}
                 </span>

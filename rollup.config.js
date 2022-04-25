@@ -6,6 +6,7 @@ import url from 'rollup-plugin-url';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
+import strip from '@rollup/plugin-strip';
 import pkg from './package.json';
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx']; // 어떤 확장자를 처리 할 지 정함
@@ -33,6 +34,10 @@ export default {
             outputStyle: 'compressed',
         }),
         terser(),
+        strip({
+            include: 'src/components/**/*.(ts|tsx)',
+            function: ['console.log'],
+        }),
     ],
     output: [
         {
