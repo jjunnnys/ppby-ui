@@ -38,6 +38,7 @@ function PopBox({
     onCancel,
 }: PopBoxProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
+    const timeout = useRef<NodeJS.Timeout>();
     const { isMounted, portalRef } = useInsertAdjacentElement();
 
     const className = useMemo(
@@ -57,18 +58,37 @@ function PopBox({
     // 최초 캐싱
     useEffect(() => {
         if (!menuRef.current) return;
-        const totalTop = window.scrollY + top;
-        const totalLeft = window.scrollX + left;
-        menuRef.current.style.width = `${width}px`;
-        menuRef.current.style.height = `${height}px`;
-        menuRef.current.style.top = `${totalTop}px`;
-        menuRef.current.style.left = `${totalLeft}px`;
-    }, [height, left, top, width]);
+        if (isVisible) {
+            const totalTop = window.scrollY + top;
+            const totalLeft = window.scrollX + left;
+            menuRef.current.style.width = `${width}px`;
+            menuRef.current.style.height = `${height}px`;
+            menuRef.current.style.top = `${totalTop}px`;
+            menuRef.current.style.left = `${totalLeft}px`;
+        } else {
+            timeout.current = setTimeout(() => {
+                if (!menuRef.current) return;
+                menuRef.current.style.top = `${0}px`;
+                menuRef.current.style.left = `${0}px`;
+            }, 300);
+        }
+    }, [height, left, top, width, isVisible]);
+
+    useEffect(
+        () => () => {
+            if (timeout.current) {
+                clearTimeout(timeout.current);
+            }
+        },
+        [],
+    );
 
     if (!portalRef.current || !isMounted) return null;
     return createPortal(
-        <div ref={menuRef} data-open={isVisible} className={className}>
-            {children}
+        <div className="wds-portal-container">
+            <div ref={menuRef} data-open={isVisible} className={className}>
+                {children}
+            </div>
         </div>,
         portalRef.current,
     );

@@ -40,12 +40,13 @@ function TimePicker({ value, size = 'default', hourList, minuteList, onChange }:
     const ref = useRef<HTMLButtonElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLSpanElement>(null);
+    const closeTimeout = useRef<NodeJS.Timeout>();
 
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [hour, setHour] = useState<TimeType | undefined>();
     const [minute, setMinute] = useState<TimeType | undefined>();
-    const [isReset, setIsReset] = useState(false);
+    // const [isReset, setIsReset] = useState(false);
     const [time, setTime] = useState<TimePickerValueType | undefined>();
 
     const className = useMemo(
@@ -256,7 +257,7 @@ function TimePicker({ value, size = 'default', hourList, minuteList, onChange }:
         if (time && onChange) {
             console.log({ time });
             onChange(time);
-            setIsReset(true);
+            // setIsReset(true);
             setHour(undefined);
             setMinute(undefined);
         }
