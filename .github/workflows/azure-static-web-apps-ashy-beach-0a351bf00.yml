@@ -23,9 +23,14 @@ jobs:
                   submodules: true
             - name: Create NPMRC
               run: |
-                  echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
-                  echo "@field-share:registry=https://npm.pkg.github.com" >> ~/.npmrc
-                  echo 'registry "https://registry.yarnpkg.com"' >> ~/.yarnrc
+                  echo "npmRegistries:" >> ~/.yarnrc.yml
+                  echo "  'https://npm.pkg.github.com':" >> ~/.yarnrc.yml
+                  echo "     npmAlwaysAuth: true" >> ~/.yarnrc.yml
+                  echo "     npmAuthToken: ${{ secrets.GITHUB_TOKEN }}}" >> ~/.yarnrc.yml
+                  echo " npmScopes:" >> ~/.yarnrc.yml
+                  echo "     field-share:" >> ~/.yarnrc.yml
+                  echo "         npmPublishRegistry: 'https://npm.pkg.github.com'" >> ~/.yarnrc.yml
+                  echo "         npmRegistryServer: 'https://npm.pkg.github.com'" >> ~/.yarnrc.yml
             - name: Build And Deploy
               id: builddeploy
               uses: Azure/static-web-apps-deploy@v1
