@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo, useRef, useState, createRef } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef, useState, createRef, useImperativeHandle } from 'react';
 import classNames from 'classnames';
 import { getPrefixName, OutsideHandler, range } from '@field-share/utils';
 import colors from '@field-share/styles';
@@ -46,10 +46,11 @@ function TimePicker({
     onChange,
     disabled,
 }: TimePickerProps) {
+    const hourColRef = useRef<HTMLDivElement>(null);
+    const minuteColRef = useRef<HTMLDivElement>(null);
     const ref = useRef<HTMLButtonElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLSpanElement>(null);
-    const [hourButtonRefs, setHourButtonRefs] = useState<React.RefObject<HTMLButtonElement>[]>([]);
     const [minuteButtonRefs, setMinuteButtonRefs] = useState<React.RefObject<HTMLButtonElement>[]>([]);
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -57,17 +58,6 @@ function TimePicker({
     const [minute, setMinute] = useState<TimeType | undefined>();
     // const [isReset, setIsReset] = useState(false);
     const [time, setTime] = useState<TimePickerValueType | undefined>();
-
-    // const hourButtonRefs = useMemo(
-    //     () => range(hourList?.length || 24, () => createRef<HTMLButtonElement>()),
-    //     [hourList?.length],
-    // );
-    // const minuteButtonRefs = useMemo(
-    //     () => range(minuteList?.length || 6, () => createRef<HTMLButtonElement>()),
-    //     [minuteList?.length],
-    // );
-    const hourButtons = useMemo(() => hourButtonRefs.map((button) => button.current), [hourButtonRefs]);
-    const minuteButtons = useMemo(() => minuteButtonRefs.map((button) => button.current), [minuteButtonRefs]);
 
     const className = useMemo(
         () =>
@@ -80,7 +70,9 @@ function TimePicker({
     const onClickTimePicker = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             if (!pickerRef.current) return;
+            if (!hourColRef.current) return;
             e.preventDefault();
+            const hourButtons = Array.from(hourColRef.current.childNodes) as HTMLButtonElement[];
             const targetRect = e.currentTarget.getBoundingClientRect();
             const x = targetRect?.x || 0;
             const y = targetRect?.y || 0;
@@ -101,7 +93,7 @@ function TimePicker({
                 return true;
             });
         },
-        [hourButtons, size],
+        [size],
     );
 
     const onCancel = useCallback<OutsideHandler>((e) => {
@@ -115,6 +107,9 @@ function TimePicker({
 
     const onClickTime = useCallback<(type: 'h' | 'm', t: TimeType) => React.MouseEventHandler<HTMLButtonElement>>(
         (type, t) => (e) => {
+            if (!hourColRef.current || !minuteColRef.current) return;
+            const hourButtons = Array.from(hourColRef.current.childNodes) as HTMLButtonElement[];
+            const minuteButtons = Array.from(minuteColRef.current.childNodes) as HTMLButtonElement[];
             if (type === 'h') {
                 minuteButtons.forEach((button) => button?.classList.remove('select'));
                 hourButtons.forEach((button) => button?.classList.remove('select'));
@@ -138,32 +133,30 @@ function TimePicker({
             const bnt = e.target as HTMLButtonElement;
             bnt.classList.add('select');
         },
-        [hourButtons, minuteButtons],
+        [],
     );
 
     useEffect(() => {
-        setHourButtonRefs((prev) => range(hourList.length, (i) => prev[i] || createRef<HTMLButtonElement>()));
-    }, [hourList.length]);
-
-    useEffect(() => {
+        // setHourButtonRefs((prev) => range(hourList.length, (i) => prev[i] || createRef<HTMLButtonElement>()));
         setMinuteButtonRefs((prev) => range(minuteList.length, (i) => prev[i] || createRef<HTMLButtonElement>()));
-    }, [minuteList.length]);
+    }, [hourList.length, minuteList.length]);
 
     useEffect(() => {
         if (typeof document === 'undefined') return;
-        if (hourButtons[0] == null || minuteButtons[0] == null) return;
+        if (!isVisible) return;
+        if (!hourColRef.current || !minuteColRef.current) return;
+        const hourButtons = Array.from(hourColRef.current.childNodes) as HTMLButtonElement[];
+        const minuteButtons = Array.from(minuteColRef.current.childNodes) as HTMLButtonElement[];
+        const hourTotal = hourButtons.length;
+        const minuteTotal = minuteButtons.length;
         let hourIdx: number = 0;
         let minuteIdx: number = 0;
         let initHourValue: TimeType | undefined = hour;
-        const hourTotal = hourButtons.length;
-        const minuteTotal = minuteButtons.length;
 
         function hourKeyevent(e: KeyboardEvent): void {
-            if (!isVisible) return;
             e.preventDefault();
             const { key } = e;
             const target = e.target as HTMLButtonElement;
-            console.log({ target });
             hourIdx = hourButtons.indexOf(target);
             const text = hourButtons[hourIdx]?.innerText as TimeType;
 
@@ -259,9 +252,13 @@ function TimePicker({
                 button?.removeEventListener('keydown', minuteKeyevent);
             });
         };
-    }, [hour, hourButtons, isVisible, minuteButtons]);
+    }, [hour, isVisible]);
 
     useEffect(() => {
+        if (!hourColRef.current || !minuteColRef.current) return;
+        const hourButtons = Array.from(hourColRef.current.childNodes) as HTMLButtonElement[];
+        const minuteButtons = Array.from(minuteColRef.current.childNodes) as HTMLButtonElement[];
+
         if (!isVisible) {
             hourButtons.forEach((button) => button?.classList.remove('select'));
             minuteButtons.forEach((button) => button?.classList.remove('select'));
@@ -273,7 +270,7 @@ function TimePicker({
             hourButtons.forEach((button) => button?.innerText === h && button?.classList.add('select'));
             minuteButtons.forEach((button) => button?.innerText === m && button?.classList.add('select'));
         }
-    }, [hourButtons, isVisible, minuteButtons, value]);
+    }, [isVisible, value]);
 
     useEffect(() => {
         if (time && onChange) {
@@ -295,28 +292,16 @@ function TimePicker({
             </Button>
             <PopBox isVisible={isVisible} onCancel={onCancel} top={position.y} left={position.x} openType="bottom">
                 <div ref={pickerRef} className={`${prefixCls}-body`}>
-                    <div className="col">
+                    <div ref={hourColRef} className="col">
                         {hourList.map((v, i) => (
-                            <button
-                                ref={hourButtonRefs[i]}
-                                key={v.toString()}
-                                type="button"
-                                className="hour-btn"
-                                onClick={onClickTime('h', v)}
-                            >
+                            <button key={v.toString()} type="button" onClick={onClickTime('h', v)}>
                                 {v}
                             </button>
                         ))}
                     </div>
-                    <div className="col">
+                    <div ref={minuteColRef} className="col">
                         {minuteList.map((v, i) => (
-                            <button
-                                ref={minuteButtonRefs[i]}
-                                key={v.toString()}
-                                type="button"
-                                className="minute-btn"
-                                onClick={onClickTime('m', v)}
-                            >
+                            <button key={v.toString()} type="button" onClick={onClickTime('m', v)}>
                                 {v}
                             </button>
                         ))}

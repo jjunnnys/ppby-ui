@@ -107,16 +107,19 @@
     font-size: 16px;
     line-height: 20px;
 }
+.wds-time-picker-body > .col > button:hover {
+    background-color: var(--grey100);
+}
 .wds-time-picker-body > .col > button.select {
     position: relative;
     background-color: var(--primary500);
     color: #fff;
 }
 .wds-time-picker-body > .col > button:focus {
-    background-color: var(--primary200);
+    background-color: var(--primary100);
 }
 .wds-time-picker-body > .col > button:focus-visible {
-    background-color: var(--primary200);
+    background-color: var(--primary100);
 }
 .wds-time-picker-body > .col > button.select:focus,
 .wds-time-picker-body > .col > button.select:focus-visible {
