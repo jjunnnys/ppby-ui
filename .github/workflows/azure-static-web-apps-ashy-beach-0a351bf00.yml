@@ -21,6 +21,12 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   submodules: true
+            - name: Setup .yarnrc.yml
+                run: |
+                    yarn config set 'npmRegistries["https://npm.pkg.github.com"].npmAuthToken' "${GITHUB_TOKEN}"
+                    yarn config set npmAlwaysAuth true
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}       
             - name: Build And Deploy
               id: builddeploy
               uses: Azure/static-web-apps-deploy@v1
