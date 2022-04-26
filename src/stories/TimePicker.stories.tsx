@@ -45,6 +45,8 @@ const Template: ComponentStory<typeof TimePicker> = (args) => {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h4 style={{}}>time: {value}</h4>
             <TimePicker {...args} value={value} onChange={(time) => setValue(time)} />
+            <h3>---</h3>
+            <TimePicker value={undefined} />
         </div>
     );
 };

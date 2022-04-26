@@ -57,19 +57,20 @@ function PopBox({
 
     // 최초 캐싱
     useEffect(() => {
-        if (!menuRef.current) return;
-        if (isVisible) {
-            const totalTop = window.scrollY + top;
-            const totalLeft = window.scrollX + left;
-            menuRef.current.style.width = `${width}px`;
-            menuRef.current.style.height = `${height}px`;
-            menuRef.current.style.top = `${totalTop}px`;
-            menuRef.current.style.left = `${totalLeft}px`;
-        } else {
+        if (menuRef.current) {
+            if (isVisible) {
+                if (timeout.current) clearTimeout(timeout.current);
+                menuRef.current.classList.remove('hide');
+                const totalTop = window.scrollY + top;
+                const totalLeft = window.scrollX + left;
+                menuRef.current.style.width = `${width}px`;
+                menuRef.current.style.height = `${height}px`;
+                menuRef.current.style.top = `${totalTop}px`;
+                menuRef.current.style.left = `${totalLeft}px`;
+                return;
+            }
             timeout.current = setTimeout(() => {
-                if (!menuRef.current) return;
-                menuRef.current.style.top = `${0}px`;
-                menuRef.current.style.left = `${0}px`;
+                menuRef.current?.classList.add('hide');
             }, 300);
         }
     }, [height, left, top, width, isVisible]);
@@ -77,6 +78,7 @@ function PopBox({
     useEffect(
         () => () => {
             if (timeout.current) {
+                menuRef.current?.classList.remove('hide');
                 clearTimeout(timeout.current);
             }
         },

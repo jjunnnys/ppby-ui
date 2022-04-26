@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useRef } from 'react';
 import colors from '@field-share/styles';
 import { range, tuple, getPrefixName, isArray } from '@field-share/utils';
 import classNames from 'classnames';
@@ -39,6 +39,7 @@ function NumberText({
     isComma = false,
     isMountAnimate = false,
 }: RightLeftHeaderProps) {
+    const ref = useRef<HTMLElement>(null);
     const validString = useMemo(() => {
         if (isNaN(Number(number))) return NOT_A_NUMBER;
         const localeString = isComma ? Number(number).toLocaleString('ko') : number;
@@ -58,7 +59,7 @@ function NumberText({
     );
 
     useEffect(() => {
-        const element = document.querySelector<HTMLElement>('.wds-nt');
+        const element = ref.current;
         if (!element) return;
         element.style.fontSize = `${fontSize}px`;
         element.style.color = color;
@@ -79,7 +80,7 @@ function NumberText({
     }, [isMountAnimate, validString]);
 
     return (
-        <strong aria-label={`${number}`} className={className}>
+        <strong ref={ref} aria-label={`${number}`} className={className}>
             {isArray(numberToString)
                 ? range(numberToString.length, (i) =>
                       numberToString[i] === ',' ? (
