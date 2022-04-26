@@ -23,11 +23,11 @@ jobs:
                   submodules: true
             - name: Setup .yarnrc.yml
               run: |
-                  yarn config set 'npmRegistries["https://npm.pkg.github.com"].npmAuthToken' "${NPM_TOKEN}"
+                  yarn config set 'npmRegistries["https://npm.pkg.github.com"].npmAuthToken' ${NPM_TOKEN}
                   yarn config set 'npmRegistries["https://npm.pkg.github.com"].npmAlwaysAuth' true 
                   yarn config set 'npmScopes["field-share"].npmPublishRegistry' 'https://npm.pkg.github.com'
                   yarn config set 'npmScopes["field-share"].npmRegistryServer' 'https://npm.pkg.github.com'
-                  ls -al
+                  vi ./yarnrc.yml
               env:
                   NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Build And Deploy
