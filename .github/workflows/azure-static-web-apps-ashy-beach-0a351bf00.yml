@@ -27,7 +27,7 @@ jobs:
                   yarn config set 'npmRegistries["https://npm.pkg.github.com"].npmAlwaysAuth' true 
                   yarn config set 'npmScopes["field-share"].npmPublishRegistry' 'https://npm.pkg.github.com'
                   yarn config set 'npmScopes["field-share"].npmRegistryServer' 'https://npm.pkg.github.com'
-                  cat ./yarnrc.yml
+                  cat ./.yarnrc.yml
               env:
                   NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Build And Deploy
