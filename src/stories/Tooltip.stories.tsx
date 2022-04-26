@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 // COMPONENTS
 import Tooltip from '../components/Tooltip';
@@ -42,15 +42,21 @@ export default {
 const Template: ComponentStory<typeof Tooltip> = (args) => {
     const [isShow, setIsShow] = useState(true);
 
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setIsShow(true);
+    //     }, 300);
+    // }, []);
+
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div>
                 <p style={{ color: 'gray', fontSize: 12, marginTop: 0 }}>
                     * 버튼 클릭 시 닫히는 건 사용하는 쪽에서 구현
                 </p>
-                <Button onClick={() => setIsShow((prev) => !prev)}>on</Button>
+                <Button onClick={() => setIsShow((prev) => !prev)}>{isShow ? 'off' : 'on'}</Button>
             </div>
-            <Tooltip {...args} isVisible={isShow} onCancel={() => setIsShow(false)}>
+            <Tooltip {...args} isVisible={isShow}>
                 <div className="123" style={{ display: 'flex', flexDirection: 'column' }}>
                     <span>툴팁~~~</span>
                 </div>

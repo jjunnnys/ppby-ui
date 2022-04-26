@@ -76,7 +76,7 @@
     pointer-events: none;
     animation: wds-animate-scale-up 0.5s ease-in forwards;
 }
-.wds-btn-sm:not(.wds-picker-btn) {
+.wds-btn-sm {
     padding: 0 8px;
     min-width: 30px;
     height: 30px;
@@ -87,6 +87,9 @@
     min-width: 50px;
     height: 50px;
     font-size: 16px;
+}
+.wds-btn.wds-picker-btn {
+    padding: 0px;
 }
 .wds-btn-primary {
     border: none;

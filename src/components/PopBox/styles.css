@@ -1,13 +1,8 @@
 .wds-pop-box {
     position: absolute;
-    z-index: 900;
     opacity: 0;
     pointer-events: none;
     transition: clip-path 0.2s ease-in-out, transform 0.2s ease-in-out, opacity 0.3s;
-}
-.wds-pop-box.hide {
-    top: 0px !important;
-    left: 0px !important;
 }
 .wds-pop-box:not(.not-shadow) {
     background: #ffffff;

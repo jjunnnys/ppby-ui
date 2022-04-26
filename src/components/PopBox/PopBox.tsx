@@ -22,6 +22,7 @@ export type PopBoxProps = {
     left?: number;
     disabledShadow?: boolean;
     onCancel: OutsideHandler;
+    zIndex?: number;
 };
 
 const prefixCls = getPrefixName('pop-box').class;
@@ -35,6 +36,7 @@ function PopBox({
     height,
     left = 0,
     top = 0,
+    zIndex = 500,
     onCancel,
 }: PopBoxProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
@@ -53,6 +55,8 @@ function PopBox({
         [openType, disabledShadow],
     );
 
+    const style = useMemo(() => ({ zIndex }), [zIndex]);
+
     useOnClickOutside(menuRef, onCancel);
 
     // 최초 캐싱
@@ -70,7 +74,8 @@ function PopBox({
                 return;
             }
             timeout.current = setTimeout(() => {
-                menuRef.current?.classList.add('hide');
+                menuRef.current?.setAttribute('style', '');
+                // menuRef.current?.classList.add('hide');
             }, 300);
         }
     }, [height, left, top, width, isVisible]);
@@ -88,7 +93,7 @@ function PopBox({
     if (!portalRef.current || !isMounted) return null;
     return createPortal(
         <div className="wds-portal-container">
-            <div ref={menuRef} data-open={isVisible} className={className}>
+            <div ref={menuRef} data-open={isVisible} className={className} style={style}>
                 {children}
             </div>
         </div>,
