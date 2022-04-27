@@ -132,38 +132,34 @@ class Toast {
         this.timeoutList = [...this.timeoutList, tiemout];
     }
 
-    mount() {
-        document.body.insertAdjacentElement('beforeend', this.dom);
-    }
-
     clean() {
-        const containers = Array.from(document.querySelectorAll<HTMLDivElement>(`.${this._container}`));
-        if (containers) {
-            containers.forEach((el, i) => {
-                clearTimeout(this.timeoutList[i]);
-                el.classList.add(this._toastOut);
-                setTimeout(() => this.removeBoxTimeoutFunction(el, () => {}), 300);
-            });
-            this.timeoutList = [];
-            this.count = 1;
-        }
+        const boxs = Array.from(document.querySelectorAll<HTMLDivElement>(`.${this._container}`));
+        boxs.forEach((box, i) => {
+            clearTimeout(this.timeoutList[i]);
+            box.classList.add(this._toastOut);
+            this.removeBoxTimeoutFunction(box, () => {});
+            // setTimeout(() => this.removeBoxTimeoutFunction(el, () => {}), 300);
+        });
+        this.timeoutList = [];
+        this.count = 1;
+        // this._spacing = 50;
     }
 
     loading(content: string, duration?: number, closeCallback?: () => {}) {
         const _duration = duration ? (duration > 30000 ? duration : 30000) : 30000;
-        return this.show(content, _duration, 'loading', closeCallback);
+        this.show(content, _duration, 'loading', closeCallback);
     }
 
     success(content: string, duration?: number, closeCallback?: () => {}) {
-        return this.show(content, duration, 'success', closeCallback);
+        this.show(content, duration, 'success', closeCallback);
     }
 
     error(content: string, duration?: number, closeCallback?: () => {}) {
-        return this.show(content, duration, 'error', closeCallback);
+        this.show(content, duration, 'error', closeCallback);
     }
 
     warn(content: string, duration?: number, closeCallback?: () => {}) {
-        return this.show(content, duration, 'warn', closeCallback);
+        this.show(content, duration, 'warn', closeCallback);
     }
 
     info(content: string, duration?: number, closeCallback?: () => {}) {

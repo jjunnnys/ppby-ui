@@ -36,6 +36,15 @@ const Template: ComponentStory<any> = (args) => (
         >
             open
         </Button>
+        <Button
+            shape="round"
+            onClick={() => {
+                toast.clean();
+                (toast as any)[args.type || 'info'](args.text, args.duration);
+            }}
+        >
+            clean open
+        </Button>
         <Button size="small" onClick={() => toast.clean()}>
             remove
         </Button>

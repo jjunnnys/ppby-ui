@@ -18,6 +18,12 @@ export default {
                 category: 'Value',
             },
         },
+        zIndex: {
+            control: { type: 'number' },
+            table: {
+                category: 'Value',
+            },
+        },
         placement: {
             options: ['top', 'left', 'right', 'bottom'],
             control: { type: 'select' },
@@ -49,19 +55,22 @@ const Template: ComponentStory<typeof Tooltip> = (args) => {
     // }, []);
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div>
-                <p style={{ color: 'gray', fontSize: 12, marginTop: 0 }}>
-                    * 버튼 클릭 시 닫히는 건 사용하는 쪽에서 구현
-                </p>
-                <Button onClick={() => setIsShow((prev) => !prev)}>{isShow ? 'off' : 'on'}</Button>
-            </div>
-            <Tooltip {...args} isVisible={isShow}>
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', paddingTop: 200 }}>
+            <Tooltip {...args}>
                 <div className="123" style={{ display: 'flex', flexDirection: 'column' }}>
                     <span>툴팁~~~</span>
                 </div>
             </Tooltip>
-            <div style={{ width: 500 }} />
+            <div
+                style={{
+                    width: 100,
+                    height: 100,
+                    position: 'absolute',
+                    top: 200,
+                    right: 500,
+                    backgroundColor: 'red',
+                }}
+            />
         </div>
     );
 };

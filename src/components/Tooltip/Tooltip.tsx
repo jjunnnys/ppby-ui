@@ -13,15 +13,22 @@ import './styles.css';
 type TooltipProps = {
     children: React.ReactNode;
     title: string;
+    /**
+     * @default false
+     */
     isVisible?: boolean;
     onCancel?(): void;
     placement: 'top' | 'left' | 'right' | 'bottom';
+    /**
+     * Tooltip의 zIndex
+     * @default 0
+     */
     zIndex?: number;
 };
 
 const prefixCls = getPrefixName('tooltip');
 
-function Tooltip({ children, title, zIndex = 900, isVisible, placement, onCancel = () => {} }: TooltipProps) {
+function Tooltip({ children, title, zIndex, isVisible = false, placement, onCancel = () => {} }: TooltipProps) {
     const ref = useRef<HTMLDivElement>(null);
     const tooltipRef = useRef<HTMLDivElement>(null);
 

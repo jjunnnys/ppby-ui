@@ -36,7 +36,7 @@ function PopBox({
     height,
     left = 0,
     top = 0,
-    zIndex = 500,
+    zIndex = 0,
     onCancel,
 }: PopBoxProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
@@ -75,7 +75,6 @@ function PopBox({
             }
             timeout.current = setTimeout(() => {
                 menuRef.current?.setAttribute('style', '');
-                // menuRef.current?.classList.add('hide');
             }, 300);
         }
     }, [height, left, top, width, isVisible]);
@@ -83,7 +82,7 @@ function PopBox({
     useEffect(
         () => () => {
             if (timeout.current) {
-                menuRef.current?.classList.remove('hide');
+                menuRef.current?.setAttribute('style', '');
                 clearTimeout(timeout.current);
             }
         },
