@@ -107,17 +107,26 @@
     grid-template-columns: repeat(4, 1fr);
     width: 100%;
     height: 100%;
+    margin-top: 8px;
 }
 #wds-date-picker-month > .month-cell {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
+    border-radius: 4px;
 
     font-size: 14px;
     line-height: 22px;
     text-align: center;
     color: var(--grey700);
+}
+#wds-date-picker-month > .month-cell:hover {
+    color: var(--grey500);
+}
+#wds-date-picker-month > .month-cell[data-select='true'] {
+    background-color: var(--primary500);
+    color: #fff;
 }
 .wds-picker-cell {
     position: relative;
@@ -232,7 +241,6 @@
     z-index: 2;
 }
 .wds-picker-cell-event > span::after {
-    /* color: var(--grey300); */
     content: '';
     position: absolute;
     bottom: -4px;

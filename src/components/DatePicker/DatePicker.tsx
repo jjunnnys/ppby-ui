@@ -39,14 +39,6 @@ dayjs.locale(ko);
 dayjs.extend(localeData);
 dayjs.extend(isBetween);
 
-const validateFormDate = (value: DateValueType, index?: 0 | 1) => {
-    if (value) {
-        if (isArray(value)) return value[index || 0] || dayjs().startOf('date');
-        return value;
-    }
-    return undefined;
-};
-
 const dateFormattingToString = (date: Dayjs, index: number) =>
     `${date.format('YYYY-MM')}-${index + 1 < 10 ? `0${index + 1}` : index + 1}`;
 
@@ -66,13 +58,21 @@ function DatePicker({
 }: DatePickerProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
-    const [currentDate, setCurrentDate] = useState(() => validateFormDate(value) || dayjs());
+    const [currentDate, setCurrentDate] = useState(() => (isArray(value) ? value[0] || dayjs() : value || dayjs()));
     const [monthList, setMonthList] = useState<Dayjs[][] | undefined>();
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [openType, setOpenType] = useState<'right' | 'left'>('right');
-    const [startDate, setStartDate] = useState<Dayjs | undefined>(() => validateFormDate(value, 0));
-    const [endDate, setEndDate] = useState<Dayjs | undefined>(() => validateFormDate(value, 1));
+    const [startDate, setStartDate] = useState<DateEventValue>(() => (isArray(value) ? value[0] : value));
+    const [endDate, setEndDate] = useState<DateEventValue>(() => (isArray(value) ? value[1] : null));
+
+    useEffect(() => {
+        if (isArray(value)) {
+            console.log({ start: value[0]?.format('YYYY-MM-DD'), end: value[1]?.format('YYYY-MM-DD') });
+        } else {
+            console.log({ value: value?.format('YYYY-MM-DD') });
+        }
+    }, [value]);
 
     const onClickShowDatePicker = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -112,29 +112,24 @@ function DatePicker({
         [inputTypeSize, type, value],
     );
 
-    const handleNextOrPrevDate = useCallback(
-        (day: Dayjs) => {
+    const handleNextOrPrevDate = useCallback((day: Dayjs) => {
+        setCurrentDate((prev) => {
             // prev
-            if (currentDate.startOf('month').isAfter(day.startOf('month'))) {
-                setCurrentDate((prev) => {
-                    const prevMonth = prev.startOf('month').subtract(1, 'month');
-                    return prevMonth;
-                });
-                return;
+            if (prev.startOf('month').isAfter(day.startOf('month'))) {
+                const prevMonth = prev.startOf('month').subtract(1, 'month');
+                return prevMonth;
             }
             // next
-            if (currentDate.startOf('month').isBefore(day.startOf('month'))) {
-                setCurrentDate((prev) => {
-                    const nextMonth = prev.startOf('month').add(1, 'month');
-                    return nextMonth;
-                });
+            if (prev.startOf('month').isBefore(day.startOf('month'))) {
+                const nextMonth = prev.startOf('month').add(1, 'month');
+                return nextMonth;
             }
-        },
-        [currentDate],
-    );
+            return prev;
+        });
+    }, []);
 
     const onClickDay = useCallback(
-        (day: Dayjs) => () => {
+        (day: Dayjs) => async () => {
             handleNextOrPrevDate(day);
 
             if (isOnlyOneDateSelect) {
@@ -148,39 +143,49 @@ function DatePicker({
                     }, 200);
                     return day;
                 });
-            } else {
-                if (!!startDate && !!endDate) {
-                    onChangeDate && onChangeDate([day, undefined]);
-                    setStartDate(day);
-                    setEndDate(undefined);
-                    return;
-                }
+                return;
+            }
 
-                let isReset = false;
+            if (!!startDate && !!endDate) {
+                setStartDate(day);
+                setEndDate(null);
+                onChangeDate && onChangeDate([day, null]);
+                return;
+            }
+            const isReset = await new Promise<boolean>((resolve) => {
                 setStartDate((prevStart) => {
                     if (prevStart) {
-                        if (day.isBefore(prevStart)) return day;
-                        const isDisabledList = range(day.diff(prevStart, 'day') + 1, (i) => prevStart.add(i, 'day'));
-                        isReset = isDisabledList.findIndex((d) => disabledDate(d)) !== -1;
-                        if (isReset) {
-                            setEndDate(undefined);
+                        let isResetInner = false;
+                        if (day.isBefore(prevStart)) {
+                            isResetInner = true;
+                        } else {
+                            const isDisabledList = range(day.diff(prevStart, 'day') + 1, (i) =>
+                                prevStart.add(i, 'day'),
+                            );
+                            isResetInner = isDisabledList.some(disabledDate);
+                        }
+                        if (isResetInner) {
+                            resolve(true);
+                            setEndDate(null);
                             return day;
                         }
+                        resolve(false);
                         setEndDate(day);
-                        const timeout = setTimeout(() => {
+                        setTimeout(() => {
                             setIsVisible(false);
-                            clearTimeout(timeout);
-                        }, 200);
+                        }, 100);
                         return prevStart;
                     }
+                    setEndDate(null);
+                    resolve(true);
                     return day;
                 });
+            });
 
-                if (isReset) {
-                    onChangeDate && onChangeDate([day, undefined]);
-                } else {
-                    onChangeDate && onChangeDate([startDate, day.endOf('date')]);
-                }
+            if (isReset) {
+                onChangeDate && onChangeDate([day, null]);
+            } else {
+                onChangeDate && onChangeDate([startDate, day.endOf('date')]);
             }
         },
         [handleNextOrPrevDate, isOnlyOneDateSelect, onChangeDate, startDate, endDate, disabledDate],
@@ -193,10 +198,9 @@ function DatePicker({
                     if (prev?.isSame(day)) return prev;
                     setEndDate(day);
                     onChangeDate && onChangeDate(day);
-                    const timeout = setTimeout(() => {
+                    setTimeout(() => {
                         setIsVisible(false);
-                        clearTimeout(timeout);
-                    }, 200);
+                    }, 100);
                     return day;
                 });
             }
@@ -221,6 +225,7 @@ function DatePicker({
 
     useEffect(() => {
         console.time('달 계산');
+        if (dateType === 'month') return;
         const firstDay = currentDate.startOf('month').day();
         const endDay = currentDate.endOf('month').day();
         const startWeekIndex = 7 - (7 - firstDay);
@@ -246,7 +251,7 @@ function DatePicker({
         const weeksMapping = (i: number) => range(7, (j) => daysInMonthList[i * 7 + j]);
         setMonthList(range(weeksLength, weeksMapping));
         console.timeEnd('달 계산');
-    }, [currentDate]);
+    }, [currentDate, dateType]);
 
     if (type === 'input' && !isOnlyOneDateSelect) return null;
     if (type === 'input') {

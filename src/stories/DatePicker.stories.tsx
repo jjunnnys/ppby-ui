@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import dayjs, { Dayjs } from 'dayjs';
-import { isArray, startEndDateList } from '@field-share/utils';
+import { DateEventValue, isArray, startEndDateList } from '@field-share/utils';
 // COMPONENTS
-import DatePicker from '../components/DatePicker';
+import DatePicker, { DateRangeValue, DateValueType } from '../components/DatePicker';
 import Checkbox from '../components/Checkbox';
 
 export default {
@@ -69,15 +69,12 @@ export default {
 } as ComponentMeta<typeof DatePicker>;
 
 const Template: ComponentStory<typeof DatePicker> = (args) => {
-    const [eventDateValue, setEventDateValue] = useState<[Dayjs | undefined, Dayjs | undefined]>([
-        undefined,
-        undefined,
-    ]);
+    const [eventDateValue, setEventDateValue] = useState<DateRangeValue>([null, null]);
     const [eventDate, setEventDate] = useState<Dayjs[]>([]);
-    const [disabledDateValue, setDisabledDateValue] = useState<Dayjs | undefined>();
-    const [disabledDate, setDisabledDate] = useState<Dayjs | undefined>();
+    const [disabledDateValue, setDisabledDateValue] = useState<DateEventValue>(null);
+    const [disabledDate, setDisabledDate] = useState<DateEventValue>(null);
     const [hasPrevDateDisabled, setHasPrevDateDisalbed] = useState(false);
-    const [value, setValue] = useState<Dayjs | [Dayjs | undefined, Dayjs | undefined] | undefined>();
+    const [value, setValue] = useState<DateValueType>(null);
 
     return (
         <div style={{ display: 'flex', width: '100%' }}>
@@ -102,9 +99,9 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                         type="button"
                         onChangeDate={(date) => {
                             if (!isArray(date)) {
-                                setValue(undefined);
-                                setDisabledDateValue(date?.startOf('date'));
-                                setDisabledDate(date?.startOf('date'));
+                                setValue(null);
+                                setDisabledDateValue(date?.startOf('date') || null);
+                                setDisabledDate(date?.startOf('date') || null);
                             }
                         }}
                         value={disabledDateValue}
@@ -118,7 +115,7 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
                         type="button"
                         onChangeDate={(dates) => {
                             if (Array.isArray(dates)) {
-                                setValue(undefined);
+                                setValue(null);
                                 setEventDateValue(dates);
                                 setEventDate(startEndDateList(dates));
                             }

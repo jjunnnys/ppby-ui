@@ -2005,13 +2005,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@field-share/utils@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "@field-share/utils@npm:0.4.3::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.4.3%2F389d164cb09213ca2c0f41e670b49eea27848a423d8ac1adaaeb28f37239a3a2"
+"@field-share/utils@npm:^0.4.5":
+  version: 0.4.5
+  resolution: "@field-share/utils@npm:0.4.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40field-share%2Futils%2F0.4.5%2Ffc2ae55abc6b8a9711cce1938df1bc57b90a0ee9a03e977963ed6b3c5edd88b7"
   peerDependencies:
     dayjs: "*"
     react: ">=16.8"
-  checksum: a9f0ca9195c4d41a7542dcb2c35ffb1e260296eb47a3d23a17dacd48bdce812593a3d0c40dbd863a61e8b96fe29a303cfe97dade1f9612e31674c3aca0d09af7
+  checksum: 42695a03bfc67539123f359c850e816d218c229298c4ba18211c30470cd09f51346bcee80a75188e16288c62564582f7deed539d22434500f6f0c09a2118aa75
   languageName: node
   linkType: hard
 
@@ -2021,7 +2021,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.8
     "@field-share/styles": ^0.1.3
-    "@field-share/utils": ^0.4.3
+    "@field-share/utils": ^0.4.5
     "@mdx-js/react": ^1.6.22
     "@rollup/plugin-commonjs": ^21.0.2
     "@rollup/plugin-node-resolve": ^13.1.3

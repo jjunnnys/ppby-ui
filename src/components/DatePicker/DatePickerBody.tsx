@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { isCurrentDateIncludedInList, isToday } from '@field-share/utils';
+import { DateEventValue, isCurrentDateIncludedInList, isToday, range } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS
@@ -24,8 +24,8 @@ interface DatePickerBodyProps
     currentDate: Dayjs;
     setCurrentDate: React.Dispatch<React.SetStateAction<Dayjs>>;
     disabledDate: (date: Dayjs) => boolean;
-    startDate: Dayjs | undefined;
-    endDate: Dayjs | undefined;
+    startDate: DateEventValue;
+    endDate: DateEventValue;
     onClickDate: (date: Dayjs) => () => void;
 }
 
@@ -47,7 +47,10 @@ function DatePickerBody(props: DatePickerBodyProps, ref: React.ForwardedRef<HTML
         onClickDate,
     } = props;
     const _ref = useRef<HTMLDivElement>(null);
-    const monthsShort = useRef(dayjs.monthsShort()).current;
+    const monthsShort = useMemo(
+        () => range(12, (i) => `${currentDate.format('YYYY')}-${i + 1 < 10 ? `0${i + 1}` : i + 1}`),
+        [currentDate],
+    );
     const yearNumber = useMemo(() => currentDate.format('YYYY년 MM월').split(' ')[0].split('년')[0], [currentDate]);
     const monthNumber = useMemo(() => currentDate.format('YYYY년 MM월').split(' ')[1].split('월')[0], [currentDate]);
 
@@ -92,8 +95,6 @@ function DatePickerBody(props: DatePickerBodyProps, ref: React.ForwardedRef<HTML
 
     useImperativeHandle(ref, () => _ref.current!);
 
-    useEffect(() => {}, []);
-
     return (
         <div ref={_ref} className={className} role="presentation" aria-label="날짜 선택 달력">
             <div className={`${prefixCls}-header`}>
@@ -114,7 +115,7 @@ function DatePickerBody(props: DatePickerBodyProps, ref: React.ForwardedRef<HTML
                     <Icons icon="rightArrow" />
                 </button>
             </div>
-            {dateType === 'day' ? (
+            {dateType === 'day' && (
                 <table className={`${prefixCls}-body`}>
                     <thead>
                         <tr>
@@ -149,16 +150,18 @@ function DatePickerBody(props: DatePickerBodyProps, ref: React.ForwardedRef<HTML
                         ))}
                     </tbody>
                 </table>
-            ) : (
+            )}
+            {dateType === 'month' && (
                 <div id="wds-date-picker-month">
                     {monthsShort.map((v, i) => (
                         <button
                             key={v}
                             type="button"
                             className="month-cell"
+                            data-select={startDate ? startDate.format('YYYY-MM') === v : false}
                             onClick={onClickDate(dayjs(`${yearNumber}-${i + 1}-01`))}
                         >
-                            {v}
+                            {v.split('-')[1]}월
                         </button>
                     ))}
                 </div>
