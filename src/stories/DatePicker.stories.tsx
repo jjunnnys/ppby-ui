@@ -5,6 +5,7 @@ import { DateEventValue, isArray, startEndDateList } from '@field-share/utils';
 // COMPONENTS
 import DatePicker, { DateRangeValue, DateValueType } from '../components/DatePicker';
 import Checkbox from '../components/Checkbox';
+import WDSButton from '../components/Button';
 
 export default {
     title: 'Design System/Molecules/DatePicker',
@@ -69,7 +70,7 @@ export default {
 } as ComponentMeta<typeof DatePicker>;
 
 const Template: ComponentStory<typeof DatePicker> = (args) => {
-    const [eventDateValue, setEventDateValue] = useState<DateRangeValue>([null, null]);
+    const [eventDateValue, setEventDateValue] = useState<DateRangeValue>(null);
     const [eventDate, setEventDate] = useState<Dayjs[]>([]);
     const [disabledDateValue, setDisabledDateValue] = useState<DateEventValue>(null);
     const [disabledDate, setDisabledDate] = useState<DateEventValue>(null);
@@ -137,7 +138,12 @@ const Template: ComponentStory<typeof DatePicker> = (args) => {
             />
             <div style={{ margin: '0 20px', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', columnGap: 8 }}>
-                    <h4 style={{ marginTop: 0, marginBottom: 8 }}>결과 확인</h4>
+                    <div style={{ display: 'flex', alignItems: 'center', columnGap: 16 }}>
+                        <h4 style={{ marginTop: 0, marginBottom: 8 }}>결과 확인</h4>
+                        <WDSButton size="small" onClick={() => setValue(null)}>
+                            reset
+                        </WDSButton>
+                    </div>
                     <h6 style={{ marginBottom: 5, marginTop: 0 }}>
                         {isArray(value)
                             ? `${value[0]?.format('YYYY-MM-DD HH:mm:ss')} ~ ${value[1]?.format('YYYY-MM-DD HH:mm:ss')}`

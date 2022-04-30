@@ -13,7 +13,7 @@ import Button from '../Button';
 // STYLES
 import './styles.css';
 
-export type DateRangeValue = [DateEventValue, DateEventValue];
+export type DateRangeValue = [DateEventValue, DateEventValue] | null;
 export type DateValueType = DateEventValue | DateRangeValue;
 export type DatePickerProps = {
     type?: 'button' | 'fixed' | 'input';
@@ -58,21 +58,13 @@ function DatePicker({
 }: DatePickerProps) {
     const ref = useRef<HTMLButtonElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
-    const [currentDate, setCurrentDate] = useState(() => (isArray(value) ? value[0] || dayjs() : value || dayjs()));
+    const [currentDate, setCurrentDate] = useState(() => (isArray(value) ? value[0] ?? dayjs() : value ?? dayjs()));
     const [monthList, setMonthList] = useState<Dayjs[][] | undefined>();
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [openType, setOpenType] = useState<'right' | 'left'>('right');
     const [startDate, setStartDate] = useState<DateEventValue>(() => (isArray(value) ? value[0] : value));
     const [endDate, setEndDate] = useState<DateEventValue>(() => (isArray(value) ? value[1] : null));
-
-    useEffect(() => {
-        if (isArray(value)) {
-            console.log({ start: value[0]?.format('YYYY-MM-DD'), end: value[1]?.format('YYYY-MM-DD') });
-        } else {
-            console.log({ value: value?.format('YYYY-MM-DD') });
-        }
-    }, [value]);
 
     const onClickShowDatePicker = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -222,6 +214,18 @@ function DatePicker({
             console.error('Error: type이 "input" 경우  isOnlyOneDateSelect 는 "true" 이어야 합니다.');
         }
     }, [isOnlyOneDateSelect, type]);
+
+    useEffect(() => {
+        if (isArray(value)) {
+            if (!value[0]) setStartDate(null);
+            if (!value[1]) setEndDate(null);
+            return;
+        }
+        if (!value) {
+            setStartDate(null);
+            setEndDate(null);
+        }
+    }, [value]);
 
     useEffect(() => {
         console.time('달 계산');
