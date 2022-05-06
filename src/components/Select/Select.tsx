@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useImperativeHandle, useRef, forwardRef, useEffect, useMemo } from 'react';
+import React, { useCallback, useImperativeHandle, useRef, forwardRef, useEffect, useMemo, Children } from 'react';
 import { getPrefixName } from '@field-share/utils';
 import classNames from 'classnames';
 // COMPONENTS
-import Icons from '../Icons';
 // HOOKS
 // MODULES
 // LIB
@@ -10,23 +9,25 @@ import Icons from '../Icons';
 // STYLES
 import './styles.css';
 
-export interface SelectProps
+export interface SelectProps<T>
     extends Omit<React.InputHTMLAttributes<HTMLSelectElement>, 'size' | 'value' | 'onChange' | 'ref'> {
-    options: string[];
     loading?: boolean;
     bordered?: boolean;
-    value?: string;
+    value?: T;
     size?: 'default' | 'large';
     clearOption?: boolean;
-    onChange?(value: string | undefined): void;
+    onChange?(value: T): void;
 }
 
 const prefixCls = getPrefixName('select').class;
 
+function Option({ value, label }: { value: string | number; label: string }) {
+    return <option value={value}>{label}</option>;
+}
+
 // TODO focus 추가
-function Select(
+function InternalSelect<T extends string | number>(
     {
-        options,
         bordered = true,
         size = 'default',
         loading = false,
@@ -35,12 +36,20 @@ function Select(
         clearOption = false,
         disabled,
         style,
+        children,
         ...props
-    }: SelectProps,
+    }: SelectProps<T>,
     ref: React.ForwardedRef<HTMLSelectElement>,
 ) {
     const containerRef = useRef<HTMLDivElement>(null);
     const selectRef = useRef<HTMLSelectElement | null>(null);
+    const isChildrenOption = useMemo(
+        () =>
+            Children.toArray(children)
+                .map((v) => (v as any).type.toString().includes('function Option'))
+                .some((v) => !v),
+        [children],
+    );
 
     useImperativeHandle(ref, () => selectRef.current!);
 
@@ -81,6 +90,7 @@ function Select(
         };
     }, []);
 
+    if (isChildrenOption) return null;
     return (
         <div
             ref={containerRef}
@@ -91,11 +101,7 @@ function Select(
         >
             <select {...props} ref={selectRef} onChange={onSelect} disabled={disabled}>
                 {clearOption && <option value="">- 선택취소 -</option>}
-                {options.map((option) => (
-                    <option key={option as any} value={option as any}>
-                        {option}
-                    </option>
-                ))}
+                {children}
             </select>
             <svg
                 className="icon"
@@ -107,10 +113,14 @@ function Select(
             >
                 <path d="M4 8.39999L5.3 7L12 14.206L18.7 7L20 8.39999L12 17L4 8.39999Z" fill="#7B7B7B" />
             </svg>
-
-            {/* <Icons className="icon" icon="downArrow" /> */}
         </div>
     );
 }
 
-export default forwardRef(Select);
+const Select = forwardRef(InternalSelect) as unknown as (<T>(props: SelectProps<T>) => React.ReactElement) & {
+    Option: typeof Option;
+};
+
+Select.Option = Option;
+
+export default Select;

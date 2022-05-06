@@ -58,14 +58,20 @@ export default {
 } as ComponentMeta<typeof Select>;
 
 const Template: ComponentStory<typeof Select> = (args) => {
-    const [value, setValue] = useState<string | undefined>('');
+    const [value, setValue] = useState<string>('');
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', rowGap: 8 }}>
-            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
-            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
-            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
-            <Select {...args} options={args.options || []} value={value} onChange={(v) => setValue(v)} />
+            <Select {...args} value={value} onChange={(v) => setValue(v)}>
+                {['기본1', '기본2', '기본3', '기본4'].map((v, i) => (
+                    <Select.Option key={i.toString()} value={v} label={v} />
+                ))}
+            </Select>
+            <Select {...args} value={value} onChange={(v) => setValue(v)}>
+                {['A1', 'A2', 'A3', 'A4'].map((v, i) => (
+                    <Select.Option key={i.toString()} value={v} label={v} />
+                ))}
+            </Select>
         </div>
     );
 };
@@ -77,7 +83,6 @@ Default.args = {
     loading: false,
     bordered: true,
     size: 'default',
-    options: ['기본1', '기본2', '기본3', '기본4'],
     clearOption: false,
     disabled: false,
 };
