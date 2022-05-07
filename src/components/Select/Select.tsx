@@ -25,7 +25,6 @@ function Option({ value, label }: { value: string | number; label: string }) {
     return <option value={value}>{label}</option>;
 }
 
-// TODO focus 추가
 function InternalSelect<T extends string | number>(
     {
         bordered = true,
@@ -43,14 +42,16 @@ function InternalSelect<T extends string | number>(
 ) {
     const containerRef = useRef<HTMLDivElement>(null);
     const selectRef = useRef<HTMLSelectElement | null>(null);
-    const isChildrenOption = useMemo(
-        () =>
-            Children.toArray(children)
-                .map((v) => (v as any).type.toString().includes('function Option'))
-                .some((v) => !v),
-        [children],
-    );
-
+    const isChildrenOption = useMemo(() => {
+        let valid = false;
+        Children.forEach(children, (child) => {
+            if ((child as any)?.type?.name !== 'Option') {
+                console.error(`${(child as any)?.type?.name} - 'Select' only accepts children of type 'Option'.`);
+                valid = true;
+            }
+        });
+        return valid;
+    }, [children]);
     useImperativeHandle(ref, () => selectRef.current!);
 
     const className = useMemo(
