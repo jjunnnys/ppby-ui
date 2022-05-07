@@ -19,16 +19,11 @@ type TooltipProps = {
     isVisible?: boolean;
     onCancel?(): void;
     placement: 'top' | 'left' | 'right' | 'bottom';
-    /**
-     * Tooltip의 zIndex
-     * @default 0
-     */
-    zIndex?: number;
 };
 
 const prefixCls = getPrefixName('tooltip');
 
-function Tooltip({ children, title, zIndex, isVisible = false, placement, onCancel = () => {} }: TooltipProps) {
+function Tooltip({ children, title, isVisible = false, placement, onCancel = () => {} }: TooltipProps) {
     const ref = useRef<HTMLDivElement>(null);
     const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -108,7 +103,6 @@ function Tooltip({ children, title, zIndex, isVisible = false, placement, onCanc
                     openType={placement}
                     top={rect.top}
                     left={rect.left}
-                    zIndex={zIndex}
                     disabledShadow
                 >
                     <div ref={tooltipRef} className={`${prefixCls.class} ${placement} ${isVisible ? 'show' : ''}`}>

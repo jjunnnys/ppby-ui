@@ -22,7 +22,6 @@ export type PopBoxProps = {
     left?: number;
     disabledShadow?: boolean;
     onCancel: OutsideHandler;
-    zIndex?: number;
 };
 
 const prefixCls = getPrefixName('pop-box').class;
@@ -36,7 +35,6 @@ function PopBox({
     height,
     left = 0,
     top = 0,
-    zIndex = 0,
     onCancel,
 }: PopBoxProps) {
     const menuRef = useRef<HTMLDivElement | null>(null);
@@ -54,8 +52,6 @@ function PopBox({
             ),
         [openType, disabledShadow],
     );
-
-    const style = useMemo(() => ({ zIndex }), [zIndex]);
 
     useOnClickOutside(menuRef, onCancel);
 
@@ -92,7 +88,7 @@ function PopBox({
     if (!portalRef.current || !isMounted) return null;
     return createPortal(
         <div className="wds-portal-container">
-            <div ref={menuRef} data-open={isVisible} className={className} style={style}>
+            <div ref={menuRef} data-open={isVisible} className={className}>
                 {children}
             </div>
         </div>,

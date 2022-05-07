@@ -9,10 +9,14 @@ import './styles.css';
 
 export type HTMLInputTypeAttribute = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url';
 
-export interface InputProps
-    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'ref' | 'size' | 'min' | 'max' | 'onChange' | 'type'> {
+export interface InputProps<T>
+    extends Omit<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        'ref' | 'size' | 'min' | 'max' | 'value' | 'onChange' | 'type'
+    > {
     loading?: boolean;
     bordered?: boolean;
+    value?: T;
     validate?: (value: string) => boolean;
     size?: 'default' | 'large';
     afterIcon?: IconsType;
@@ -21,13 +25,13 @@ export interface InputProps
     beforeIconColor?: string;
     onClickAfterIcon?(): void;
     onClickBeforeIcon?(): void;
-    onChange?(value: number | string | undefined): void;
+    onChange?(value: T): void;
     /**
-     * type이 nubmer일 경우에만 사용
+     * @description type이 nubmer일 경우에만 사용
      */
     min?: number;
     /**
-     * type이 nubmer일 경우에만 사용
+     * @description type이 nubmer일 경우에만 사용
      */
     max?: number;
     type?: HTMLInputTypeAttribute;
@@ -72,7 +76,7 @@ function AfterIcon({ type, afterIcon, afterIconColor, passwordType, onClickAfter
     return null;
 }
 
-function Input(
+function InternalInput<T extends string | number>(
     {
         type = 'text',
         size = 'default',
@@ -92,7 +96,7 @@ function Input(
         style,
         disabled,
         ...props
-    }: InputProps,
+    }: InputProps<T>,
     ref: React.ForwardedRef<HTMLInputElement>,
 ) {
     const [passwordType, setPasswordType] = useState<'password' | 'text'>('password');
@@ -135,16 +139,16 @@ function Input(
             switch (type) {
                 case 'number':
                     if (min && min > bindingNumberOrComma(v).toNumber) {
-                        return onChange(min);
+                        return onChange(min as any);
                     }
                     if (max && max < bindingNumberOrComma(v).toNumber) {
-                        return onChange(max);
+                        return onChange(max as any);
                     }
-                    return onChange(bindingNumberOrComma(v).toNumber);
+                    return onChange(bindingNumberOrComma(v).toNumber as any);
                 case 'tel':
-                    return onChange(applyHyphen(v).remove);
+                    return onChange(applyHyphen(v).remove as any);
                 default:
-                    return onChange(v);
+                    return onChange(v as any);
             }
         },
         [max, min, onChange, type],
@@ -205,4 +209,8 @@ function Input(
     );
 }
 
-export default forwardRef(Input);
+const Input = forwardRef(InternalInput) as unknown as (<T>(props: InputProps<T>) => React.ReactElement) & {
+    Option: typeof Option;
+};
+
+export default Input;

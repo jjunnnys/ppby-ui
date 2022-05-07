@@ -16,6 +16,21 @@ export default {
                 category: 'Value',
             },
         },
+        value: {
+            table: {
+                category: 'Value',
+            },
+        },
+        min: {
+            table: {
+                category: 'Value',
+            },
+        },
+        max: {
+            table: {
+                category: 'Value',
+            },
+        },
         placeholder: {
             table: {
                 category: 'Value',
@@ -109,7 +124,7 @@ const Template: ComponentStory<typeof Input> = (args) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', rowGap: 8 }}>
             <h4>type: {args.type}</h4>
-            <Input {...args} value={value} onChange={(v: string) => setValue(v)} validate={(v) => !!v} />
+            <Input {...args} value={value} onChange={(v) => setValue(v)} validate={(v) => !!v} />
             <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
             <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
             <Input {...args} value={value} onChange={(v: string) => setValue(v)} />
