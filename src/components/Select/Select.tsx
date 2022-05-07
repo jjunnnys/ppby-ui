@@ -42,17 +42,6 @@ function InternalSelect<T extends string | number>(
 ) {
     const containerRef = useRef<HTMLDivElement>(null);
     const selectRef = useRef<HTMLSelectElement | null>(null);
-    const isChildrenOption = useMemo(() => {
-        let valid = false;
-        Children.forEach(children, (child) => {
-            if ((child as any)?.type?.name !== 'Option') {
-                console.error(`${(child as any)?.type?.name} - 'Select' only accepts children of type 'Option'.`);
-                valid = true;
-            }
-        });
-        return valid;
-    }, [children]);
-    useImperativeHandle(ref, () => selectRef.current!);
 
     const className = useMemo(
         () =>
@@ -74,6 +63,8 @@ function InternalSelect<T extends string | number>(
         [onChange],
     );
 
+    useImperativeHandle(ref, () => selectRef.current!);
+
     useEffect(() => {
         if (!selectRef.current) return;
         const onFocus = () => {
@@ -91,7 +82,6 @@ function InternalSelect<T extends string | number>(
         };
     }, []);
 
-    if (isChildrenOption) return null;
     return (
         <div
             ref={containerRef}
