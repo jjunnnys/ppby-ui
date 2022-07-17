@@ -1,5 +1,5 @@
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
-    .wds-switch > input {
+    .ppby-switch > input {
         --active: var(--primary500);
         --active-inner: #fff;
         --focus: 2px var(--primary300);
@@ -23,7 +23,7 @@
         cursor: pointer;
         transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
     }
-    .wds-switch > input:checked {
+    .ppby-switch > input:checked {
         --b: var(--active);
         --bc: var(--active);
         --d-o: 0.3s;
@@ -32,7 +32,7 @@
         --ab: var(--active-inner);
         --x: 17px;
     }
-    .wds-switch > input:after {
+    .ppby-switch > input:after {
         content: '';
         position: absolute;
         left: 2px;
@@ -45,23 +45,23 @@
         transform: translateX(var(--x, 0));
         transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
     }
-    .wds-switch > input:disabled {
+    .ppby-switch > input:disabled {
         /* --b: var(--disabled); */
         --b: #fff;
         cursor: not-allowed;
         opacity: 0.9;
     }
-    .wds-switch > input:disabled:checked {
+    .ppby-switch > input:disabled:checked {
         --b: var(--disabled-inner);
         --bc: var(--border);
     }
-    .wds-switch > input:hover:not(:checked):not(:disabled) {
+    .ppby-switch > input:hover:not(:checked):not(:disabled) {
         --bc: var(--border-hover);
     }
-    .wds-switch > input:focus {
+    .ppby-switch > input:focus {
         box-shadow: 0 0 0 var(--focus);
     }
-    .wds-switch > input + label {
+    .ppby-switch > input + label {
         display: inline-block;
         padding-left: 8px;
         vertical-align: top;
@@ -71,11 +71,11 @@
         color: var(--grey700);
         cursor: pointer;
     }
-    .wds-switch > input:disabled + label {
+    .ppby-switch > input:disabled + label {
         color: var(--grey300);
         cursor: not-allowed;
     }
-    .wds-switch > input:disabled:not(:checked):after {
+    .ppby-switch > input:disabled:not(:checked):after {
         opacity: 0.6;
     }
 }

@@ -1,5 +1,4 @@
 import React, { Children, useEffect, useRef, useState } from 'react';
-import { getPrefixName } from '@field-share/utils';
 // PAGES
 // COMPONENTS
 import PopBox from '../PopBox';

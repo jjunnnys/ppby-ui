@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import colors from '@field-share/styles';
 // COMPONENTS
 import Icons from '../Icons';
 // STYLES
@@ -23,12 +22,12 @@ function Modal({ title, children, footer, isVisible, onCancel }: ModalProps) {
         let dom: HTMLDivElement;
         setIsMounted(true);
         if (document) {
-            const element = document.querySelector<HTMLDivElement>('#wds-modal');
+            const element = document.querySelector<HTMLDivElement>('#ppby-modal');
             if (element) {
                 dom = element;
             } else {
                 dom = document.createElement('div');
-                dom.id = 'wds-modal';
+                dom.id = 'ppby-modal';
                 document.body.insertAdjacentElement('beforeend', dom);
             }
             ref.current = dom;
@@ -42,14 +41,14 @@ function Modal({ title, children, footer, isVisible, onCancel }: ModalProps) {
 
     if (!!ref.current && isMounted) {
         return createPortal(
-            <div className="wds-modal-container" aria-label="모달 배경" data-open={isVisible}>
-                <div ref={modalRef} className="wds-modal-wrapper" role="dialog" aria-label="modal">
-                    <header className="wds-modal-header">
-                        <h1 className="wds-modal-header-title">{title}</h1>
-                        <Icons className="wds-modal-icon" icon="close" fill={colors.grey[700]} onClick={onCancel} />
+            <div className="ppby-modal-container" aria-label="모달 배경" data-open={isVisible}>
+                <div ref={modalRef} className="ppby-modal-wrapper" role="dialog" aria-label="modal">
+                    <header className="ppby-modal-header">
+                        <h1 className="ppby-modal-header-title">{title}</h1>
+                        <Icons className="ppby-modal-icon" icon="close" fill={colors.grey[700]} onClick={onCancel} />
                     </header>
-                    <section className="wds-modal-content">{children}</section>
-                    {footer && <footer className="wds-modal-footer">{footer}</footer>}
+                    <section className="ppby-modal-content">{children}</section>
+                    {footer && <footer className="ppby-modal-footer">{footer}</footer>}
                 </div>
             </div>,
             ref.current!,

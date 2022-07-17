@@ -1,7 +1,5 @@
 import React, { useEffect, useCallback, useMemo, useRef, useState, createRef, useImperativeHandle } from 'react';
 import classNames from 'classnames';
-import { getPrefixName, OutsideHandler, range } from '@field-share/utils';
-import colors from '@field-share/styles';
 // COMPONENTS
 import Button from '../Button';
 import PopBox from '../PopBox';

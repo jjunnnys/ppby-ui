@@ -3,8 +3,6 @@ import dayjs, { Dayjs } from 'dayjs';
 import ko from 'dayjs/locale/ko';
 import localeData from 'dayjs/plugin/localeData';
 import isBetween from 'dayjs/plugin/isBetween';
-import { getPrefixName, isArray, range, DateEventValue, OutsideHandler } from '@field-share/utils';
-import colors from '@field-share/styles';
 // COMPONENTS
 import Icons from '../Icons';
 import PopBox from '../PopBox';

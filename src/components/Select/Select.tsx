@@ -1,5 +1,4 @@
 import React, { useCallback, useImperativeHandle, useRef, forwardRef, useEffect, useMemo, Children } from 'react';
-import { getPrefixName } from '@field-share/utils';
 import classNames from 'classnames';
 // COMPONENTS
 // HOOKS

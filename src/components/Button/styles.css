@@ -1,9 +1,9 @@
-.wds-btn-group {
+.ppby-btn-group {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.wds-btn {
+.ppby-btn {
     position: relative;
     display: flex;
     justify-content: center;
@@ -25,40 +25,40 @@
     transition: background 0.3s, border-color 0.3s, box-shadow 0.5s;
     overflow: hidden;
 }
-.wds-btn.shadow:focus {
+.ppby-btn.shadow:focus {
     box-shadow: var(--hoverBoxShadow);
 }
-.wds-btn-group > .wds-btn:nth-of-type(1n):not(:last-of-type) {
+.ppby-btn-group > .ppby-btn:nth-of-type(1n):not(:last-of-type) {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
-.wds-btn-group .wds-btn + .wds-btn {
+.ppby-btn-group .ppby-btn + .ppby-btn {
     border-left-width: 0px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }
-.wds-btn.block {
+.ppby-btn.block {
     width: 100%;
 }
-.wds-btn-bold {
+.ppby-btn-bold {
     font-weight: 700;
 }
-.wds-btn.shadow:not(:disabled):hover {
+.ppby-btn.shadow:not(:disabled):hover {
     transition: box-shadow 0.3s;
     box-shadow: var(--hoverBoxShadow);
     z-index: 1;
 }
-.wds-btn.shadow:not(:disabled):active {
+.ppby-btn.shadow:not(:disabled):active {
     transition: box-shadow 0.3s;
     box-shadow: var(--activeBoxShadow);
     z-index: 1;
 }
-.wds-btn:disabled {
+.ppby-btn:disabled {
     cursor: not-allowed;
     background-color: var(--grey150);
     color: var(--grey200);
 }
-.wds-btn > .wds-btn-press-shadow {
+.ppby-btn > .ppby-btn-press-shadow {
     position: absolute;
     top: 0;
     right: 0;
@@ -66,7 +66,7 @@
     bottom: 0;
     pointer-events: none;
 }
-.wds-btn > .wds-btn-press-shadow > div {
+.ppby-btn > .ppby-btn-press-shadow > div {
     position: absolute;
     top: 0;
     left: 0;
@@ -74,67 +74,67 @@
     border-radius: 50%;
     transform: scale(0);
     pointer-events: none;
-    animation: wds-animate-scale-up 0.5s ease-in forwards;
+    animation: ppby-animate-scale-up 0.5s ease-in forwards;
 }
-.wds-btn-sm {
+.ppby-btn-sm {
     padding: 0 8px;
     min-width: 30px;
     height: 30px;
     font-size: 12px;
 }
-.wds-btn-lg {
+.ppby-btn-lg {
     padding: 0 24px;
     min-width: 50px;
     height: 50px;
     font-size: 16px;
 }
-.wds-btn.wds-picker-btn {
+.ppby-btn.ppby-picker-btn {
     padding: 0px;
 }
-.wds-btn-primary {
+.ppby-btn-primary {
     border: none;
     background-color: var(--primary500);
     color: #fff;
 }
-.wds-btn-secondary {
+.ppby-btn-secondary {
     border: none;
     background-color: var(--grey700);
     color: #fff;
 }
-.wds-btn-primary > .wds-btn-press-shadow > div,
-.wds-btn-secondary > .wds-btn-press-shadow > div {
+.ppby-btn-primary > .ppby-btn-press-shadow > div,
+.ppby-btn-secondary > .ppby-btn-press-shadow > div {
     background-color: rgba(255, 255, 255, 0.1);
 }
-.wds-btn-cancel {
+.ppby-btn-cancel {
     border: none;
     background-color: var(--grey200);
     color: var(--grey700);
 }
-.wds-btn-cancel > .wds-btn-press-shadow > div {
+.ppby-btn-cancel > .ppby-btn-press-shadow > div {
     background-color: rgba(0, 0, 0, 0.1);
 }
-.wds-btn-danger {
+.ppby-btn-danger {
     border-color: var(--error500);
     color: var(--error500);
 }
-.wds-btn-goast {
+.ppby-btn-goast {
     border: none;
 }
-.wds-btn-circle {
+.ppby-btn-circle {
     border-radius: 50%;
 }
-.wds-btn-circle.wds-btn {
+.ppby-btn-circle.ppby-btn {
     padding: 4px;
 }
-.wds-btn-circle.wds-btn-sm {
+.ppby-btn-circle.ppby-btn-sm {
     padding: 2px;
 }
-.wds-btn-circle.wds-btn-lg {
+.ppby-btn-circle.ppby-btn-lg {
     padding: 12px;
 }
-.wds-btn-round {
+.ppby-btn-round {
     border-radius: 4px;
 }
-.wds-btn-ellipse {
+.ppby-btn-ellipse {
     border-radius: 1.5rem;
 }

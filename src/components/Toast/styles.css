@@ -1,4 +1,4 @@
-.wds-toast {
+.ppby-toast {
     position: fixed;
     top: 10vh;
     left: 10vw;
@@ -6,7 +6,7 @@
     z-index: 9999;
     pointer-events: none;
 }
-.wds-toast-container {
+.ppby-toast-container {
     position: absolute;
     left: 50%;
     display: flex;
@@ -24,47 +24,47 @@
     z-index: 9999;
     pointer-events: none;
 }
-.wds-toast-container > .toast-text {
+.ppby-toast-container > .toast-text {
     font-size: 16px;
     line-height: 24px;
     color: #ffffff;
 }
-.wds-toast-container.wds-animate-toast-in {
-    animation: wds-animate-toast-in 0.3s;
+.ppby-toast-container.ppby-animate-toast-in {
+    animation: ppby-animate-toast-in 0.3s;
     animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
 }
-.wds-toast-container.wds-animate-toast-out {
-    animation: wds-animate-toast-out 0.3s;
+.ppby-toast-container.ppby-animate-toast-out {
+    animation: ppby-animate-toast-out 0.3s;
     animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
 }
-.wds-toast-icon {
+.ppby-toast-icon {
     display: inline-block;
 }
-.wds-toast-icon > svg {
+.ppby-toast-icon > svg {
     width: 24px;
     height: 24px;
 }
-.wds-toast-icon.loading > svg {
+.ppby-toast-icon.loading > svg {
     width: 20px;
     height: 20px;
 }
-.wds-toast-icon.loading {
+.ppby-toast-icon.loading {
     margin-right: 7px;
     color: #fff;
     animation: none;
 }
-.wds-toast-icon.info {
+.ppby-toast-icon.info {
     margin-right: 3px;
     color: var(--blueDynamic100);
 }
-.wds-toast-icon.success {
+.ppby-toast-icon.success {
     color: #ffffff;
 }
-.wds-toast-icon.error {
+.ppby-toast-icon.error {
     margin-right: 5px;
     color: var(--error500);
 }
-.wds-toast-icon.warn {
+.ppby-toast-icon.warn {
     margin-right: 5px;
     color: var(--orangeDynamic500);
 }

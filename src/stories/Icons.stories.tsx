@@ -1,7 +1,5 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import colors from '@field-share/styles';
-import { copyToClipboard } from '@field-share/utils';
 // COMPONENTS
 import Icons from '../components/Icons';
 import toast from '../components/Toast';

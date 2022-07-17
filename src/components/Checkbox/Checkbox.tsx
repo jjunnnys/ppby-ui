@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { getPrefixName, simpleUniqueId } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS

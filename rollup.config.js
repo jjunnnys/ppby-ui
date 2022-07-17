@@ -4,7 +4,6 @@ import babel from 'rollup-plugin-babel';
 import svgr from '@svgr/rollup';
 import url from 'rollup-plugin-url';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
 import strip from '@rollup/plugin-strip';
 import pkg from './package.json';
@@ -29,10 +28,10 @@ export default {
         babel({ extensions, include: ['src/**/*'], runtimeHelpers: true }), // Babel을 사용 할 수 있게 해줌
         url(), // 미디어 파일을 dataURI 형태로 불러와서 사용 할 수 있게 해줌.
         svgr(), // SVG를 컴포넌트로 사용 할 수 있게 해줌.
-        scss({
-            output: 'dist/styles/wds.min.css',
-            outputStyle: 'compressed',
-        }),
+        // scss({
+        //     output: 'dist/styles/ppby.min.css',
+        //     outputStyle: 'compressed',
+        // }),
         terser(),
         strip({
             include: 'src/components/**/*.(ts|tsx)',

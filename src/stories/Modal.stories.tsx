@@ -5,7 +5,7 @@ import Modal from '../components/Modal';
 import Button from '../components/Button';
 
 export default {
-    title: 'Design System/Components/Modal',
+    title: 'Design System/Feedback/Modal',
     component: Modal,
     argTypes: {
         title: {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { range } from '@field-share/utils';
 // COMPONENTS
 import Button from '../components/Button';
 import Input from '../components/Input';

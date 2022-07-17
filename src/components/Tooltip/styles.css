@@ -43,7 +43,7 @@
     }
 }
 
-.wds-tooltip {
+.ppby-tooltip {
     position: relative;
     padding: 10px 15px;
     margin: 8px;
@@ -51,35 +51,35 @@
     border: 1px solid var(--grey200);
     border-radius: 4px;
 }
-.wds-tooltip:not(.show) {
+.ppby-tooltip:not(.show) {
     animation: none;
 }
-.wds-tooltip.top {
+.ppby-tooltip.top {
     animation: tooltip-top 1.2s ease-in infinite alternate;
 }
-.wds-tooltip.left {
+.ppby-tooltip.left {
     animation: tooltip-left 1.2s ease-in infinite alternate;
 }
-.wds-tooltip.right {
+.ppby-tooltip.right {
     animation: tooltip-right 1.2s ease-in infinite alternate;
 }
-.wds-tooltip.bottom {
+.ppby-tooltip.bottom {
     animation: tooltip-bottom 1.2s ease-in infinite alternate;
 }
-.wds-tooltip > span.point-wrapper {
+.ppby-tooltip > span.point-wrapper {
     position: absolute;
     width: 0px;
     height: 0px;
     margin: 0 auto;
 }
-.wds-tooltip > span.point-wrapper > .point {
+.ppby-tooltip > span.point-wrapper > .point {
     position: absolute;
     margin: auto;
     width: 0px;
     height: 0px;
 }
 
-.wds-tooltip.top > span.point-wrapper {
+.ppby-tooltip.top > span.point-wrapper {
     bottom: -8px;
     left: 0;
     right: 0;
@@ -87,42 +87,42 @@
     border-left: 6.25px solid transparent;
     border-right: 6.25px solid transparent;
 }
-.wds-tooltip.top > span.point-wrapper > .point {
+.ppby-tooltip.top > span.point-wrapper > .point {
     bottom: 2px;
     left: -5.75px;
     border-top: 7px solid var(--grey100);
     border-left: 5.75px solid transparent;
     border-right: 5.75px solid transparent;
 }
-.wds-tooltip.left > span.point-wrapper {
+.ppby-tooltip.left > span.point-wrapper {
     top: 4px;
     right: -8px;
     border-left: 8px solid var(--grey200);
     border-top: 6.25px solid transparent;
     border-bottom: 6.25px solid transparent;
 }
-.wds-tooltip.left > span.point-wrapper > .point {
+.ppby-tooltip.left > span.point-wrapper > .point {
     top: -5.75px;
     right: 2px;
     border-left: 7px solid var(--grey100);
     border-top: 5.75px solid transparent;
     border-bottom: 5.75px solid transparent;
 }
-.wds-tooltip.right > span.point-wrapper {
+.ppby-tooltip.right > span.point-wrapper {
     top: 4px;
     left: -8px;
     border-right: 8px solid var(--grey200);
     border-top: 6.25px solid transparent;
     border-bottom: 6.25px solid transparent;
 }
-.wds-tooltip.right > span.point-wrapper > .point {
+.ppby-tooltip.right > span.point-wrapper > .point {
     top: -5.75px;
     left: 2px;
     border-right: 7px solid var(--grey100);
     border-top: 5.75px solid transparent;
     border-bottom: 5.75px solid transparent;
 }
-.wds-tooltip.bottom > span.point-wrapper {
+.ppby-tooltip.bottom > span.point-wrapper {
     top: -8px;
     left: 0;
     right: 0;
@@ -130,14 +130,14 @@
     border-left: 6.25px solid transparent;
     border-right: 6.25px solid transparent;
 }
-.wds-tooltip.bottom > span.point-wrapper > .point {
+.ppby-tooltip.bottom > span.point-wrapper > .point {
     top: 2px;
     left: -5.75px;
     border-bottom: 7px solid var(--grey100);
     border-left: 5.75px solid transparent;
     border-right: 5.75px solid transparent;
 }
-.wds-tooltip > p {
+.ppby-tooltip > p {
     margin: 0;
     font-weight: 400;
     font-size: 15px;

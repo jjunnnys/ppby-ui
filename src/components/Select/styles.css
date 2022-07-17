@@ -1,4 +1,4 @@
-.wds-select {
+.ppby-select {
     position: relative;
     display: flex;
     align-items: center;
@@ -11,15 +11,15 @@
     background-color: var(--grey150);
     transition: box-shadow 0.3s;
 }
-.wds-select.wds-select-large {
+.ppby-select.ppby-select-large {
     min-width: 120px;
     height: 40px;
 }
-.wds-select:not(.loading):not(.disabled).focus,
-.wds-select:not(.loading):not(.disabled):hover {
+.ppby-select:not(.loading):not(.disabled).focus,
+.ppby-select:not(.loading):not(.disabled):hover {
     box-shadow: var(--hoverBoxShadow);
 }
-.wds-select:not(.loading)::after {
+.ppby-select:not(.loading)::after {
     content: attr(data-value);
     position: absolute;
     left: 8px;
@@ -33,20 +33,20 @@
     overflow: hidden;
     pointer-events: none;
     opacity: 0;
-    animation: wds-animate-show 0.3s ease-in-out forwards;
+    animation: ppby-animate-show 0.3s ease-in-out forwards;
 }
-.wds-select.wds-select-large::after {
+.ppby-select.ppby-select-large::after {
     font-size: 16px;
     line-height: 20px;
 }
-.wds-select.wds-select-placeholder::after {
+.ppby-select.ppby-select-placeholder::after {
     color: var(--grey400);
 }
-.wds-select.wds-select-border {
+.ppby-select.ppby-select-border {
     background-color: #fff;
     border: 1px solid var(--grey300);
 }
-.wds-select.loading::before {
+.ppby-select.loading::before {
     content: '';
     position: absolute;
     top: 0;
@@ -55,11 +55,11 @@
     bottom: 0;
     width: 100%;
     height: 100%;
-    animation: wds-animate-skeleton-gradient 1.8s infinite ease-in-out;
+    animation: ppby-animate-skeleton-gradient 1.8s infinite ease-in-out;
     z-index: 1;
     pointer-events: none;
 }
-.wds-select > .icon {
+.ppby-select > .icon {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -71,7 +71,7 @@
     color: var(--grey500);
     z-index: 1;
 }
-.wds-select > select {
+.ppby-select > select {
     width: 100%;
     height: 100%;
     outline: none;
@@ -82,16 +82,16 @@
     -moz-appearance: none;
     cursor: pointer;
 }
-.wds-select.loading > select {
+.ppby-select.loading > select {
     pointer-events: none;
 }
-.wds-select.disabled {
+.ppby-select.disabled {
     background-color: var(--grey150);
 }
-.wds-select.disabled::after {
+.ppby-select.disabled::after {
     background-color: var(--grey150);
     color: var(--grey200);
 }
-.wds-select.disabled > select {
+.ppby-select.disabled > select {
     cursor: not-allowed;
 }

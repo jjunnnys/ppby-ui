@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useMemo, createContext, useContext, useEffect } from 'react';
-import { getPrefixName, simpleUniqueId } from '@field-share/utils';
 import classNames from 'classnames';
 // PAGES
 // COMPONENTS
@@ -76,7 +75,7 @@ function Group({ children, direction = 'row', onChange, value }: GroupProps) {
         <ChangeContext.Provider value={onChange}>
             <ValueContext.Provider value={value}>
                 <NameContext.Provider value={simpleUniqueId(prefixCls)}>
-                        <div className={groupPrefixCls}>{children}</div>
+                    <div className={groupPrefixCls}>{children}</div>
                 </NameContext.Provider>
             </ValueContext.Provider>
         </ChangeContext.Provider>

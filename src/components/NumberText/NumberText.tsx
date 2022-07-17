@@ -1,6 +1,4 @@
 import React, { useMemo, useEffect, useState, useRef } from 'react';
-import colors from '@field-share/styles';
-import { range, tuple, getPrefixName, isArray } from '@field-share/utils';
 import classNames from 'classnames';
 // STYLES
 import './styles.css';
@@ -92,7 +90,7 @@ function NumberText({
                               key={i.toString()}
                               aria-hidden="true"
                               data-index={numberToString[i]}
-                              className="wds-nt-item"
+                              className="ppby-nt-item"
                           >
                               {NUMBERS.map((v) => (
                                   <span key={v}>{v}</span>

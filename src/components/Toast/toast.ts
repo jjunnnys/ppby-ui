@@ -1,5 +1,3 @@
-import { getPrefixName } from '@field-share/utils';
-
 type ShowMethodType = 'success' | 'error' | 'warn' | 'info' | 'loading';
 
 const loadingIcon = `

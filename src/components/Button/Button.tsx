@@ -9,7 +9,6 @@ import React, {
     useContext,
 } from 'react';
 import classNames from 'classnames';
-import { getPrefixName, tuple } from '@field-share/utils';
 // STYLES
 import './styles.css';
 
@@ -158,7 +157,7 @@ function InternalButton(
             onMouseLeave={onMouseLeave}
         >
             {children}
-            <span ref={shadowBoxRef} className="wds-btn-press-shadow" />
+            <span ref={shadowBoxRef} className="ppby-btn-press-shadow" />
         </button>
     );
 }

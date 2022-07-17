@@ -3,8 +3,8 @@ import './styles/_varialbe.css';
 import './styles/_keyframes.css';
 import './components/Toast/styles.css';
 
-export { default as Alert } from './components/Alert';
-export * from './components/Alert';
+export { default as Message } from './components/Message';
+export * from './components/Message';
 export { default as Button } from './components/Button';
 export * from './components/Button';
 export { default as Checkbox } from './components/Checkbox';

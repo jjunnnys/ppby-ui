@@ -1,6 +1,4 @@
 import React, { useMemo, forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
-import { bindingNumberOrComma, getPrefixName, applyHyphen } from '@field-share/utils';
-import colors from '@field-share/styles';
 import classNames from 'classnames';
 // COMPONENTS
 import Icons, { IconsType } from '../Icons';

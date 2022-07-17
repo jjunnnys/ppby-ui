@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-import { getPrefixName } from '@field-share/utils';
 // STYLES
 import './styles.css';
 

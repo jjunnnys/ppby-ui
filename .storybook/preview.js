@@ -4,7 +4,7 @@ import '../src/components/Toast/styles.css';
 
 export const decorators = [
     (Story) => (
-        <div style={{ padding: '2em' }}>
+        <div style={{ padding: '1.5rem' }}>
             <Story />
         </div>
     ),

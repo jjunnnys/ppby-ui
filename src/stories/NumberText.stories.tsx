@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import colors from '@field-share/styles';
 // COMPONENTS
 import NumberText from '../components/NumberText';
 import Input from '../components/Input';

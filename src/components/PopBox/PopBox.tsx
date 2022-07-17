@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { getPrefixName, useOnClickOutside, OutsideHandler, useInsertAdjacentElement } from '@field-share/utils';
 // PAGES
 // COMPONENTS
 // HOOKS
@@ -87,7 +85,7 @@ function PopBox({
 
     if (!portalRef.current || !isMounted) return null;
     return createPortal(
-        <div className="wds-portal-container">
+        <div className="ppby-portal-container">
             <div ref={menuRef} data-open={isVisible} className={className}>
                 {children}
             </div>

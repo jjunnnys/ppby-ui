@@ -1,5 +1,5 @@
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
-    .wds-checkbox > input {
+    .ppby-checkbox > input {
         --active: var(--primary500);
         --active-inner: #fff;
         --focus: 2px var(--primary300);
@@ -23,7 +23,7 @@
         cursor: pointer;
         transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
     }
-    .wds-checkbox > input:checked {
+    .ppby-checkbox > input:checked {
         --b: var(--active);
         --bc: var(--active);
         --d-o: 0.3s;
@@ -32,7 +32,7 @@
         --o: 1;
         --r: 43deg;
     }
-    .wds-checkbox > input::after {
+    .ppby-checkbox > input::after {
         content: '';
         position: absolute;
         left: 0;
@@ -40,22 +40,22 @@
         display: block;
         transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
     }
-    .wds-checkbox > input:disabled {
+    .ppby-checkbox > input:disabled {
         --b: var(--disabled);
         cursor: not-allowed;
         opacity: 0.9;
     }
-    .wds-checkbox > input:disabled:checked {
+    .ppby-checkbox > input:disabled:checked {
         --b: var(--disabled-inner);
         --bc: var(--border);
     }
-    .wds-checkbox > input:hover:not(:checked):not(:disabled) {
+    .ppby-checkbox > input:hover:not(:checked):not(:disabled) {
         --bc: var(--border-hover);
     }
-    .wds-checkbox > input:focus {
+    .ppby-checkbox > input:focus {
         box-shadow: 0 0 2px var(--focus);
     }
-    .wds-checkbox > input::after {
+    .ppby-checkbox > input::after {
         width: 5px;
         height: 9px;
         border: 2px solid var(--active-inner);
@@ -66,7 +66,7 @@
         transform: rotate(var(--r, 20deg));
         opacity: var(--o, 0);
     }
-    .wds-checkbox > input + label {
+    .ppby-checkbox > input + label {
         display: inline-block;
         padding-left: 8px;
         vertical-align: top;
@@ -76,7 +76,7 @@
         color: var(--grey700);
         cursor: pointer;
     }
-    .wds-checkbox > input:disabled + label {
+    .ppby-checkbox > input:disabled + label {
         color: var(--grey300);
         cursor: not-allowed;
     }

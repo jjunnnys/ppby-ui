@@ -1,4 +1,4 @@
-@keyframes wds-animate-toast-in {
+@keyframes ppby-animate-toast-in {
     from {
         opacity: 0;
         transform: translateX(-50%) translateY(-50%);
@@ -8,7 +8,7 @@
         transform: translateX(-50%) translateY(0);
     }
 }
-@keyframes wds-animate-toast-out {
+@keyframes ppby-animate-toast-out {
     from {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
@@ -18,7 +18,7 @@
         transform: translateX(-50%) translateY(-50%);
     }
 }
-@keyframes wds-animate-skeleton-gradient {
+@keyframes ppby-animate-skeleton-gradient {
     0% {
         background-color: rgba(165, 165, 165, 0.1);
     }
@@ -29,7 +29,7 @@
         background-color: rgba(165, 165, 165, 0.1);
     }
 }
-@keyframes wds-animate-show {
+@keyframes ppby-animate-show {
     from {
         opacity: 0;
     }
@@ -37,7 +37,7 @@
         opacity: 1;
     }
 }
-@keyframes wds-animate-scale-up {
+@keyframes ppby-animate-scale-up {
     0% {
         opacity: 1;
         transform: scale(0);

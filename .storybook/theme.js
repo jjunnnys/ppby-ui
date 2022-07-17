@@ -33,7 +33,6 @@ export default create({
     //   inputTextColor: "black",
     inputBorderRadius: 4,
 
-    brandTitle: 'WDS storybook',
-    brandUrl: 'https://www.woojooins.com',
-    brandImage: 'static/logo.svg',
+    brandTitle: 'ppby-ui storybook',
+    // brandImage: 'static/logo.svg',
 });
