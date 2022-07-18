@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 export type SwitchProps = {

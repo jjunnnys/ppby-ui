@@ -1,14 +1,9 @@
 import React, { useEffect, useCallback, useMemo, useRef, useState, createRef, useImperativeHandle } from 'react';
 import classNames from 'classnames';
-// COMPONENTS
 import Button from '../Button';
 import PopBox from '../PopBox';
 import Icons from '../Icons';
-// HOOKS
-// MODULES
-// LIB
-// TYPES
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 type TimeType = `${number}${number}`;

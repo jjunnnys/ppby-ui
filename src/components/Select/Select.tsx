@@ -1,11 +1,6 @@
 import React, { useCallback, useImperativeHandle, useRef, forwardRef, useEffect, useMemo, Children } from 'react';
 import classNames from 'classnames';
-// COMPONENTS
-// HOOKS
-// MODULES
-// LIB
-// TYPES
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 export interface SelectProps<T>

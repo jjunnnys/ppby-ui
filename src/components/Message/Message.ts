@@ -1,6 +1,5 @@
 import { curry, delay, map, pipe, reduce, tap, toArray } from '@fxts/core';
-import { getPrefixName } from '../../lib';
-import { $ } from '../../lib/helpers';
+import { getPrefixName, $ } from '../../lib';
 import './styles.css';
 
 export type AlertProps = {

@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 
-export const isIterable = (iter: any) => iter == null || typeof iter[Symbol.iterator] === 'function';
-
+const isIterable = (iter: any) => iter == null || typeof iter[Symbol.iterator] === 'function';
 class DomHelper {
     constructor() {
         this.find = this.find.bind(this);
@@ -49,3 +48,5 @@ class DomHelper {
 }
 
 export const $ = new DomHelper();
+
+export const getPrefixName = (cls: string) => ({ class: `ppby-${cls}`, animate: `ppby-animate-${cls}` });

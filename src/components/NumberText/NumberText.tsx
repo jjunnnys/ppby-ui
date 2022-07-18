@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState, useRef } from 'react';
 import classNames from 'classnames';
-// STYLES
+import { getPrefixName, tuple } from '../../lib';
 import './styles.css';
 
 export type RightLeftHeaderProps = {

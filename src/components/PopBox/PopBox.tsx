@@ -1,14 +1,8 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-// PAGES
-// COMPONENTS
-// HOOKS
-// MODULES
-// LIB
-// TYPES
-// STYLES
-import './styles.css';
 import classNames from 'classnames';
+import { getPrefixName } from '../../lib';
+import './styles.css';
 
 export type PopBoxProps = {
     children: React.ReactNode;

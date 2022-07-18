@@ -1,8 +1,7 @@
 import React, { useMemo, forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import classNames from 'classnames';
-// COMPONENTS
 import Icons, { IconsType } from '../Icons';
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 export type HTMLInputTypeAttribute = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url';

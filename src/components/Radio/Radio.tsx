@@ -1,12 +1,6 @@
 import React, { useCallback, useRef, useMemo, createContext, useContext, useEffect } from 'react';
 import classNames from 'classnames';
-// PAGES
-// COMPONENTS
-// HOOKS
-// MODULES
-// LIB
-// TYPES
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 type ChangeType = ((value: string | undefined) => void) | undefined;

@@ -1,15 +1,6 @@
-import React, {
-    forwardRef,
-    useState,
-    useCallback,
-    useImperativeHandle,
-    useMemo,
-    useRef,
-    createContext,
-    useContext,
-} from 'react';
+import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, createContext, useContext } from 'react';
 import classNames from 'classnames';
-// STYLES
+import { getPrefixName, tuple } from '../../lib';
 import './styles.css';
 
 const buttonTypes = tuple('default', 'primary', 'secondary', 'cancel', 'goast', 'danger');

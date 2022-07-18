@@ -1,12 +1,6 @@
 import React, { Children, useEffect, useRef, useState } from 'react';
-// PAGES
-// COMPONENTS
 import PopBox from '../PopBox';
-// HOOKS
-// MODULES
-// LIB
-// TYPES
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 type TooltipProps = {

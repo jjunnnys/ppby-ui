@@ -1,3 +1,5 @@
+import { getPrefixName } from '../../lib';
+
 type ShowMethodType = 'success' | 'error' | 'warn' | 'info' | 'loading';
 
 const loadingIcon = `

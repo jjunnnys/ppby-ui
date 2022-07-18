@@ -3,12 +3,11 @@ import dayjs, { Dayjs } from 'dayjs';
 import ko from 'dayjs/locale/ko';
 import localeData from 'dayjs/plugin/localeData';
 import isBetween from 'dayjs/plugin/isBetween';
-// COMPONENTS
 import Icons from '../Icons';
 import PopBox from '../PopBox';
 import DatePickerBody from './DatePickerBody';
 import Button from '../Button';
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 export type DateRangeValue = [DateEventValue, DateEventValue] | null;

@@ -1,12 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
-// PAGES
-// COMPONENTS
-// HOOKS
-// MODULES
-// LIB
-// TYPES
-// STYLES
+import { getPrefixName } from '../../lib';
 import './styles.css';
 
 export type CheckboxProps = {
